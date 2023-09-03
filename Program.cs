@@ -3,10 +3,16 @@
 class Program 
 {
     // The following block of code is inspired and adapted from: https://stackoverflow.com/questions/3507498/reading-csv-files-using-c-sharp/34265869#34265869
-    public static void Main ()
+    public static void Main (string[] args)
     {
         string fileName = Environment.CurrentDirectory + @"/chirp_cli_db.csv";
-        string[] allCheeps;
+        WriteCheep("raln", args[0]);
+        ReadCheep(fileName);
+        
+    }
+
+    public static void ReadCheep(string fileName) 
+    {
         using (StreamReader reader = new StreamReader(fileName))
         {
             string line; 
@@ -18,11 +24,11 @@ class Program
                 Regex CSVParser = new Regex(",(?=(?:[^\"]*(?:\"[^\"]*\"))*[^\"]*$)");
 
                 //Separating columns to array
-                allCheeps = CSVParser.Split(line);
+                string[] allCheeps = CSVParser.Split(line);
                 string user = allCheeps[0];
                 string cheep = allCheeps[1];
                 string timeStamp = allCheeps[2];
-                double unixTimeStamp = double.Parse(timeStamp);
+                long unixTimeStamp = long.Parse(timeStamp);
                 DateTime date = UnixTimeStampToDateTime(unixTimeStamp);
                 string formattedTimeStamp = date.ToString("MM/dd/yy HH:mm:ss");
 
@@ -32,8 +38,20 @@ class Program
             }
         }
     }
+    // Unix timestamp code adapted from: https://stackoverflow.com/questions/17632584/how-to-get-the-unix-timestamp-in-c-sharp
+    public static void WriteCheep(string user, string cheep)
+    {
+        string fileName = Environment.CurrentDirectory + @"/chirp_cli_db.csv";
+        using (StreamWriter writer = new StreamWriter(fileName, true)) // boolean true means append, false means overwrite
+        {
+            DateTime currentTime = DateTime.UtcNow;
+            long unixTime = ((DateTimeOffset)currentTime).ToUnixTimeSeconds();
+            writer.WriteLine(user + "," + cheep + "," + unixTime);
+        }
+    }
+
     //code snatched from: https://stackoverflow.com/questions/249760/how-can-i-convert-a-unix-timestamp-to-datetime-and-vice-versa
-    public static DateTime UnixTimeStampToDateTime(double unixTimeStamp )
+    public static DateTime UnixTimeStampToDateTime(long unixTimeStamp )
     {
         // Unix timestamp is seconds past epoch
         DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
