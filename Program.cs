@@ -7,34 +7,34 @@ class Program
         string user = Environment.UserName;
         string fileName = Environment.CurrentDirectory + @"/chirp_cli_db.csv";
         
-        
-    if (args.Length > 0)
-    {
-        switch (args[0].ToLower())
+        if (args.Length > 0)
         {
-            case "read":
-                ReadCheep(fileName);
-                break;
-            case "cheep":
-                if (args.Length > 1)
-                {
-                    WriteCheep(user, args[1]);
-                }
-                else
-                {
-                    Console.WriteLine("Please provide a message for 'cheep' command.");
-                }
-                break;
-            default:
-                Console.WriteLine("Please enter a valid command. Valid commands are: read, cheep");
-                break;
+            switch (args[0].ToLower())
+            {
+                case "read":
+                    ReadCheep(fileName);
+                    break;
+                case "cheep":
+                    if (args.Length > 1)
+                    {
+                        WriteCheep(user, args[1]);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please provide a message for 'cheep' command.");
+                    }
+                    break;
+                default:
+                    Console.WriteLine("Please enter a valid command. Valid commands are: read, cheep");
+                    break;
+            }
         }
+        else
+        {
+            Console.WriteLine("Please enter a valid command. Valid commands are: read, cheep");
+        }        
     }
-    else
-    {
-        Console.WriteLine("Please enter a valid command. Valid commands are: read, cheep");
-    }        
-}
+
     // The following block of code is inspired and adapted from: https://stackoverflow.com/questions/3507498/reading-csv-files-using-c-sharp/34265869#34265869
     public static void ReadCheep(string fileName) 
     {
@@ -58,6 +58,7 @@ class Program
             }
         }
     }
+
     // Unix timestamp code adapted from: https://stackoverflow.com/questions/17632584/how-to-get-the-unix-timestamp-in-c-sharp
     public static void WriteCheep(string user, string cheep)
     {
