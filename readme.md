@@ -1,5 +1,11 @@
-# Readme
-# Authors
+# Chirp
+## Authors
 - Frederik Lund Rosenlund - frederik.lund.rosenlund@gmail.com
 - Jacob Pærregaard - jacp@itu.dk - JacobPaerre
 - Mads Nørklit Jensen - macj@itu.dk - noerslidt
+
+## Running the program:
+The program can be run using `dotnet run`.
+#### Valid commands
+- Write a cheep: `dotnet run -- cheep "<cheep here>"`
+- Read all cheeps: `dotnet run -- read`
