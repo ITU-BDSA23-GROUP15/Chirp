@@ -2,15 +2,40 @@
 
 class Program 
 {
-    // The following block of code is inspired and adapted from: https://stackoverflow.com/questions/3507498/reading-csv-files-using-c-sharp/34265869#34265869
     public static void Main (string[] args)
     {
+        string user = Environment.UserName;
         string fileName = Environment.CurrentDirectory + @"/chirp_cli_db.csv";
-        WriteCheep("raln", args[0]);
-        ReadCheep(fileName);
         
+        
+    if (args.Length > 0)
+    {
+        switch (args[0].ToLower())
+        {
+            case "read":
+                ReadCheep(fileName);
+                break;
+            case "cheep":
+                if (args.Length > 1)
+                {
+                    WriteCheep(user, args[1]);
+                }
+                else
+                {
+                    Console.WriteLine("Please provide a message for 'cheep' command.");
+                }
+                break;
+            default:
+                Console.WriteLine("Please enter a valid command. Valid commands are: read, cheep");
+                break;
+        }
     }
-
+    else
+    {
+        Console.WriteLine("Please enter a valid command. Valid commands are: read, cheep");
+    }        
+}
+    // The following block of code is inspired and adapted from: https://stackoverflow.com/questions/3507498/reading-csv-files-using-c-sharp/34265869#34265869
     public static void ReadCheep(string fileName) 
     {
         using (StreamReader reader = new StreamReader(fileName))
@@ -20,11 +45,8 @@ class Program
 
             while ((line = reader.ReadLine()) != null)
             {
-                //Define pattern
-                Regex CSVParser = new Regex(",(?=(?:[^\"]*(?:\"[^\"]*\"))*[^\"]*$)");
-
-                //Separating columns to array
-                string[] allCheeps = CSVParser.Split(line);
+                Regex CSVParser = new Regex(",(?=(?:[^\"]*(?:\"[^\"]*\"))*[^\"]*$)"); //Define pattern
+                string[] allCheeps = CSVParser.Split(line); //Separating columns to array
                 string user = allCheeps[0];
                 string cheep = allCheeps[1];
                 string timeStamp = allCheeps[2];
@@ -32,9 +54,7 @@ class Program
                 DateTime date = UnixTimeStampToDateTime(unixTimeStamp);
                 string formattedTimeStamp = date.ToString("MM/dd/yy HH:mm:ss");
 
-
-                /* Do something with X */
-                Console.WriteLine(user + " @ " + formattedTimeStamp + ": " + cheep);
+                Console.WriteLine($"{user} @ {formattedTimeStamp}: {cheep}");
             }
         }
     }
