@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "source", "source.csproj", "{1A79DB73-016E-4F67-BAB5-A94A09372B4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "source", "Chirp.CLI\source.csproj", "{44BD12C0-BBF8-4490-9984-51AB293DF173}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleDB", "SimpleDB\SimpleDB.csproj", "{61863A92-E784-4AA3-BEA6-B5E66F03AF8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +13,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1A79DB73-016E-4F67-BAB5-A94A09372B4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1A79DB73-016E-4F67-BAB5-A94A09372B4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1A79DB73-016E-4F67-BAB5-A94A09372B4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1A79DB73-016E-4F67-BAB5-A94A09372B4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44BD12C0-BBF8-4490-9984-51AB293DF173}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44BD12C0-BBF8-4490-9984-51AB293DF173}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44BD12C0-BBF8-4490-9984-51AB293DF173}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44BD12C0-BBF8-4490-9984-51AB293DF173}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61863A92-E784-4AA3-BEA6-B5E66F03AF8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61863A92-E784-4AA3-BEA6-B5E66F03AF8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61863A92-E784-4AA3-BEA6-B5E66F03AF8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61863A92-E784-4AA3-BEA6-B5E66F03AF8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {8E204146-426B-4143-B20E-48BD58D35A5C}
+		SolutionGuid = {8FB41837-58F5-468F-9523-06CB75218B84}
 	EndGlobalSection
 EndGlobal
