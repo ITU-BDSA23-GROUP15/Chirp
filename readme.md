@@ -18,5 +18,5 @@
 ## Running the program:
 The program can be run using `dotnet run`.
 #### Valid commands
-- Write a cheep: `dotnet run -- cheep "<cheep here>"`
-- Read all cheeps: `dotnet run -- read`
+- Write a cheep: `dotnet run cheep "<cheep here>"`
+- Read all cheeps: `dotnet run read`
