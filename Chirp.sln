@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9C45FE98-2580-4635-9361-6AADD91B6049}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "source", "src\Chirp.CLI\source.csproj", "{13BE1F47-32C0-4BD3-B1A2-C9BE4ADF84C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.CLI", "src\Chirp.CLI\Chirp.CLI.csproj", "{13BE1F47-32C0-4BD3-B1A2-C9BE4ADF84C4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleDB", "src\SimpleDB\SimpleDB.csproj", "{27704129-2717-4BE1-820F-8B448C6F8614}"
 EndProject
