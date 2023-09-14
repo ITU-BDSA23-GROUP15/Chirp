@@ -1,43 +1,86 @@
-﻿using SimpleDB;
+﻿using System.CommandLine;
+using System.Numerics;
+using SimpleDB;
 using static Chirp.UserInterface;
 
-class Program 
+class Program
 {
-    public static void Main (string[] args)
+    static async Task Main(string[] args)
     {
         IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>();
-        if (args.Length > 0)
+
+        var rootCommand = new RootCommand("Chirp command-line app");
+
+        var readCommand = new Command("read", "Reading cheeps");
+        var readArg = new Argument<int>
+            (name: "readNumber",
+            description: "Number of cheeps to read",
+            getDefaultValue: () => 10);
+        rootCommand.AddCommand(readCommand);
+        readCommand.Add(readArg);
+
+        var cheepCommand = new Command("cheep", "Write cheep");
+        var cheepArg = new Argument<string>
+            (name: "message",
+            description: "Message to cheep");
+        rootCommand.AddCommand(cheepCommand);
+        cheepCommand.Add(cheepArg);
+
+
+        readCommand.SetHandler((readArgValue) =>
         {
-            switch (args[0].ToLower())
-            {
-                case "read":
-                    var list = database.Read();
-                    PrintCheeps(list);
-                    break;
-                case "cheep":
-                    if (args.Length > 1)
-                    {
-                        // Unix timestamp code adapted from: https://stackoverflow.com/questions/17632584/how-to-get-the-unix-timestamp-in-c-sharp
-                        DateTime currentTime = DateTime.UtcNow;
-                        long unixTime = ((DateTimeOffset)currentTime).ToUnixTimeSeconds();
-                        Cheep cheep = new Cheep(Environment.UserName, args[1], unixTime);
-                        database.Store(cheep);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Please provide a message for 'cheep' command.");
-                    }
-                    break;
-                default:
-                    Console.WriteLine("Please enter a valid command. Valid commands are: read, cheep");
-                    break;
-            }
-        }
-        else
+            var list = database.Read(readArgValue);
+            PrintCheeps(list);
+        }, readArg);
+
+        cheepCommand.SetHandler((cheepArgValue) =>
         {
-            Console.WriteLine("Please enter a valid command. Valid commands are: read, cheep");
-        }        
+            DateTime currentTime = DateTime.UtcNow;
+            long unixTime = ((DateTimeOffset)currentTime).ToUnixTimeSeconds();
+            Cheep cheep = new Cheep(Environment.UserName, cheepArgValue, unixTime);
+            database.Store(cheep);
+        }, cheepArg);
+
+        await rootCommand.InvokeAsync(args);
     }
+
+
+
+    //     public static void Main(string[] args)
+    //     {
+    //         IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>();
+    //         if (args.Length > 0)
+    //         {
+    //             switch (args[0].ToLower())
+    //             {
+    //                 case "read":
+    //                     var list = database.Read();
+    //                     PrintCheeps(list);
+    //                     break;
+    //                 case "cheep":
+    //                     if (args.Length > 1)
+    //                     {
+    //                         // Unix timestamp code adapted from: https://stackoverflow.com/questions/17632584/how-to-get-the-unix-timestamp-in-c-sharp
+    //                         DateTime currentTime = DateTime.UtcNow;
+    //                         long unixTime = ((DateTimeOffset)currentTime).ToUnixTimeSeconds();
+    //                         Cheep cheep = new Cheep(Environment.UserName, args[1], unixTime);
+    //                         database.Store(cheep);
+    //                     }
+    //                     else
+    //                     {
+    //                         Console.WriteLine("Please provide a message for 'cheep' command.");
+    //                     }
+    //                     break;
+    //                 default:
+    //                     Console.WriteLine("Please enter a valid command. Valid commands are: read, cheep");
+    //                     break;
+    //             }
+    //         }
+    //         else
+    //         {
+    //             Console.WriteLine("Please enter a valid command. Valid commands are: read, cheep");
+    //         }
+    //     }
 
     public record Cheep(string user, string cheep, long timeStamp)
     {
