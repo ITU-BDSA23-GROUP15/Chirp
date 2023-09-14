@@ -1,7 +1,8 @@
 # Chirp
 ## Authors
-- Frederik Lund Rosenlund - frederik.lund.rosenlund@gmail.com
-- Jacob Pærregaard - jacp@itu.dk - JacobPaerre
+- Daniel Sølvsten Millard - dmil@itu.dk - DanielSMillard
+- Frederik Lund Rosenlund - frederik.lund.rosenlund@gmail.com - FRLR99
+- Jacob Pærregaard - jacp@itu.dk - JacobPaerre  
 - Mads Nørklit Jensen - macj@itu.dk - noerslidt
 
 ## Running the program:
