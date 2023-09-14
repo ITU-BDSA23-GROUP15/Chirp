@@ -5,7 +5,7 @@ using CsvHelper.Configuration;
 namespace SimpleDB;
 public class CSVDatabase<T> : IDatabaseRepository<T>
 {
-    private string path = Environment.CurrentDirectory + @"/chirp_cli_db.csv";
+    private string path = Environment.CurrentDirectory + @"../../../data/chirp_cli_db.csv";
 
     public void Store(T record) 
     {
