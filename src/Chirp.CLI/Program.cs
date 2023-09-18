@@ -7,7 +7,7 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>();
+        IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.Instance;
 
         var rootCommand = new RootCommand("Chirp command-line app");
 

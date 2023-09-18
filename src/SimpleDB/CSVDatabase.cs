@@ -3,11 +3,20 @@ using CsvHelper;
 using CsvHelper.Configuration;
 
 namespace SimpleDB;
-public class CSVDatabase<T> : IDatabaseRepository<T>
+public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
+    // Singleton pattern from https://csharpindepth.com/Articles/Singleton
+    private static readonly Lazy<CSVDatabase<T>> lazy = 
+        new Lazy<CSVDatabase<T>>(() => new CSVDatabase<T>());
+
+    public static CSVDatabase<T> Instance { get { return lazy.Value; } }
+
+    private CSVDatabase()
+    { 
+    }
     private string path = Environment.CurrentDirectory + @"../../../data/chirp_cli_db.csv";
 
-    public void Store(T record) 
+    public void Store(T record)
     {
         using (StreamWriter writer = new StreamWriter(path, true)) // boolean true means append, false means overwrite
         {
