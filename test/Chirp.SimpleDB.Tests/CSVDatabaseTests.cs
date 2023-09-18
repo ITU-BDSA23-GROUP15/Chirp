@@ -1,10 +1,9 @@
 namespace Chirp.SimpleDB.Tests;
 
-public class UnitTest1
+public class CSVDatabaseTests
 {
     [Fact]
-    public void Test1()
-    {
+    public void Test1() {
 
     }
 }

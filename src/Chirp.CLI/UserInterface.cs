@@ -1,6 +1,6 @@
 ﻿namespace Chirp;
 
-static class UserInterface
+public static class UserInterface
 {
     public static void PrintCheeps(IEnumerable<Program.Cheep> cheeps)
     {

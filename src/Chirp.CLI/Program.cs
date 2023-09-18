@@ -3,7 +3,7 @@ using System.Numerics;
 using SimpleDB;
 using static Chirp.UserInterface;
 
-class Program
+public class Program
 {
     static async Task Main(string[] args)
     {
