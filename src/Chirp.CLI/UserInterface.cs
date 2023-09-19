@@ -2,13 +2,17 @@
 
 public static class UserInterface
 {
-    public static void PrintCheeps(IEnumerable<Program.Cheep> cheeps)
+public static void PrintCheeps(IEnumerable<Program.Cheep> cheeps)
+{
+    foreach (var cheep in cheeps)
     {
-        foreach (var cheep in cheeps)
-            {
-                Console.WriteLine($"{cheep.user} @ {UnixTimeStampToDateTime(cheep.timeStamp)}: {cheep.cheep}");
-            }
+        var formattedDateTime = Program.FormatDateTime(cheep.timeStamp);
+        Console.WriteLine($"{cheep.user} @ {formattedDateTime}: {cheep.cheep}");
     }
+}
+
+
+
 
     //code snatched from: https://stackoverflow.com/questions/249760/how-can-i-convert-a-unix-timestamp-to-datetime-and-vice-versa
     public static DateTime UnixTimeStampToDateTime(long unixTimeStamp )

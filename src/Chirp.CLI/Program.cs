@@ -43,11 +43,19 @@ public class Program
         await rootCommand.InvokeAsync(args);
     }
 
-    public record Cheep(string user, string cheep, long timeStamp)
+public static string FormatDateTime(long timeStamp)
+{
+    var formattedDateTime = UnixTimeStampToDateTime(timeStamp).ToString("dd.MM.yyyy HH.mm.ss");
+    return formattedDateTime;
+}
+public record Cheep(string user, string cheep, long timeStamp)
+{
+    public override string ToString()
     {
-        public override string ToString()
-        {
-            return $"{user},{cheep},{timeStamp}";
-        }
+        var formattedDateTime = FormatDateTime(timeStamp);
+        return $"{user} @ {formattedDateTime}: {cheep}";
     }
+}
+
+
 }
