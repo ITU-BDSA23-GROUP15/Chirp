@@ -20,6 +20,9 @@ The program can be run using `dotnet run`.
 - Co-authors should be added to the bottom lines, each co-author on a seperate line in the following format:
   - Co-authored-by: Mads <macj@itu.dk>
   - Co-authored-by: Jacob <jacp@itu.dk>
+  - Co-authored-by: Frederik <frlr@itu.dk>
+  - Co-authored-by: Daniel <dmil@itu.dk>
+  - Co-authored-by: Rasmus <raln@itu.dk>
  
 ## How to write issues (format)
 - **Title:** As a `<type of user>`, i want `<a goal>` so that `<benefit>`
