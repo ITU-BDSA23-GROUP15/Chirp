@@ -11,9 +11,6 @@ public static void PrintCheeps(IEnumerable<Program.Cheep> cheeps)
     }
 }
 
-
-
-
     //code snatched from: https://stackoverflow.com/questions/249760/how-can-i-convert-a-unix-timestamp-to-datetime-and-vice-versa
     public static DateTime UnixTimeStampToDateTime(long unixTimeStamp )
     {
