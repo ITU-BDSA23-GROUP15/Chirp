@@ -1,17 +1,19 @@
 namespace Chirp.SimpleDB.Tests;
 
+using SimpleDB;
+
 public class CSVDatabaseTests
 {
     [Fact]
     public void StoreAndReadCheepsTest() {
         // Arrange
-        var cheeps = new List<Cheep>
+        var cheeps = new List<Program.Cheep>
         {
-            new Cheep("testUser", "testCheep", 1690981487),
-            new Cheep("testUser2", "testCheep2", 1690981487)
+            new Program.Cheep("testUser", "testCheep", 1690981487),
+            new Program.Cheep("testUser2", "testCheep2", 1690981487)
         };
         // Act
-        var database = CSVDatabase<Cheep>.Instance;
+        var database = CSVDatabase.CSVDatabase<Program.Cheep>.Instance;
         database.Store(cheeps);
 
         var readCheeps = database.Read(10);

@@ -1,8 +1,9 @@
 ﻿using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration;
+using SimpleDB;
 
-namespace SimpleDB;
+namespace CSVDatabase;
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
     // Singleton pattern from https://csharpindepth.com/Articles/Singleton
