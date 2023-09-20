@@ -7,7 +7,8 @@ public class Program
 {
     static async Task Main(string[] args)
     {
-        IDatabaseRepository<Cheep> database = CSVDatabase<Cheep>.Instance;
+        var database = CSVDatabase<Cheep>.Instance;
+        database.filename = Environment.CurrentDirectory + @"../../../data/chirp_cli_db.csv";
 
         var rootCommand = new RootCommand("Chirp command-line app");
 
