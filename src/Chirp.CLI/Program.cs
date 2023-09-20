@@ -8,7 +8,7 @@ public class Program
     static async Task Main(string[] args)
     {
         var database = CSVDatabase<Cheep>.Instance;
-        database.filename = Environment.CurrentDirectory + @"../../../data/chirp_cli_db.csv";
+        database.filename = Environment.CurrentDirectory + @"/data/chirp_cli_db.csv";
 
         var rootCommand = new RootCommand("Chirp command-line app");
 
@@ -49,12 +49,11 @@ public static string FormatDateTime(long timeStamp)
     var formattedDateTime = UnixTimeStampToDateTime(timeStamp).ToString("dd.MM.yyyy HH.mm.ss");
     return formattedDateTime;
 }
-public record Cheep(string user, string cheep, long timeStamp)
+public record Cheep(string User, string Message, long TimeStamp)
 {
     public override string ToString()
     {
-        var formattedDateTime = FormatDateTime(timeStamp);
-        return $"{user} @ {formattedDateTime}: {cheep}";
+        return $"{User},{Message},{TimeStamp}";
     }
 }
 

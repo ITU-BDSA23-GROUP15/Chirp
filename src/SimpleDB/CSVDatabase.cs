@@ -22,7 +22,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     {
         using (StreamWriter writer = new StreamWriter(filename, true)) // boolean true means append, false means overwrite
         {
-            writer.WriteLine(record.ToString());
+            writer.WriteLine(record);
         }
     }
 

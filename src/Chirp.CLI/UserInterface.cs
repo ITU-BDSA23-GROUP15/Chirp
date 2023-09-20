@@ -6,8 +6,8 @@ public static void PrintCheeps(IEnumerable<Program.Cheep> cheeps)
 {
     foreach (var cheep in cheeps)
     {
-        var formattedDateTime = Program.FormatDateTime(cheep.timeStamp);
-        Console.WriteLine($"{cheep.user} @ {formattedDateTime}: {cheep.cheep}");
+        var formattedDateTime = Program.FormatDateTime(cheep.TimeStamp);
+        Console.WriteLine($"{cheep.User} @ {formattedDateTime}: {cheep.Message}");
     }
 }
 
