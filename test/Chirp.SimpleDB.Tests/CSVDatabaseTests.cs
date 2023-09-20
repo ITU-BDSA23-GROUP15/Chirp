@@ -7,17 +7,15 @@ public class CSVDatabaseTests
     [Fact]
     public void StoreAndReadCheepsTest() {
         // Arrange
-        var cheeps = new List<Program.Cheep>
-        {
-            new Program.Cheep("testUser", "testCheep", 1690981487),
-            new Program.Cheep("testUser2", "testCheep2", 1690981487)
-        };
-        // Act
+        var cheep = new Program.Cheep("testUser", "testCheep", 1690981487);
         var database = CSVDatabase.CSVDatabase<Program.Cheep>.Instance;
-        database.Store(cheeps);
+
+        // Act
+        database.Store(cheep);
 
         var readCheeps = database.Read(10);
+
         // Assert
-        Assert.Equal(cheeps, readCheeps);
+        Assert.Equal(cheep, readCheeps.ElementAt(0));
     }
 }
