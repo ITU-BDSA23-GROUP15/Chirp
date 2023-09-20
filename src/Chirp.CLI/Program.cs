@@ -9,7 +9,7 @@ public class Program
     {
         var database = CSVDatabase<Cheep>.Instance;
         database.filename = Environment.CurrentDirectory + @"/data/chirp_cli_db.csv";
-
+        Console.WriteLine("hello world");
         var rootCommand = new RootCommand("Chirp command-line app");
 
         var readCommand = new Command("read", "Reading cheeps");
