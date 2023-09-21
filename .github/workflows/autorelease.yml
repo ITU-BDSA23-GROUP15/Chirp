@@ -44,7 +44,7 @@ jobs:
                 win_filename=Chirp-$tag-win-x64
 
                 # build file
-                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 -p:PublishSingleFile=true --runtime "win-x64" -c Release -o "${win_filename}" --self-contained false
+                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 -p:PublishSingleFile=true --runtime "osx-arm64" -c Release -o "${win_filename}" --self-contained false
 
                 # zip file
                 7z a -tzip "${win_filename}.zip" "./${win_filename}/*"
@@ -55,6 +55,8 @@ jobs:
             - name: Publish
               uses: softprops/action-gh-release@v1
               with:
-                files: "Chirp*"
+                files: |
+                  "Chirp*"
+                  "!*.sln"
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
