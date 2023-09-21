@@ -41,7 +41,7 @@ jobs:
               run: |
                 # variables
                 tag=$(git describe --tags --abbrev=0)
-                win_filename = Chirp-$tag-win-x64
+                win_filename=Chirp-$tag-win-x64
 
                 # build file
                 dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 -p:PublishSingleFile=true --runtime "win-x64" -c Release -o "${win_filename}" --self-contained false
