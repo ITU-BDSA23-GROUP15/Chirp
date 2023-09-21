@@ -49,24 +49,24 @@ jobs:
                 dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 --os osx -c Release -o "Chirp-$tag-macos/src/Chirp.CLI"
 
                 # Add CSV-file
-                mkdir "App-$tag-windows/data/"
-                mkdir "App-$tag-linux/data/"
-                mkdir "App-$tag-macos/data/"
+                mkdir "Chirp-$tag-windows/data/"
+                mkdir "Chirp-$tag-linux/data/"
+                mkdir "Chirp-$tag-macos/data/"
 
-                cp "data/chirp_cli_db.csv" "App-$tag-windows/data/"
-                cp "data/chirp_cli_db.csv" "App-$tag-linux/data/"
-                cp "data/chirp_cli_db.csv" "App-$tag-macos/data/"
+                cp "data/chirp_cli_db.csv" "Chirp-$tag-windows/data/"
+                cp "data/chirp_cli_db.csv" "Chirp-$tag-linux/data/"
+                cp "data/chirp_cli_db.csv" "Chirp-$tag-macos/data/"
 
                 # Pack to zip for Windows
-                7z a -tzip "App-$tag-windows.zip" "./App-$tag-windows/*"
-                7z a -tzip "App-$tag-linux.zip" "./App-$tag-linux/*"
-                7z a -tzip "App-$tag-macos.zip" "./App-$tag-macos/*"
+                7z a -tzip "Chirp-$tag-windows.zip" "./Chirp-$tag-windows/*"
+                7z a -tzip "Chirp-$tag-linux.zip" "./Chirp-$tag-linux/*"
+                7z a -tzip "Chirp-$tag-macos.zip" "./Chirp-$tag-macos/*"
 
 
                 # Delete output directory
-                rm -r "App-$tag-windows"
-                rm -r "App-$tag-linux"
-                rm -r "App-$tag-macos"
+                rm -r "Chirp-$tag-windows"
+                rm -r "Chirp-$tag-linux"
+                rm -r "Chirp-$tag-macos"
 
             - name: Publish
               uses: softprops/action-gh-release@v1
