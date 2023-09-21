@@ -42,11 +42,11 @@ jobs:
                 tag=$(git describe --tags --abbrev=0)
 
                 # Build everything
-                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 --os win -c Release -o "App-$tag-windows/src/Chirp.CLI"
+                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 --os win -c Release -o "Chirp-$tag-windows/src/Chirp.CLI"
                 # Build everything
-                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 --os linux -c Release -o "App-$tag-linux/src/Chirp.CLI"
+                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 --os linux -c Release -o "Chirp-$tag-linux/src/Chirp.CLI"
                 # Build everything
-                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 --os osx -c Release -o "App-$tag-macos/src/Chirp.CLI"
+                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 --os osx -c Release -o "Chirp-$tag-macos/src/Chirp.CLI"
 
                 # Add CSV-file
                 mkdir "App-$tag-windows/data/"
