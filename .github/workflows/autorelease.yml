@@ -10,9 +10,6 @@ jobs:
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v3
-        - name: Exit if not on master branch
-          if: endsWith(github.ref, 'master') == false
-          run: exit -1
           
         - name: Setup .NET
           uses: actions/setup-dotnet@v3
@@ -31,6 +28,11 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v3
+
+            - name: Check if tag is present
+              if: startsWith(github.event.ref, 'refs/tags/v') == false
+              run: exit -1
+              
             - name: Setup dotnet
               uses: actions/setup-dotnet@v1
               with:
@@ -58,8 +60,8 @@ jobs:
                       
                 # Build everything
                 dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 --runtime "linux-x64" -c Release -o "${linux_release_name}"
-    
-                tar czvf "${linux_release_name}.tar.gz" "$linux_release_name"
+
+                7zip a -tzip "${linux_release_name}.zip" "./$linux_release_name/*"
                 
                 # Delete output directory
                 rm -r "$linux_release_name"
@@ -72,8 +74,8 @@ jobs:
                 
                 # Build everything
                 dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 --runtime "osx-x64" -c Release -o "${macOS_release_name}"
-    
-                tar czvf "${macOS_release_name}.tar.gz" "$macOS_release_name"
+
+                7zip a -tzip "${macOS_release_name}.zip" "./$macOS_release_name/*"
                 
                 # Delete output directory
                 rm -r "$macOS_release_name"
@@ -86,8 +88,8 @@ jobs:
                 
                 # Build everything
                 dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 --runtime "osx-arm64" -c Release -o "${macOS_arm_release_name}"
-    
-                tar czvf "${macOS_arm_release_name}.tar.gz" "$macOS_arm_release_name"
+
+                7zip a -tzip "${macOS_arm_release_name}.zip" "./$macOS_arm_release_name/*"
                 
                 # Delete output directory
                 rm -r "$macOS_arm_release_name"
