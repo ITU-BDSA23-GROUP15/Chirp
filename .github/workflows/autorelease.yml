@@ -41,28 +41,27 @@ jobs:
               run: |
                 tag=$(git describe --tags --abbrev=0)
 
-                # Build everything (Windows)
-                dotnet publish -r win-x64 --self-contained false
-                # Build everything (Linux)
-                dotnet publish -r linux-x64 --self-contained false
-                # Build everything (MacOS)
-                dotnet publish -r osx-x64 --self-contained false
-                # Build everything (MacARM)
-                dotnet publish -r osx-arm64 --self-contained false
+                # Build everything
+                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 --runtime "linux-x64" Release -o "Chirp-$tag-linux-x64"
+                # Build everything
+                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 --runtime "win-x64" Release -o "Chirp-$tag-win-x64"
+                # Build everything
+                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 --runtime "osx-x64" Release -o "Chirp-$tag-osx-x64"
 
                 # Pack to zip for Windows
-                7z a -tzip "Chirp-$tag-windows.zip" "./Chirp-$tag-windows/*"
-                7z a -tzip "Chirp-$tag-linux.zip" "./Chirp-$tag-linux/*"
-                7z a -tzip "Chirp-$tag-macos.zip" "./Chirp-$tag-macos/*"
+                7z a -tzip "Chirp-$tag-windows.zip" "./Chirp-$tag-win-x64"
+                7z a -tzip "Chirp-$tag-linux.zip" "./Chirp-$tag-linux-x64"
+                7z a -tzip "Chirp-$tag-macos.zip" "./Chirp-$tag-osx-x64"
+
 
                 # Delete output directory
-                rm -r "Chirp-$tag-windows"
-                rm -r "Chirp-$tag-linux"
-                rm -r "Chirp-$tag-macos"
+                rm -r "Chirp-$tag-win-x64"
+                rm -r "Chirp-$tag-linux-x64"
+                rm -r "Chirp-$tag-osx-x64"
 
             - name: Publish
               uses: softprops/action-gh-release@v1
               with:
-                files: "App*"
+                files: "Chirp*"
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
