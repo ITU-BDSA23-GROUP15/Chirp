@@ -30,7 +30,7 @@ jobs:
 
             - name: Check if tag is not present
               if: startsWith(github.event.ref, 'refs/tags/v') == false
-              run: exit -1
+                - run: exit -1
               
 
             - name: Setup dotnet
