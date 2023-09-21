@@ -52,11 +52,58 @@ jobs:
                 # delete directory
                 rm -r "$win_filename"
 
+            - name: Build linux
+              shell: bash
+              run: |
+                # variables
+                tag=$(git describe --tags --abbrev=0)
+                linux_filename=Chirp-$tag-linux-x64
+
+                # build file
+                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 -p:PublishSingleFile=true --runtime "linux-x64" -c Release -o "${linux_filename}" --self-contained false
+
+                # zip file
+                7z a -tzip "${linux_filename}.zip" "./${linux_filename}/*"
+
+                # delete directory
+                rm -r "$linux_filename"
+
+            - name: Build mac
+              shell: bash
+              run: |
+                # variables
+                tag=$(git describe --tags --abbrev=0)
+                mac_filename=Chirp-$tag-osx-x64
+
+                # build file
+                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 -p:PublishSingleFile=true --runtime "osx-x64" -c Release -o "${mac_filename}" --self-contained false
+
+                # zip file
+                7z a -tzip "${mac_filename}.zip" "./${mac_filename}/*"
+
+                # delete directory
+                rm -r "$mac_filename"
+
+            - name: Build macArm
+              shell: bash
+              run: |
+                # variables
+                tag=$(git describe --tags --abbrev=0)
+                macarm_filename=Chirp-$tag-osx-arm64
+
+                # build file
+                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 -p:PublishSingleFile=true --runtime "osx-arm64" -c Release -o "${macarm_filename}" --self-contained false
+
+                # zip file
+                7z a -tzip "${macarm_filename}.zip" "./${macarm_filename}/*"
+
+                # delete directory
+                rm -r "$macarm_filename"
+
             - name: Publish
               uses: softprops/action-gh-release@v1
               with:
                 files: |
-                  Chirp*
-                  !Chirp.sln
+                  Chirp-*
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
