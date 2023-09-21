@@ -2,6 +2,7 @@ name: Autorelease
 
 on:
   push:
+    branches: [ master ]
     tags:
       - "v*.*.*"
 
