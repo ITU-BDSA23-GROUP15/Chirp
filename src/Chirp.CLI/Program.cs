@@ -1,13 +1,14 @@
 ﻿using System.CommandLine;
-using System.Numerics;
 using SimpleDB;
+using CSVDatabase;
 using static Chirp.UserInterface;
 
-class Program
+public class Program
 {
     static async Task Main(string[] args)
     {
-        IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>();
+        var database = CSVDatabase<Cheep>.Instance;
+        database.filename = Environment.CurrentDirectory + @"/data/chirp_cli_db.csv";
 
         var rootCommand = new RootCommand("Chirp command-line app");
 
@@ -43,11 +44,18 @@ class Program
         await rootCommand.InvokeAsync(args);
     }
 
-    public record Cheep(string user, string cheep, long timeStamp)
+public static string FormatDateTime(long timeStamp)
+{
+    var formattedDateTime = UnixTimeStampToDateTime(timeStamp).ToString("dd.MM.yyyy HH.mm.ss");
+    return formattedDateTime;
+}
+public record Cheep(string User, string Message, long TimeStamp)
+{
+    public override string ToString()
     {
-        public override string ToString()
-        {
-            return $"{user},{cheep},{timeStamp}";
-        }
+        return $"{User},{Message},{TimeStamp}";
     }
+}
+
+
 }
