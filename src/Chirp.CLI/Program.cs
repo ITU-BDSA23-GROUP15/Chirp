@@ -1,5 +1,5 @@
 ﻿using System.CommandLine;
-using SimpleDB;
+using CSVDBService;
 using CSVDatabase;
 using static Chirp.UserInterface;
 
@@ -29,7 +29,7 @@ public class Program
 
         readCommand.SetHandler((readArgValue) =>
         {
-            var list = database.Read(readArgValue);
+            var list = database.Read();
             PrintCheeps(list);
         }, readArg);
 

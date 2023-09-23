@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\SimpleDB\SimpleDB.csproj" />
     <ProjectReference Include="..\..\src\Chirp.CLI\Chirp.CLI.csproj" />
+    <ProjectReference Include="..\..\src\Chirp.CSVDBService\Chirp.CSVDBService.csproj" />
   </ItemGroup>
 
 </Project>
