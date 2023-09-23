@@ -9,7 +9,7 @@
     <SelfContained>false</SelfContained>
   </PropertyGroup>
 <ItemGroup>
-  <ProjectReference Include="../SimpleDB/SimpleDB.csproj" />
+  <ProjectReference Include="..\Chirp.CSVDBService\Chirp.CSVDBService.csproj" />
 </ItemGroup>
 <ItemGroup>
   <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
