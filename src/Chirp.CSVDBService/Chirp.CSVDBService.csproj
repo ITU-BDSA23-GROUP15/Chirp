@@ -8,6 +8,11 @@
 
    <ItemGroup>
     <PackageReference Include="CsvHelper" Version="30.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Chirp.CSVDBService.Tests" />
   </ItemGroup>
 
 </Project>

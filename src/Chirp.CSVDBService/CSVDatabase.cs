@@ -24,6 +24,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         using var writer = new StreamWriter(stream);
         using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
         csv.WriteRecord(record);
+        csv.NextRecord();
     }
 
     public IEnumerable<T> Read()
