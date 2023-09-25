@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 using CSVDBService;
 
-public class CSVDBServiceTests : WebApplicationFactory<Program>
+public class CSVDBServiceTests 
+    : IClassFixture<WebApplicationFactory<Program>>
 {
     private readonly WebApplicationFactory<Program> _factory;
 
