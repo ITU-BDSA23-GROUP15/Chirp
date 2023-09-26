@@ -1,7 +1,20 @@
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapGet("/cheeps", () => new Cheep("me", "Hej!", 1684229348));
+var database = CSVDatabase.CSVDatabase<Cheep>.Instance;
+database.filename = @"data/chirp_cli_cb.csv";
+
+app.MapGet("/", () => {
+    return;
+});
+
+app.MapGet("/cheeps", () => {
+    return database.Read();
+});
+
+app.MapPost("/cheep", (Cheep cheep) => {
+    database.Store(cheep);
+});
 
 app.Run();
 
