@@ -36,7 +36,7 @@ public class Program
         readCommand.SetHandler(async (readArgValue) =>
         {
             var cheeps = await client.GetFromJsonAsync<IEnumerable<Cheep>>("/cheeps");
-            PrintCheeps(cheeps);
+            PrintCheeps(cheeps.Take<Cheep>(readArgValue));
         }, readArg);
 
         cheepCommand.SetHandler((cheepArgValue) =>
