@@ -6,7 +6,7 @@ var app = builder.Build();
 IDatabaseRepository<Cheep> database = CSVDatabase.CSVDatabase<Cheep>.Instance(@"data/chirp_cli_db.csv");
 
 app.MapGet("/", () => {
-    return;
+    return "it works gg";
 });
 
 app.MapGet("/cheeps", () => {
