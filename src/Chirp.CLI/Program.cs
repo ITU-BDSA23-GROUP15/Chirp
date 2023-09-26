@@ -39,16 +39,28 @@ public class Program
             PrintCheeps(cheeps.Take<Cheep>(readArgValue));
         }, readArg);
 
-        cheepCommand.SetHandler((cheepArgValue) =>
+        cheepCommand.SetHandler(async (cheepArgValue) =>
         {
             DateTime currentTime = DateTime.UtcNow;
             long unixTime = ((DateTimeOffset)currentTime).ToUnixTimeSeconds();
             Cheep cheep = new Cheep(Environment.UserName, cheepArgValue, unixTime);
-            // database.Store(cheep);
+            
+            HttpResponseMessage response = await client.PostAsJsonAsync<Cheep>("/cheep", cheep);
+
+            if((int) response.StatusCode >= 400)
+            {
+                Console.WriteLine($"POST went wrong ({response.StatusCode})");
+            }
+            else
+            {
+                Console.WriteLine($"POST succesful ({response.StatusCode})");
+            }
+
         }, cheepArg);
 
         await rootCommand.InvokeAsync(args);
     }
+
 
 public static string FormatDateTime(long timeStamp)
 {
