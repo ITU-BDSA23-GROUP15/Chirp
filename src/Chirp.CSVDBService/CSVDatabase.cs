@@ -1,7 +1,7 @@
 using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration;
-using CSVDBService;
+using SimpleDB;
 
 namespace CSVDatabase;
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
@@ -20,18 +20,18 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 
     public void Store(T record)
     {
-        using var stream = File.Open(filename, FileMode.Append);
-        using var writer = new StreamWriter(stream);
-        using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-        csv.WriteRecord(record);
+        using (StreamWriter writer = new StreamWriter(filename, true)) // boolean true means append, false means overwrite
+        {
+            writer.WriteLine(record);
+        }
     }
 
-    public IEnumerable<T> Read()
+    public IEnumerable<T> Read(int? limit = 10)
     {
         var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture);
 
         using (StreamReader reader = new StreamReader(filename))
         using (CsvReader csv = new CsvReader(reader, csvConfig))
-        return csv.GetRecords<T>().ToList();
+        return csv.GetRecords<T>().Take(limit ?? 10).ToList();
     }
 }

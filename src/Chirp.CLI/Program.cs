@@ -1,14 +1,20 @@
-﻿using System.CommandLine;
-using CSVDBService;
-using CSVDatabase;
 using static Chirp.UserInterface;
+using System.CommandLine;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text.Json;
 
 public class Program
 {
     static async Task Main(string[] args)
     {
-        var database = CSVDatabase<Cheep>.Instance;
-        database.filename = Environment.CurrentDirectory + @"/data/chirp_cli_db.csv";
+        var baseURL = "http://localhost:5124";
+        using HttpClient client = new();
+        client.DefaultRequestHeaders.Accept.Clear();
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        client.BaseAddress = new Uri(baseURL);
+
 
         var rootCommand = new RootCommand("Chirp command-line app");
 
@@ -27,10 +33,10 @@ public class Program
         rootCommand.AddCommand(cheepCommand);
         cheepCommand.Add(cheepArg);
 
-        readCommand.SetHandler((readArgValue) =>
+        readCommand.SetHandler(async (readArgValue) =>
         {
-            var list = database.Read();
-            PrintCheeps(list);
+            var cheeps = await client.GetFromJsonAsync<IEnumerable<Cheep>>("/cheeps");
+            PrintCheeps(cheeps);
         }, readArg);
 
         cheepCommand.SetHandler((cheepArgValue) =>
@@ -38,7 +44,7 @@ public class Program
             DateTime currentTime = DateTime.UtcNow;
             long unixTime = ((DateTimeOffset)currentTime).ToUnixTimeSeconds();
             Cheep cheep = new Cheep(Environment.UserName, cheepArgValue, unixTime);
-            database.Store(cheep);
+            // database.Store(cheep);
         }, cheepArg);
 
         await rootCommand.InvokeAsync(args);
@@ -49,11 +55,11 @@ public static string FormatDateTime(long timeStamp)
     var formattedDateTime = UnixTimeStampToDateTime(timeStamp).ToString("dd.MM.yyyy HH.mm.ss");
     return formattedDateTime;
 }
-public record Cheep(string User, string Message, long TimeStamp)
+public record Cheep(string Author, string Message, long Timestamp)
 {
     public override string ToString()
     {
-        return $"{User},{Message},{TimeStamp}";
+        return $"{Author},{Message},{Timestamp}";
     }
 }
 
