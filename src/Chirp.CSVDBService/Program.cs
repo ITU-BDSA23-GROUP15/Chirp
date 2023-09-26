@@ -2,7 +2,7 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
 var database = CSVDatabase.CSVDatabase<Cheep>.Instance;
-database.filename = @"data/chirp_cli_cb.csv";
+database.filename = @"data/chirp_cli_db.csv";
 
 app.MapGet("/", () => {
     return;
