@@ -1,12 +1,11 @@
-namespace Chirp.SimpleDB.Tests;
+namespace Chirp.CSVDatabase.Tests;
 
 public class CSVDatabaseTests
 {
     [Fact]
     public void StoreAndReadCheepsTest() {
         // Arrange
-        var database = CSVDatabase.CSVDatabase<Program.Cheep>.Instance;
-        database.filename = Environment.CurrentDirectory + @"../../../../testDatabase.csv";
+        var database = CSVDatabase.CSVDatabase<Program.Cheep>.Instance(@"../../../../testDatabase.csv");
         var cheep = new Program.Cheep("testUser", "testCheep", 1690981487); // unixtime =  02.08.2023 15.04.47
 
         // Act

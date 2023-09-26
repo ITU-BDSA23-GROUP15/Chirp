@@ -8,15 +8,26 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
 
     // Singleton pattern from https://csharpindepth.com/Articles/Singleton
-    private static readonly Lazy<CSVDatabase<T>> lazy = 
-        new Lazy<CSVDatabase<T>>(() => new CSVDatabase<T>());
+    private static CSVDatabase<T>? instance = null;
+    private static readonly object padlock = new object();
 
-    public static CSVDatabase<T> Instance { get { return lazy.Value; } }
-
-    private CSVDatabase()
-    { 
+    public static CSVDatabase<T> Instance(string filename) 
+    {
+        lock (padlock)
+        {
+            if(instance == null)
+            {
+                instance = new CSVDatabase<T>(filename);
+            }
+            return instance;
+        }
     }
-    public string? filename;
+
+    CSVDatabase(string filename)
+    { 
+        this.filename = filename;
+    }
+    public string filename;
 
     public void Store(T record)
     {

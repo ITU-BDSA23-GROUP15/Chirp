@@ -1,8 +1,9 @@
+using CSVDBService;
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-var database = CSVDatabase.CSVDatabase<Cheep>.Instance;
-database.filename = @"data/chirp_cli_db.csv";
+IDatabaseRepository<Cheep> database = CSVDatabase.CSVDatabase<Cheep>.Instance(@"data/chirp_cli_db.csv");
 
 app.MapGet("/", () => {
     return;
@@ -12,9 +13,8 @@ app.MapGet("/cheeps", () => {
     return database.Read();
 });
 
-app.MapPost("/cheep", async (Cheep cheep) =>
+app.MapPost("/cheep", (Cheep cheep) =>
 {
-    
     database.Store(cheep);
 }); 
 
