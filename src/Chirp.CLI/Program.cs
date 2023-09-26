@@ -1,4 +1,4 @@
-﻿using static Chirp.UserInterface;
+using static Chirp.UserInterface;
 using System.CommandLine;
 using System.Net;
 using System.Net.Http.Headers;

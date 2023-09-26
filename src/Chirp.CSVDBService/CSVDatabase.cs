@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration;
 using SimpleDB;

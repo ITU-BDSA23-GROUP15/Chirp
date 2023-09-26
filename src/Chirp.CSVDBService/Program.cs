@@ -12,9 +12,11 @@ app.MapGet("/cheeps", () => {
     return database.Read();
 });
 
-app.MapPost("/cheep", (Cheep cheep) => {
+app.MapPost("/cheep", async (Cheep cheep) =>
+{
+    
     database.Store(cheep);
-});
+}); 
 
 app.Run();
 
