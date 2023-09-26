@@ -1,8 +1,23 @@
+using CSVDBService;
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapGet("/cheeps", () => new Cheep("me", "Hej!", 1684229348));
+IDatabaseRepository<Cheep> database = CSVDatabase.CSVDatabase<Cheep>.Instance(@"data/chirp_cli_db.csv");
+
+app.MapGet("/", () => {
+    return;
+});
+
+app.MapGet("/cheeps", () => {
+    return database.Read();
+});
+
+app.MapPost("/cheep", (Cheep cheep) =>
+{
+    database.Store(cheep);
+}); 
 
 app.Run();
 
-public record Cheep(string Author, string Message, long Timestamp);
+record Cheep(string Author, string Message, long Timestamp);

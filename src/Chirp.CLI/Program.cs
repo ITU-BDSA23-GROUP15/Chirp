@@ -1,61 +1,61 @@
-﻿using System.CommandLine;
-using SimpleDB;
-using CSVDatabase;
 using static Chirp.UserInterface;
+using System.CommandLine;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 
-public class Program
+var baseURL = "http://localhost:5124";
+using HttpClient client = new();
+client.DefaultRequestHeaders.Accept.Clear();
+client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+client.BaseAddress = new Uri(baseURL);
+
+ var rootCommand = new RootCommand("Chirp command-line app");
+
+var readCommand = new Command("read", "Reading cheeps");
+var readArg = new Argument<int>
+        (name: "readNumber",
+        description: "Number of cheeps to read",
+        getDefaultValue: () => 10);
+rootCommand.AddCommand(readCommand);
+readCommand.Add(readArg);
+
+var cheepCommand = new Command("cheep", "Write cheep");
+var cheepArg = new Argument<string>
+    (name: "message",
+    description: "Message to cheep");
+rootCommand.AddCommand(cheepCommand);
+cheepCommand.Add(cheepArg);
+
+readCommand.SetHandler(async (readArgValue) =>
 {
-    static async Task Main(string[] args)
+   var cheeps = await client.GetFromJsonAsync<IEnumerable<Cheep>>("/cheeps");
+    PrintCheeps(cheeps.Take<Cheep>(readArgValue));
+}, readArg);
+
+cheepCommand.SetHandler(async (cheepArgValue) =>
+{
+    DateTime currentTime = DateTime.UtcNow;
+    long unixTime = ((DateTimeOffset)currentTime).ToUnixTimeSeconds();
+    Cheep cheep = new Cheep(Environment.UserName, cheepArgValue, unixTime);
+            
+    HttpResponseMessage response = await client.PostAsJsonAsync<Cheep>("/cheep", cheep);
+
+    if((int) response.StatusCode >= 400)
     {
-        var database = CSVDatabase<Cheep>.Instance;
-        database.filename = Environment.CurrentDirectory + @"/data/chirp_cli_db.csv";
-
-        var rootCommand = new RootCommand("Chirp command-line app");
-
-        var readCommand = new Command("read", "Reading cheeps");
-        var readArg = new Argument<int>
-            (name: "readNumber",
-            description: "Number of cheeps to read",
-            getDefaultValue: () => 10);
-        rootCommand.AddCommand(readCommand);
-        readCommand.Add(readArg);
-
-        var cheepCommand = new Command("cheep", "Write cheep");
-        var cheepArg = new Argument<string>
-            (name: "message",
-            description: "Message to cheep");
-        rootCommand.AddCommand(cheepCommand);
-        cheepCommand.Add(cheepArg);
-
-        readCommand.SetHandler((readArgValue) =>
-        {
-            var list = database.Read(readArgValue);
-            PrintCheeps(list);
-        }, readArg);
-
-        cheepCommand.SetHandler((cheepArgValue) =>
-        {
-            DateTime currentTime = DateTime.UtcNow;
-            long unixTime = ((DateTimeOffset)currentTime).ToUnixTimeSeconds();
-            Cheep cheep = new Cheep(Environment.UserName, cheepArgValue, unixTime);
-            database.Store(cheep);
-        }, cheepArg);
-
-        await rootCommand.InvokeAsync(args);
+        Console.WriteLine($"POST went wrong ({response.StatusCode})");
     }
+    else
+    {
+        Console.WriteLine($"POST succesful ({response.StatusCode})");
+    }
+}, cheepArg);
 
-public static string FormatDateTime(long timeStamp)
-{
-    var formattedDateTime = UnixTimeStampToDateTime(timeStamp).ToString("dd.MM.yyyy HH.mm.ss");
-    return formattedDateTime;
-}
-public record Cheep(string User, string Message, long TimeStamp)
+await rootCommand.InvokeAsync(args);
+
+public record Cheep(string Author, string Message, long Timestamp)
 {
     public override string ToString()
     {
-        return $"{User},{Message},{TimeStamp}";
+        return $"{Author},{Message},{Timestamp}";
     }
-}
-
-
 }
