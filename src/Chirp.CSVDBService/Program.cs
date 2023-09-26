@@ -3,7 +3,7 @@ using CSVDBService;
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-IDatabaseRepository<Cheep> database = CSVDatabase.CSVDatabase<Cheep>.Instance(@"../../../../chirp_cli_db.csv");
+IDatabaseRepository<Cheep> database = CSVDatabase.CSVDatabase<Cheep>.Instance(@"chirp_cli_db.csv");
 
 app.MapGet("/", () => {
     return "it works gg";
