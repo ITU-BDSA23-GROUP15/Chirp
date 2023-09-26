@@ -2,11 +2,11 @@
 
 public static class UserInterface
 {
-public static void PrintCheeps(IEnumerable<Program.Cheep> cheeps)
+public static void PrintCheeps(IEnumerable<Cheep> cheeps)
 {
     foreach (var cheep in cheeps)
     {
-        var formattedDateTime = Program.FormatDateTime(cheep.Timestamp);
+        var formattedDateTime = UnixTimeStampToDateTime(cheep.Timestamp);
         Console.WriteLine($"{cheep.Author} @ {formattedDateTime}: {cheep.Message}");
     }
 }
