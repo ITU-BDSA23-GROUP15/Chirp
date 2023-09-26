@@ -31,10 +31,11 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 
     public void Store(T record)
     {
-        using (StreamWriter writer = new StreamWriter(filename, true)) // boolean true means append, false means overwrite
-        {
-            writer.WriteLine(record);
-        }
+        using var stream = File.Open(filename, FileMode.Append);
+        using var writer = new StreamWriter(stream);
+        using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+        csv.WriteRecord(record);
+        csv.NextRecord();
     }
 
     public IEnumerable<T> Read(int? limit = 10)
