@@ -39,3 +39,9 @@ Acceptance criteria:
   * Can log in through Google
   * Can log in through GitHub
 
+## How to make a release using tags
+On your own PC you do `git tag` to see all current tags.
+You then determine how large your update is, so we follow the proper version schematic.
+You then create a new tag using `git tag <vx.x.x>` where x replaces the numbers.
+When the tag is created, you push the tag using `git push origin <tag>`
+
