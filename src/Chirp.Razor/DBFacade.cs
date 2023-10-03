@@ -68,17 +68,18 @@
 //     }
 // }
 
-
-using System.Data;
 using Microsoft.Data.Sqlite;
 using Chirp.CheepService;
 public class DBFacade {
-    private string sqlDBFilePath = "/mnt/c/Users/mchrn/ITU/3_Semester/Chirp/src/Chirp.Razor/data/chirp.db";
-    public List<CheepViewModel> GetCheeps() 
+    private string sqlDBFilePath = Environment.CurrentDirectory + @"/data/data.db";
+    public List<CheepViewModel> GetCheeps(int offset = 1) 
     {
         List<CheepViewModel> cheeps = new List<CheepViewModel>();
 
-        var sqlQuery = @"SELECT * FROM message JOIN user u ON u.user_id = message.author_id ORDER by message.pub_date desc";
+        var sqlQuery = $@"SELECT * FROM message m
+                            JOIN user u ON u.user_id = m.author_id 
+                           ORDER by m.pub_date desc
+                           LIMIT 32 OFFSET {offset}";
 
         using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
         {
