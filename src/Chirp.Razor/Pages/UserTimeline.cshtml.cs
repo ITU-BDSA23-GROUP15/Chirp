@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Chirp.CheepService;
 
 namespace Chirp.Razor.Pages;
 
@@ -12,10 +13,10 @@ public class UserTimelineModel : PageModel
     {
         _service = service;
     }
-
-    public ActionResult OnGet(string author)
+    public ActionResult OnGet(string author, [FromQuery(Name = "page")] int page = 1)
     {
-        Cheeps = _service.GetCheepsFromAuthor(author);
+        int pageRange = (page - 1) * 32;
+        Cheeps = _service.GetCheepsFromAuthor(author, pageRange);
         return Page();
     }
 }
