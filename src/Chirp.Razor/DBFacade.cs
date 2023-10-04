@@ -3,7 +3,6 @@ using Chirp.CheepService;
 using System.Reflection;
 using Microsoft.Extensions.FileProviders;
 public class DBFacade {
-
     public DBFacade()
     {
         CreateDatabase();

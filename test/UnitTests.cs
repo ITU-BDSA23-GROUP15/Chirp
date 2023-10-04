@@ -7,7 +7,6 @@ public class UnitTests
     private readonly HttpClient _httpClient;
     private readonly string _baseUrl;
 
-
     public UnitTests() {
         _baseUrl = "http://localhost:5273"; // https://bdsagroup15chirprazor.azurewebsites.net use this for azure
 
