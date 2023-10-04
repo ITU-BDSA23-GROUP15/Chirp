@@ -31,6 +31,14 @@ namespace Chirp.Razor
 
             app.Run();
         }
+        // adapted from https://learn.microsoft.com/en-us/aspnet/core/migration/50-to-60-samples?view=aspnetcore-7.0
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .ConfigureWebHostDefaults(builder =>
+                {
+                    builder.UseStartup<Program>();
+                });
     }
 }
 public partial class Program {}
