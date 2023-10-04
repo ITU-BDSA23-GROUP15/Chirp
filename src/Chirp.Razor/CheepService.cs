@@ -14,8 +14,12 @@ public class CheepService : ICheepService
     public List<CheepViewModel> GetCheeps(int pageRange)
     {
         List<CheepViewModel> list = new();
+        var query = $@"SELECT * FROM message m
+                            JOIN user u ON u.user_id = m.author_id 
+                           ORDER by m.pub_date desc
+                           LIMIT 32 OFFSET {pageRange}";
 
-        foreach (var cheep in db.GetCheeps(pageRange)) {
+        foreach (var cheep in db.GetCheeps(query)) {
             list.Add(new CheepViewModel(cheep.Author, cheep.Message, UnixTimeStampToDateTimeString(Double.Parse(cheep.Timestamp))));
         }
         return list;
@@ -23,8 +27,13 @@ public class CheepService : ICheepService
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author, int pageRange)
     {
-        // filter by the provided author name
-        return GetCheeps(pageRange).Where(x => x.Author == author).ToList();
+        List<CheepViewModel> list = new();
+        var query = $"SELECT * FROM message m JOIN user u ON u.user_id = m.author_id WHERE u.username = \"{author}\" ORDER by m.pub_date desc LIMIT 32 OFFSET {pageRange}";
+        
+        foreach (var cheep in db.GetCheeps(query)) {
+            list.Add(new CheepViewModel(cheep.Author, cheep.Message, UnixTimeStampToDateTimeString(Double.Parse(cheep.Timestamp))));
+        }
+        return list;
     }
 
     private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
