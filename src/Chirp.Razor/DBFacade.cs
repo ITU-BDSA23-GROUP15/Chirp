@@ -44,7 +44,6 @@ public class DBFacade {
     private string ReadResourceFile(string filename) 
     {
         var embeddedProvider = new EmbeddedFileProvider(GetType().GetTypeInfo().Assembly, "Chirp.Razor.data");
-        var files = embeddedProvider.GetDirectoryContents("");
         using var reader = embeddedProvider.GetFileInfo(filename).CreateReadStream();
         using var sr = new StreamReader(reader);
         return sr.ReadToEnd();
