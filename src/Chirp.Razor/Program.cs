@@ -38,3 +38,4 @@ namespace Chirp.Razor
         }
     }
 }
+public partial class Program {}

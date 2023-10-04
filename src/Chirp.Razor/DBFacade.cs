@@ -1,4 +1,4 @@
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Chirp.CheepService;
 public class DBFacade {
     private string sqlDBFilePath = Environment.CurrentDirectory + @"/data/data.db";

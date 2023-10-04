@@ -12,6 +12,7 @@ public class PublicModel : PageModel
     public PublicModel(ICheepService service)
     {
         _service = service;
+        Cheeps = new List<CheepViewModel>();
     }
     public ActionResult OnGet([FromQuery(Name = "page")] int page = 1)
     {
