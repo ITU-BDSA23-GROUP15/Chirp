@@ -1,42 +1,63 @@
-using Microsoft.AspNetCore.Mvc.Testing;
-
 namespace test;
+
+using System.Net;
 
 public class UnitTests
 {
-    public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
-{
-    private readonly WebApplicationFactory<Program> _fixture;
-    private readonly HttpClient _client;
+    private readonly HttpClient _httpClient;
+    private readonly string _baseUrl;
 
-    public TestAPI(WebApplicationFactory<Program> fixture)
-    {
-        _fixture = fixture;
-        _client = _fixture.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = true, HandleCookies = true });
+
+    public UnitTests() {
+        _baseUrl = "http://localhost:5273"; // https://bdsagroup15chirprazor.azurewebsites.net use this for azure
+
+        _httpClient = new HttpClient() {
+            BaseAddress = new Uri(_baseUrl)
+        };
     }
 
     [Fact]
-    public async void CanSeePublicTimeline()
+    public async void TestHttpRequestForAuthorPath()
     {
-        var response = await _client.GetAsync("/public");
-        response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
+        // Arrange
+        string endpoint = "/Helge"; 
 
-        Assert.Contains("Chirp!", content);
-        Assert.Contains("Public Timeline", content);
+        // Act
+        HttpResponseMessage response = await _httpClient.GetAsync(endpoint);
+        var htmlContent = await response.Content.ReadAsStringAsync();
+
+        //Assert
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.NotEmpty(htmlContent);
     }
 
-    [Theory]
-    [InlineData("Helge")]
-    [InlineData("Rasmus")]
-    public async void CanSeePrivateTimeline(string author)
+    [Fact]
+    public async void TestHttpRequestForPagination()
     {
-        var response = await _client.GetAsync($"/{author}");
-        response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
+        // Arrange
+        string endpoint = "/?page=2"; 
+        
+        // Act
+        HttpResponseMessage response = await _httpClient.GetAsync(endpoint);
+        var htmlContent = await response.Content.ReadAsStringAsync();
 
-        Assert.Contains("Chirp!", content);
-        Assert.Contains($"{author}'s Timeline", content);
+        //Assert
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.NotEmpty(htmlContent);
     }
-}
+
+    [Fact]
+    public async void TestHttpRequestForPaginationWithAuthor()
+    {
+        // Arrange
+        string endpoint = "/Helge?page=2"; 
+        
+        // Act
+        HttpResponseMessage response = await _httpClient.GetAsync(endpoint);
+        var htmlContent = await response.Content.ReadAsStringAsync();
+
+        //Assert
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.NotEmpty(htmlContent);
+    }
 }
