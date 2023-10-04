@@ -16,7 +16,7 @@ public class DBFacade {
     {
         var builder = new SqliteConnectionStringBuilder
         {
-            DataSource = Environment.CurrentDirectory + @"/data/data.db",
+            DataSource = Path.GetTempPath() + "data.db",
         };
         connString = builder.ToString();
 
