@@ -6,10 +6,11 @@ public class DBFacade {
     public DBFacade()
     {
         CreateDatabase();
-        Console.WriteLine(connString);
     }
 
     private string connString;
+
+    // https://stackoverflow.com/questions/34691378/creating-sqlite-database-using-dump-file-programmatically
     private void CreateDatabase()
     {
         var builder = new SqliteConnectionStringBuilder
@@ -37,6 +38,8 @@ public class DBFacade {
             command.ExecuteNonQuery();
         }
     }
+
+    // https://gist.github.com/kristopherjohnson/3229248
     private string ReadResourceFile(string filename) 
     {
         //return Assembly.GetExecutingAssembly().GetManifestResourceNames(); // testing purpose
