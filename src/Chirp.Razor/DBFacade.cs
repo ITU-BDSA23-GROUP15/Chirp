@@ -1,4 +1,4 @@
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Chirp.CheepService;
 public class DBFacade {
     private string sqlDBFilePath = Environment.CurrentDirectory + @"/data/data.db";
@@ -22,17 +22,10 @@ public class DBFacade {
             while (reader.Read())
             {
                 // https://learn.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqldatareader?view=dotnet-plat-ext-7.0#examples
+                // https://learn.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqldatareader.getvalues?view=dotnet-plat-ext-7.0
                 Object[] values = new Object[reader.FieldCount];
                 reader.GetValues(values);
                 cheeps.Add(new CheepViewModel(Author: $"{values[5]}", Message: $"{values[2]}", $"{values[3]}"));
-                    //Console.WriteLine($"{dataRecord.GetName(i)}: {dataRecord[i]}");
-
-                // // See https://learn.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqldatareader.getvalues?view=dotnet-plat-ext-7.0
-                // // for documentation on how to retrieve complete columns from query results
-                // Object[] values = new Object[reader.FieldCount];
-                // int fieldCount = reader.GetValues(values);
-                // for (int i = 0; i < fieldCount; i++)
-                //     Console.WriteLine($"{reader.GetName(i)}: {values[i]}");
             }
         }
         return cheeps;
