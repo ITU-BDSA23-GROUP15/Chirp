@@ -48,21 +48,16 @@ public class DBFacade {
         using var sr = new StreamReader(reader);
         return sr.ReadToEnd();
     }
-    public List<CheepViewModel> GetCheeps(int offset = 1) 
+    public List<CheepViewModel> GetCheeps(string query) 
     {
         List<CheepViewModel> cheeps = new List<CheepViewModel>();
-
-        var sqlQuery = $@"SELECT * FROM message m
-                            JOIN user u ON u.user_id = m.author_id 
-                           ORDER by m.pub_date desc
-                           LIMIT 32 OFFSET {offset}";
 
         using (var connection = new SqliteConnection(connString))
         {
             connection.Open();
 
             var command = connection.CreateCommand();
-            command.CommandText = sqlQuery;
+            command.CommandText = query;
 
             using var reader = command.ExecuteReader();
             while (reader.Read())
