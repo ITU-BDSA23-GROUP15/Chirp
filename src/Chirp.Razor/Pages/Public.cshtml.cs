@@ -14,9 +14,9 @@ public class PublicModel : PageModel
         _service = service;
         Cheeps = new List<CheepViewModel>();
     }
-    public ActionResult OnGet([FromQuery(Name = "page")] int page = 1)
+    public ActionResult OnGet([FromQuery(Name = "page")] int page = 0)
     {
-        int pageRange = (page - 1) * 32;
+        int pageRange = page * 32;
         Cheeps = _service.GetCheeps(pageRange);
         return Page();
     }
