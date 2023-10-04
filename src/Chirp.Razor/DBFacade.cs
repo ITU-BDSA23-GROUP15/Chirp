@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Chirp.CheepService;
 using System.Reflection;
+using Microsoft.Extensions.FileProviders;
 public class DBFacade {
 
     public DBFacade()
@@ -20,10 +21,10 @@ public class DBFacade {
         connString = builder.ToString();
 
         // create schema
-        ExecuteSQLQuery("Chirp.Razor.data.schema.sql");
+        ExecuteSQLQuery("schema.sql");
 
         // insert content
-        ExecuteSQLQuery("Chirp.Razor.data.dump.sql");
+        ExecuteSQLQuery("dump.sql");
     }
 
     private void ExecuteSQLQuery(string filename) 
@@ -42,11 +43,11 @@ public class DBFacade {
     // https://gist.github.com/kristopherjohnson/3229248
     private string ReadResourceFile(string filename) 
     {
-        //return Assembly.GetExecutingAssembly().GetManifestResourceNames(); // testing purpose
-        var thisAssembly = Assembly.GetExecutingAssembly();
-        using var stream = thisAssembly.GetManifestResourceStream(filename);
-        using var reader = new StreamReader(stream);
-        return reader.ReadToEnd();
+        var embeddedProvider = new EmbeddedFileProvider(GetType().GetTypeInfo().Assembly, "Chirp.Razor.data");
+        var files = embeddedProvider.GetDirectoryContents("");
+        using var reader = embeddedProvider.GetFileInfo(filename).CreateReadStream();
+        using var sr = new StreamReader(reader);
+        return sr.ReadToEnd();
     }
     public List<CheepViewModel> GetCheeps(int offset = 1) 
     {
