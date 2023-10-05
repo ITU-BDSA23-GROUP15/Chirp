@@ -6,7 +6,7 @@ name: Autodeploy to Azure
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 jobs:
