@@ -1,4 +1,6 @@
 # Chirp
+Application is deployed here: https://bdsagroup15chirprazor.azurewebsites.net/
+
 ## Authors
 - Daniel Sølvsten Millard - dmil@itu.dk 
 - Frederik Lund Rosenlund - frlr@itu.dk
