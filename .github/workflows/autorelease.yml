@@ -3,107 +3,108 @@ name: Test and Autorelease
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+'
+      - "v[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
-    build:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-          
-        - name: Setup .NET
-          uses: actions/setup-dotnet@v3
-          with:
-            dotnet-version: 7.0.x
-        - name: Restore dependencies
-          run: dotnet restore
-        - name: Build
-          run: dotnet build --no-restore
-        - name: Test
-          run: dotnet test --no-build --verbosity normal
-    
-    autorelease:
-        needs: build
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v3
-              with:
-                fetch-depth: 0
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
 
-            - name: Setup dotnet
-              uses: actions/setup-dotnet@v1
-              with:
-                dotnet-version: 7.0.401
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
 
-            - name: Build windows
-              shell: bash
-              run: |
-                # variables
-                tag=$(git describe --tags --abbrev=0)
-                win_filename=Chirp-$tag-win-x64
+  autorelease:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-                # build file
-                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 -p:PublishSingleFile=true --runtime "win-x64" -c Release -o "${win_filename}" --self-contained true
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 7.0.401
 
-                # zip file
-                7z a -tzip "${win_filename}.zip" "./${win_filename}/*"
+      - name: Build windows
+        shell: bash
+        run: |
+          # variables
+          tag=$(git describe --tags --abbrev=0)
+          win_filename=Chirp-$tag-win-x64
+          csproj_filename=src/Chirp.Razor/Chirp.Razor.csproj
 
-                # delete directory
-                rm -r "$win_filename"
+          # build file
+          dotnet publish ${csproj_filename} --framework net7.0 -p:PublishSingleFile=true --runtime "win-x64" -c Release -o "${win_filename}" --self-contained true
 
-            - name: Build linux
-              shell: bash
-              run: |
-                # variables
-                tag=$(git describe --tags --abbrev=0)
-                linux_filename=Chirp-$tag-linux-x64
+          # zip file
+          7z a -tzip "${win_filename}.zip" "./${win_filename}/*"
 
-                # build file
-                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 -p:PublishSingleFile=true --runtime "linux-x64" -c Release -o "${linux_filename}" --self-contained true
+          # delete directory
+          rm -r "$win_filename"
 
-                # zip file
-                7z a -tzip "${linux_filename}.zip" "./${linux_filename}/*"
+      - name: Build linux
+        shell: bash
+        run: |
+          # variables
+          tag=$(git describe --tags --abbrev=0)
+          linux_filename=Chirp-$tag-linux-x64
 
-                # delete directory
-                rm -r "$linux_filename"
+          # build file
+          dotnet publish ${csproj_filename} --framework net7.0 -p:PublishSingleFile=true --runtime "linux-x64" -c Release -o "${linux_filename}" --self-contained true
 
-            - name: Build mac
-              shell: bash
-              run: |
-                # variables
-                tag=$(git describe --tags --abbrev=0)
-                mac_filename=Chirp-$tag-osx-x64
+          # zip file
+          7z a -tzip "${linux_filename}.zip" "./${linux_filename}/*"
 
-                # build file
-                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 -p:PublishSingleFile=true --runtime "osx-x64" -c Release -o "${mac_filename}" --self-contained true
+          # delete directory
+          rm -r "$linux_filename"
 
-                # zip file
-                7z a -tzip "${mac_filename}.zip" "./${mac_filename}/*"
+      - name: Build mac
+        shell: bash
+        run: |
+          # variables
+          tag=$(git describe --tags --abbrev=0)
+          mac_filename=Chirp-$tag-osx-x64
 
-                # delete directory
-                rm -r "$mac_filename"
+          # build file
+          dotnet publish ${csproj_filename} --framework net7.0 -p:PublishSingleFile=true --runtime "osx-x64" -c Release -o "${mac_filename}" --self-contained true
 
-            - name: Build macArm
-              shell: bash
-              run: |
-                # variables
-                tag=$(git describe --tags --abbrev=0)
-                macarm_filename=Chirp-$tag-osx-arm64
+          # zip file
+          7z a -tzip "${mac_filename}.zip" "./${mac_filename}/*"
 
-                # build file
-                dotnet publish src/Chirp.CLI/Chirp.CLI.csproj --framework net7.0 -p:PublishSingleFile=true --runtime "osx-arm64" -c Release -o "${macarm_filename}" --self-contained true
+          # delete directory
+          rm -r "$mac_filename"
 
-                # zip file
-                7z a -tzip "${macarm_filename}.zip" "./${macarm_filename}/*"
+      - name: Build macArm
+        shell: bash
+        run: |
+          # variables
+          tag=$(git describe --tags --abbrev=0)
+          macarm_filename=Chirp-$tag-osx-arm64
 
-                # delete directory
-                rm -r "$macarm_filename"
+          # build file
+          dotnet publish ${csproj_filename} --framework net7.0 -p:PublishSingleFile=true --runtime "osx-arm64" -c Release -o "${macarm_filename}" --self-contained true
 
-            - name: Publish
-              uses: softprops/action-gh-release@v1
-              with:
-                files: |
-                  Chirp-*
-              env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # zip file
+          7z a -tzip "${macarm_filename}.zip" "./${macarm_filename}/*"
+
+          # delete directory
+          rm -r "$macarm_filename"
+
+      - name: Publish
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            Chirp-*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
