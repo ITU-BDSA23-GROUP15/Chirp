@@ -14,9 +14,9 @@ public class UserTimelineModel : PageModel
         _service = service;
         Cheeps = new List<CheepViewModel>();
     }
-    public ActionResult OnGet(string author, [FromQuery(Name = "page")] int page = 0)
+    public ActionResult OnGet(string author, [FromQuery(Name = "page")] int page = 1)
     {
-        int pageRange = page * 32;
+        int pageRange = (page-1) * 32;
         Cheeps = _service.GetCheepsFromAuthor(author, pageRange);
         return Page();
     }
