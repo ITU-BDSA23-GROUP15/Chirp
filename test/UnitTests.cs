@@ -1,18 +1,17 @@
 namespace test;
 
+using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
 
-public class UnitTests
+public class UnitTests : IClassFixture<WebApplicationFactory<Program>>
 {
-    private readonly HttpClient _httpClient;
-    private readonly string _baseUrl;
+    private readonly WebApplicationFactory<Program> _fixture;
+    private readonly HttpClient _client;
 
-    public UnitTests() {
-        _baseUrl = "http://localhost:5273"; // https://bdsagroup15chirprazor.azurewebsites.net use this for azure
-
-        _httpClient = new HttpClient() {
-            BaseAddress = new Uri(_baseUrl)
-        };
+    public UnitTests(WebApplicationFactory<Program> fixture)
+    {
+        _fixture = fixture;
+        _client = _fixture.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = true, HandleCookies = true });
     }
 
     [Fact]
@@ -22,7 +21,7 @@ public class UnitTests
         string endpoint = "/Helge"; 
 
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(endpoint);
+        var response = await _client.GetAsync(endpoint);
         var htmlContent = await response.Content.ReadAsStringAsync();
 
         //Assert
@@ -37,7 +36,7 @@ public class UnitTests
         string endpoint = "/?page=2"; 
         
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(endpoint);
+        var response = await _client.GetAsync(endpoint);
         var htmlContent = await response.Content.ReadAsStringAsync();
 
         //Assert
@@ -52,7 +51,7 @@ public class UnitTests
         string endpoint = "/Helge?page=2"; 
         
         // Act
-        HttpResponseMessage response = await _httpClient.GetAsync(endpoint);
+        var response = await _client.GetAsync(endpoint);
         var htmlContent = await response.Content.ReadAsStringAsync();
 
         //Assert
