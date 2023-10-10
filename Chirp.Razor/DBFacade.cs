@@ -7,7 +7,7 @@ public class DBFacade {
         CreateDatabase();
     }
 
-    private string connString;
+    private string? connString;
 
     // https://stackoverflow.com/questions/34691378/creating-sqlite-database-using-dump-file-programmatically
     private void CreateDatabase()
