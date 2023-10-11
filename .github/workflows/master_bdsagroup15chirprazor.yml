@@ -31,6 +31,9 @@ jobs:
       - name: Add ef-core tool
         run: dotnet tool install --global dotnet-ef
 
+      -name: Drop database
+        run: dotnet ef --project Chirp.Razor/ database drop --force
+
       - name: Apply database migrations
         run: dotnet ef --project Chirp.Razor/ database update 
 
