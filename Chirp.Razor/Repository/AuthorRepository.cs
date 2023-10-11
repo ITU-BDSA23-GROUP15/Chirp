@@ -1,17 +1,20 @@
 
+using System.Linq.Expressions;
+using Chirp.Razor.Repository;
+
 public class AuthorRepository : IAuthorRepository
 {
-    public Author Add(Author entity)
+    public void Add(Author entity)
     {
         throw new NotImplementedException();
     }
 
-    public Author Get(int id)
+    public Task<Author> Get(Expression<Func<Author, bool>> predicate)
     {
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Author> GetAll()
+    public Task<IEnumerable<Author>> GetAll()
     {
         throw new NotImplementedException();
     }

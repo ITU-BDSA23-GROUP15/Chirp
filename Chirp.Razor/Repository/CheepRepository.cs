@@ -1,53 +1,46 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 
-public class CheepRepository : ICheepRepository {
+public class CheepRepository : ICheepRepository 
+{
     private readonly ChirpContext _context;
 
-    CheepRepository(ChirpContext context){
+    public CheepRepository(ChirpContext context)
+    {
         _context = context;
     }
 
-    public List<Cheep> GetCheepsFromAuthor(string author, int pageRange)
+    public async Task<IEnumerable<Cheep>> GetCheeps(int pageIndex)
     {
-        throw new NotImplementedException();
+        return await _context.Cheeps
+            .Skip((pageIndex - 1) * 32)
+            .Take(32)
+            .ToListAsync();
     }
 
-    Cheep Add(Cheep cheep){
-        _context.Add(cheep);
-        _context.SaveChanges();
-        return cheep;
-    }
-
-    Cheep IRepository<Cheep>.Add(Cheep entity)
+    public async Task<IEnumerable<Cheep>> GetCheepsFromAuthor(string author, int pageIndex)
     {
-        throw new NotImplementedException();
+        return await _context.Cheeps
+            .Where(c => c.Author.Name == author)
+            .Skip((pageIndex - 1) * 32)
+            .Take(32)
+            .ToListAsync();
     }
 
-    Cheep? Get(int id){
-        return _context.Cheeps.Find(id);
-    }
-
-    Cheep IRepository<Cheep>.Get(int id)
+    public async Task<Cheep?> Get(Expression<Func<Cheep, bool>> predicate)
     {
-        throw new NotImplementedException();
+        return await _context.Cheeps
+            .Where(predicate)
+            .FirstOrDefaultAsync();
     }
 
-    IEnumerable<Cheep> GetAll(){
-        return _context.Cheeps.ToList();
-    }
-
-    IEnumerable<Cheep> IRepository<Cheep>.GetAll()
+    public async Task<IEnumerable<Cheep>> GetAll()
     {
-        throw new NotImplementedException();
+        return await _context.Cheeps.ToListAsync();
     }
 
-    IEnumerable<Cheep> ICheepRepository.GetCheeps(int pageRange)
+    public void Add(Cheep cheep)
     {
-        throw new NotImplementedException();
-    }
-
-    IEnumerable<Cheep> ICheepRepository.GetCheepsFromAuthor(string author, int pageRange)
-    {
-        throw new NotImplementedException();
+        _context.Cheeps.Add(cheep);
     }
 }
