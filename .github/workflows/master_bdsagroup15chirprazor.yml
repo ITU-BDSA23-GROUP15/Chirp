@@ -35,7 +35,7 @@ jobs:
         run: dotnet ef --project Chirp.Razor/ database update 
 
       - name: Copy file to publish directory
-        run: cp /tmp/chirp-db/chirp.db ${{env.DOTNET_ROOT}}/myapp
+        run: cp -r /home/runner/.local/share/chirp.db ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
