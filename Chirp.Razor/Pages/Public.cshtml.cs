@@ -13,10 +13,10 @@ public class PublicModel : PageModel
         _service = service;
         Cheeps = new List<CheepViewModel>();
     }
-    public ActionResult OnGet([FromQuery(Name = "page")] int page = 1)
+    public async Task<IActionResult> OnGet([FromQuery(Name = "page")] int pageIndex = 1)
     {
-        int pageRange = (page-1) * 32;
-        Cheeps = _service.GetCheeps(pageRange);
+        var cheeps = await _service.GetCheeps(pageIndex); 
+        Cheeps = cheeps.ToList();
         return Page();
     }
 }

@@ -12,7 +12,7 @@ namespace Chirp.Razor.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "authors",
+                name: "Authors",
                 columns: table => new
                 {
                     AuthorId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -22,33 +22,33 @@ namespace Chirp.Razor.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_authors", x => x.AuthorId);
+                    table.PrimaryKey("PK_Authors", x => x.AuthorId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "cheeps",
+                name: "Cheeps",
                 columns: table => new
                 {
                     CheepId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    AuthorId = table.Column<int>(type: "INTEGER", nullable: false),
                     Text = table.Column<string>(type: "TEXT", nullable: false),
-                    TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    AuthorId = table.Column<int>(type: "INTEGER", nullable: false)
+                    TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_cheeps", x => x.CheepId);
+                    table.PrimaryKey("PK_Cheeps", x => x.CheepId);
                     table.ForeignKey(
-                        name: "FK_cheeps_authors_AuthorId",
+                        name: "FK_Cheeps_Authors_AuthorId",
                         column: x => x.AuthorId,
-                        principalTable: "authors",
+                        principalTable: "Authors",
                         principalColumn: "AuthorId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_cheeps_AuthorId",
-                table: "cheeps",
+                name: "IX_Cheeps_AuthorId",
+                table: "Cheeps",
                 column: "AuthorId");
         }
 
@@ -56,10 +56,10 @@ namespace Chirp.Razor.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "cheeps");
+                name: "Cheeps");
 
             migrationBuilder.DropTable(
-                name: "authors");
+                name: "Authors");
         }
     }
 }
