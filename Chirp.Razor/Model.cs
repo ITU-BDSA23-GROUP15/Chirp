@@ -4,8 +4,8 @@ using System.IO;
 
 public class ChirpContext : DbContext 
 {
-    public DbSet<Cheep> cheeps {get; set;}
-    public DbSet<Author> authors {get; set;}
+    public DbSet<Cheep> Cheeps {get; set;}
+    public DbSet<Author> Authors {get; set;}
 
     public string DbPath{get;}
 
@@ -31,7 +31,7 @@ public class Author
 public class Cheep 
 {
     public int CheepId { get; set; }
-    public string Text { get; set; }
+    public required string Text { get; set; }
     public DateTime TimeStamp { get; set; }
-    public Author Author { get; set; }
+    public required Author Author { get; set; }
 }
