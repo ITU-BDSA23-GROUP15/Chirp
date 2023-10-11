@@ -23,8 +23,8 @@ public class CheepRepository : ICheepRepository
     public async Task<IEnumerable<Cheep>> GetCheepsFromAuthor(string author, int pageIndex, int pageRange)
     {
         return await _context.Cheeps
-            .Where(c => c.Author.Name == author)
             .Include(c => c.Author)
+            .Where(c => c.Author.Name == author)
             .Skip((pageIndex - 1) * pageRange)
             .Take(pageRange)
             .ToListAsync();
