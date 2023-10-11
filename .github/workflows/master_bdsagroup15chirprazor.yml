@@ -28,6 +28,12 @@ jobs:
       - name: dotnet publish
         run: dotnet publish Chirp.Razor/ -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
+      - name: Add ef-core tool
+        run: dotnet tool install --global dotnet-ef
+
+      - name: Apply database migrations
+        run: dotnet ef --project Chirp.Razor database update 
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
@@ -46,10 +52,6 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: .net-app
-
-      - name: Apply database migrations
-        run: |
-          dotnet ef database update --project Chirp.Razor
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
