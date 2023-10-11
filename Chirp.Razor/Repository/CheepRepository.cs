@@ -10,11 +10,11 @@ public class CheepRepository : ICheepRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Cheep>> GetCheeps(int pageIndex)
+    public async Task<IEnumerable<Cheep>> GetCheeps(int pageIndex, int pageRange)
     {
         return await _context.Cheeps
-            .Skip((pageIndex - 1) * 32)
-            .Take(32)
+            .Skip((pageIndex - 1) * pageRange)
+            .Take(pageRange)
             .ToListAsync();
     }
 
