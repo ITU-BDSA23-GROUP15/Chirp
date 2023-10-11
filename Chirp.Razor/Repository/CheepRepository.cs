@@ -8,22 +8,25 @@ public class CheepRepository : ICheepRepository
     public CheepRepository(ChirpContext context)
     {
         _context = context;
+        DbInitializer.SeedDatabase(_context);
     }
 
     public async Task<IEnumerable<Cheep>> GetCheeps(int pageIndex, int pageRange)
     {
         return await _context.Cheeps
+            .Include(c => c.Author)
             .Skip((pageIndex - 1) * pageRange)
             .Take(pageRange)
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Cheep>> GetCheepsFromAuthor(string author, int pageIndex)
+    public async Task<IEnumerable<Cheep>> GetCheepsFromAuthor(string author, int pageIndex, int pageRange)
     {
         return await _context.Cheeps
             .Where(c => c.Author.Name == author)
-            .Skip((pageIndex - 1) * 32)
-            .Take(32)
+            .Include(c => c.Author)
+            .Skip((pageIndex - 1) * pageRange)
+            .Take(pageRange)
             .ToListAsync();
     }
 

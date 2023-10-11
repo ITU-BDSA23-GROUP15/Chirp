@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Razor.Migrations
 {
     [DbContext(typeof(ChirpContext))]
-    [Migration("20231010120110_InitialCreate")]
+    [Migration("20231011141317_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
 
             modelBuilder.Entity("Author", b =>
                 {
@@ -35,7 +35,7 @@ namespace Chirp.Razor.Migrations
 
                     b.HasKey("AuthorId");
 
-                    b.ToTable("authors");
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("Cheep", b =>
@@ -58,7 +58,7 @@ namespace Chirp.Razor.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("cheeps");
+                    b.ToTable("Cheeps");
                 });
 
             modelBuilder.Entity("Cheep", b =>
