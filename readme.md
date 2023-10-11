@@ -14,11 +14,16 @@ Application is deployed here: https://bdsagroup15chirprazor.azurewebsites.net/
 - Next line should be left blank
 - Next lines contain the description of the commit (each line should be no longer than 72 characters)
 - Co-authors should be added to the bottom lines, each co-author on a seperate line in the following format:
-  - Co-authored-by: Mads <macj@itu.dk>
-  - Co-authored-by: Jacob <jacp@itu.dk>
-  - Co-authored-by: Frederik <frlr@itu.dk>
-  - Co-authored-by: Daniel <dmil@itu.dk>
-  - Co-authored-by: Rasmus <raln@itu.dk>
+  - `Co-authored-by: Name <name@itu.dk>`
+
+<details>
+    <summary>List of authors</summary>
+		Co-authored-by: Daniel &lt;dmil@itu.dk> <br />
+		Co-authored-by: Frederik &lt;frlr@itu.dk> <br />
+		Co-authored-by: Jacob &lt;jacp@itu.dk> <br />
+		Co-authored-by: Mads &lt;macj@itu.dk> <br />
+		Co-authored-by: Rasmus &lt;raln@itu.dk> <br />
+</details>
  
 ## How to write issues (format)
 - **Title:** As a `<type of user>`, i want `<a goal>` so that `<benefit>`
