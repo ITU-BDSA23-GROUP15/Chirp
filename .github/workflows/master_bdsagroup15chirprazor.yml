@@ -32,7 +32,7 @@ jobs:
         run: dotnet tool install --global dotnet-ef
 
       - name: Apply database migrations
-        run: dotnet ef --project Chirp.Razor database update 
+        run: dotnet ef --project Chirp.Razor/ database update 
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
