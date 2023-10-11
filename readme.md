@@ -1,5 +1,6 @@
 # Chirp
 Application is deployed here: https://bdsagroup15chirprazor.azurewebsites.net/
+Server-Root: https://bdsagroup15chirprazor.scm.azurewebsites.net/
 
 ## Authors
 - Daniel Sølvsten Millard - dmil@itu.dk 
