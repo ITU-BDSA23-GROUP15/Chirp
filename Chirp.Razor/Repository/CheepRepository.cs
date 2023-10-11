@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 
-public class CheepRepository : ICheepRepository 
+public class CheepRepository : ICheepRepository
 {
     private readonly ChirpContext _context;
 
@@ -42,5 +42,6 @@ public class CheepRepository : ICheepRepository
     public void Add(Cheep cheep)
     {
         _context.Cheeps.Add(cheep);
+        _context.SaveChanges();
     }
 }

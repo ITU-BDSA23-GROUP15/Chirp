@@ -1,6 +1,4 @@
-using System.Data.Common;
 using Microsoft.EntityFrameworkCore;
-using System.IO;
 
 public class ChirpContext : DbContext 
 {
@@ -13,7 +11,7 @@ public class ChirpContext : DbContext
     {
         var folder = Environment.SpecialFolder.LocalApplicationData;
         var path = Environment.GetFolderPath(folder);
-        DbPath = System.IO.Path.Join(path, "chirp.db");
+        DbPath = Path.Join(path, "chirp.db");
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options) 
