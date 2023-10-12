@@ -1,7 +1,7 @@
-using Chirp.Razor.Repository;
+namespace Chirp.Core;
 
-public interface ICheepRepository : IRepository<Cheep> 
+public interface ICheepRepository
 {
-    Task<IEnumerable<Cheep>> GetCheeps(int pageIndex, int pageRange);
-    Task<IEnumerable<Cheep>> GetCheepsFromAuthor(string author, int pageIndex, int pageRange);
+    Task<IEnumerable<CheepDto>> GetCheeps(int pageIndex, int pageRange);
+    Task<IEnumerable<CheepDto>> GetCheepsFromAuthor(string author, int pageIndex, int pageRange);
 }

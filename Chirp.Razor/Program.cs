@@ -1,14 +1,12 @@
-using Chirp.Razor.Repository;
 using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ChirpContext>();
-builder.Services.AddTransient<ICheepService, CheepService>();
-builder.Services.AddTransient<ICheepRepository, CheepRepository>();
-builder.Services.AddTransient<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 
 var app = builder.Build();
 
