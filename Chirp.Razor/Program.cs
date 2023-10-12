@@ -12,6 +12,14 @@ builder.Services.AddTransient<IAuthorRepository, AuthorRepository>();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope()){
+    
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<ChirpContext>();
+    DbInitializer.SeedDatabase(context);
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

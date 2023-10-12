@@ -10,7 +10,6 @@ public interface ICheepService
 
 public class CheepService : ICheepService
 {
-    DBFacade db = new();
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
 
