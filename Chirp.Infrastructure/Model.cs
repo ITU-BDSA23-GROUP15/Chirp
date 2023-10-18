@@ -7,17 +7,17 @@ public class ChirpContext : DbContext
     public required DbSet<Cheep> Cheeps { get; set; }
     public required DbSet<Author> Authors { get; set; }
 
-    public string DbPath { get; }
+    // public string DbPath { get; }
 
-    public ChirpContext()
+    public ChirpContext(DbContextOptions<ChirpContext> options) : base(options)
     {
-        var folder = Environment.SpecialFolder.LocalApplicationData;
-        var path = Environment.GetFolderPath(folder);
-        DbPath = Path.Join(path, "chirp.db");
+        // var folder = Environment.SpecialFolder.LocalApplicationData;
+        // var path = Environment.GetFolderPath(folder);
+        // DbPath = Path.Join(path, "chirp.db");
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite($"Data source={DbPath}");
+        => options.UseSqlite($"Data source={GetDbPath()}");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -27,5 +27,11 @@ public class ChirpContext : DbContext
         modelBuilder.Entity<Author>().HasIndex(a => a.Name).IsUnique();
         modelBuilder.Entity<Author>().HasIndex(a => a.Email).IsUnique();
     }
-        
+
+    private static string GetDbPath()
+    {
+        var folder = Environment.SpecialFolder.LocalApplicationData;
+        var path = Environment.GetFolderPath(folder);
+        return Path.Join(path, "chirp.db");
+    }
 }
