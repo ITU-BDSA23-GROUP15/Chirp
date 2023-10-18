@@ -14,7 +14,6 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<AuthorDto> GetAuthorByName(string name)
     {
-        
         var author = await _context.Authors
             .Include(a => a.Cheeps)
             .Where(a => a.Name == name)
@@ -26,10 +25,10 @@ public class AuthorRepository : IAuthorRepository
             )
             .FirstOrDefaultAsync();
 
-            if (author == null)
-            {
-                throw new Exception("Author doesn't exist");
-            }
+        if (author == null)
+        {
+            throw new Exception("Author doesn't exist");
+        }
 
         return author;
     }
@@ -62,10 +61,11 @@ public class AuthorRepository : IAuthorRepository
             )
             .FirstOrDefaultAsync();
 
-            if (author == null)
-            {
-                throw new Exception("Author doesn't exist");
-            }
+        if (author == null)
+        {
+            throw new Exception("Author doesn't exist");
+        }
+        
         return author;
     }
 }
