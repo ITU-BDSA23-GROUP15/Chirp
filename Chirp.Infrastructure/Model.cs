@@ -21,7 +21,7 @@ public class ChirpContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Author>().Property(a => a.Id).IsRequired();
+        modelBuilder.Entity<Author>().Property(a => a.AuthorId).IsRequired();
         modelBuilder.Entity<Author>().Property(a => a.Name).IsRequired();
         modelBuilder.Entity<Author>().Property(a => a.Email).IsRequired();
         modelBuilder.Entity<Author>().HasIndex(a => a.Name).IsUnique();

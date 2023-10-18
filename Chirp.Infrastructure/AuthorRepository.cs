@@ -19,7 +19,7 @@ public class AuthorRepository : IAuthorRepository
             .Include(a => a.Cheeps)
             .Where(a => a.Name == name)
             .Select(a => new AuthorDto
-                (a.Id, 
+                (a.AuthorId, 
                 a.Name, 
                 a.Email, 
                 a.Cheeps.Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp)).ToList())
@@ -38,7 +38,7 @@ public class AuthorRepository : IAuthorRepository
     {
         var newAuthor = new Author
         {
-            Id = Guid.NewGuid(),
+            AuthorId = Guid.NewGuid(),
             Name = name,
             Email = email,
             Cheeps = new List<Cheep>()
@@ -47,7 +47,7 @@ public class AuthorRepository : IAuthorRepository
         _context.Authors.Add(newAuthor);
         await _context.SaveChangesAsync();
 
-        return new AuthorDto(newAuthor.Id, newAuthor.Name, newAuthor.Email, new List<CheepDto>());
+        return new AuthorDto(newAuthor.AuthorId, newAuthor.Name, newAuthor.Email, new List<CheepDto>());
     }
     public async Task<AuthorDto> GetAuthorByEmail(string email)
     {
@@ -55,7 +55,7 @@ public class AuthorRepository : IAuthorRepository
             .Include(a => a.Cheeps)
             .Where(a => a.Email == email)
             .Select(a => new AuthorDto(
-                a.Id, 
+                a.AuthorId, 
                 a.Name, 
                 a.Email, 
                 a.Cheeps.Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp)).ToList())
