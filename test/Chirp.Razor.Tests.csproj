@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.12" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
@@ -22,7 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Chirp.Razor/Chirp.Razor.csproj" />
+    <ProjectReference Include="..\Chirp.Razor\Chirp.Razor.csproj" />
+    <ProjectReference Include="..\Chirp.Core\Chirp.Core.csproj" />
+    <ProjectReference Include="..\Chirp.Infrastructure\Chirp.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

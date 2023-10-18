@@ -1,6 +1,10 @@
 namespace test;
 
+using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+
 
 public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 {
@@ -35,5 +39,29 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 
         Assert.Contains("Chirp!", content);
         Assert.Contains($"{author}'s Timeline", content);
+    }
+
+    [Fact]
+    public async void GetAuthorByName()
+    {
+        var connection = new SqliteConnection("Filename=:memory:");
+        connection.Open();
+
+        var options = new DbContextOptionsBuilder<ChirpContext>()
+            .UseSqlite(connection)
+            .Options;
+
+        using (var context = new ChirpContext(options))
+        {
+            context.Database.EnsureCreated();
+            context.Authors.Add(new Author { Name = "testuser", Email = "testuser@gmail.com", Cheeps = new List<Cheep>() });
+            await context.SaveChangesAsync();
+        }
+        using (var context = new ChirpContext(options))
+        {
+            var repository = new AuthorRepository(context);
+            var author = repository.GetAuthorByName("testuser");
+            Assert.Equal("testuser", author.Result.Name);
+        }
     }
 }
