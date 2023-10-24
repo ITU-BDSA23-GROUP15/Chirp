@@ -1,8 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Set connection string
+var folder = Environment.SpecialFolder.LocalApplicationData;
+var path = Environment.GetFolderPath(folder);
+string connectionString = Path.Join(path, "chirp.db");
+Console.WriteLine(connectionString);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<ChirpContext>();
+builder.Services.AddDbContext<ChirpContext>(options => options.UseSqlite($"Data source={connectionString}"));
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 
