@@ -10,7 +10,7 @@ Console.WriteLine(connectionString);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<ChirpContext>(options => options.UseSqlite($"Data source={connectionString}"));
+builder.Services.AddDbContext<ChirpContext>(options => options.UseSqlite($"Data Source={connectionString}"));
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 
