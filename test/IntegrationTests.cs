@@ -57,17 +57,17 @@ public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     [Fact]
     public async void GetAuthorByName()
     {
-        // using (var context = new ChirpContext(options))
-        // {
-        //     context.Database.EnsureCreated();
-        //     context.Authors.Add(new Author { Name = "testuser", Email = "testuser@gmail.com", Cheeps = new List<Cheep>() });
-        //     await context.SaveChangesAsync();
-        // }
-        // using (var context = new ChirpContext(options))
-        // {
-        //     var repository = new AuthorRepository(context);
-        //     var author = repository.GetAuthorByName("testuser");
-        //     Assert.Equal("testuser", author.Result.Name);
-        // }
+        using (var context = new ChirpContext(_options))
+        {
+            context.Database.EnsureCreated();
+            context.Authors.Add(new Author { Name = "testuser", Email = "testuser@gmail.com", Cheeps = new List<Cheep>() });
+            await context.SaveChangesAsync();
+        }
+        using (var context = new ChirpContext(_options))
+        {
+            var repository = new AuthorRepository(context);
+            var author = repository.GetAuthorByName("testuser");
+            Assert.Equal("testuser", author.Result.Name);
+        }
     }
 }
