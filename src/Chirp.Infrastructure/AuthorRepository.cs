@@ -33,7 +33,7 @@ public class AuthorRepository : IAuthorRepository
         return author;
     }
 
-    public async Task<AuthorDto> CreateAuthor(string name, string email)
+    public async void CreateAuthor(string name, string email)
     {
         var newAuthor = new Author
         {
@@ -45,8 +45,6 @@ public class AuthorRepository : IAuthorRepository
 
         _context.Authors.Add(newAuthor);
         await _context.SaveChangesAsync();
-
-        return new AuthorDto(newAuthor.AuthorId, newAuthor.Name, newAuthor.Email, new List<CheepDto>());
     }
     public async Task<AuthorDto> GetAuthorByEmail(string email)
     {
