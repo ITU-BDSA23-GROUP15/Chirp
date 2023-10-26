@@ -32,7 +32,7 @@ jobs:
               run: dotnet tool install --global dotnet-ef
 
             - name: Apply database migrations
-              run: dotnet ef --project src/Chirp.Infrastructure/ database update
+              run: dotnet ef database update -p src/Chirp.Infrastructure/ -s src/Chirp.Razor/
 
             - name: Copy file to publish directory
               run: cp -r /home/runner/.local/share/chirp.db ${{env.DOTNET_ROOT}}/myapp

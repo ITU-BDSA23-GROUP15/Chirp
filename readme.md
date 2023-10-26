@@ -67,3 +67,10 @@ Given a version number MAJOR.MINOR.PATCH, increment the:
 ### Code review
 * Pull requests. Whenever anything is ready to be merged into the main branch, make a pull request, and put some
 or all members of the organization, who has not contributed to this code, as reviewers.
+
+## Migrations
+Navigate to src and run
+
+`dotnet ef database update -p Chirp.Infrastructure/ -s Chirp.Razor/`
+
+`dotnet ef migrations add <MigrationName> -p Chirp.Infrastructure/ -s Chirp.Razor/`
