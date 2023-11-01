@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>@ViewData["Title"]</title>
@@ -14,15 +15,15 @@
             <div>
                 <a href="/@(User.Identity.Name)">my timeline</a> |
                 <a href="/">public timeline</a> |
-                <a ... >logout [@(User.Identity.Name)]</a>
+                <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">logout [@(User.Identity.Name)]</a>
             </div>
         }
         else
         {
             <div>
                 <a href="/">public timeline</a> |
-                <a ... >register</a> |
-                <a ... >login</a>
+                <a>register</a> |
+                <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">login</a>
             </div>
         }
     </div>
