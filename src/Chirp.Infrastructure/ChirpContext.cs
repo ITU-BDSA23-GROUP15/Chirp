@@ -20,6 +20,7 @@ public class ChirpContext : DbContext
         modelBuilder.Entity<Author>().Property(a => a.AuthorId).IsRequired();
         modelBuilder.Entity<Author>().Property(a => a.Name).IsRequired();
         modelBuilder.Entity<Author>().Property(a => a.Email).IsRequired();
+        modelBuilder.Entity<Author>().HasIndex(a => a.AuthorId).IsUnique();
         modelBuilder.Entity<Author>().HasIndex(a => a.Name).IsUnique();
         modelBuilder.Entity<Author>().HasIndex(a => a.Email).IsUnique();
     }
