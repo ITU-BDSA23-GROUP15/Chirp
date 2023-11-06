@@ -6,14 +6,15 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 var builder = WebApplication.CreateBuilder(args);
 
 // Set connection string
-var folder = Environment.SpecialFolder.LocalApplicationData;
-var path = Environment.GetFolderPath(folder);
-string connectionString = Path.Join(path, "chirp.db");
-Console.WriteLine(connectionString);
+// var folder = Environment.SpecialFolder.LocalApplicationData;
+// var path = Environment.GetFolderPath(folder);
+// string connectionString = Path.Join(path, "chirp.db");
+// Console.WriteLine(connectionString);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<ChirpContext>(options => options.UseSqlite($"Data Source={connectionString}"));
+builder.Services.AddDbContext<ChirpContext>(options => 
+        options.UseSqlServer(builder.Configuration.GetConnectionString("ChirpDb")));
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 // Authentication with Azure AD B2C
@@ -24,14 +25,30 @@ builder.Services.AddRazorPages()
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+if(app.Environment.IsDevelopment())
 {
-
-    var services = scope.ServiceProvider;
-
-    var context = services.GetRequiredService<ChirpContext>();
-    DbInitializer.SeedDatabase(context);
+    using(var scope = app.Services.CreateScope())
+    {
+        /*
+        creating database from SalesContext
+        Making it from migrations another method is needed. For example: 
+        
+        dotnet ef database update --project SalesApi --startup-project SalesApi 
+        */
+        var chirpContext = scope.ServiceProvider.GetRequiredService<ChirpContext>(); 
+        chirpContext.Database.EnsureCreated();
+        DbInitializer.SeedDatabase(chirpContext);
+    }
 }
+
+// using (var scope = app.Services.CreateScope())
+// {
+
+//     var services = scope.ServiceProvider;
+
+//     var context = services.GetRequiredService<ChirpContext>();
+//     DbInitializer.SeedDatabase(context);
+// }
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
