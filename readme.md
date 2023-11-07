@@ -74,3 +74,10 @@ Navigate to src and run
 `dotnet ef database update -p Chirp.Infrastructure/ -s Chirp.Razor/`
 
 `dotnet ef migrations add <MigrationName> -p Chirp.Infrastructure/ -s Chirp.Razor/`
+
+## Running docker
+**Open bash terminal inside container**
+´sudo docker exec -it sql1 "bash"´
+
+**Open sqlcmd inside container**
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA

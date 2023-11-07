@@ -12,6 +12,7 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
+      "launchUrl": "cheeps",
       "applicationUrl": "http://localhost:5273",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
