@@ -5,12 +5,6 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Set connection string
-// var folder = Environment.SpecialFolder.LocalApplicationData;
-// var path = Environment.GetFolderPath(folder);
-// string connectionString = Path.Join(path, "chirp.db");
-// Console.WriteLine(connectionString);
-
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ChirpContext>(options => 
@@ -25,30 +19,18 @@ builder.Services.AddRazorPages()
 
 var app = builder.Build();
 
+
+// Create and seed DB
 if(app.Environment.IsDevelopment())
 {
     using(var scope = app.Services.CreateScope())
     {
-        /*
-        creating database from SalesContext
-        Making it from migrations another method is needed. For example: 
-        
-        dotnet ef database update --project SalesApi --startup-project SalesApi 
-        */
         var chirpContext = scope.ServiceProvider.GetRequiredService<ChirpContext>(); 
         chirpContext.Database.EnsureCreated();
         DbInitializer.SeedDatabase(chirpContext);
     }
 }
 
-// using (var scope = app.Services.CreateScope())
-// {
-
-//     var services = scope.ServiceProvider;
-
-//     var context = services.GetRequiredService<ChirpContext>();
-//     DbInitializer.SeedDatabase(context);
-// }
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
