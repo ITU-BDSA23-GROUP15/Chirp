@@ -18,9 +18,9 @@ public class AuthorRepository : IAuthorRepository
             .Include(a => a.Cheeps)
             .Where(a => a.Name == name)
             .Select(a => new AuthorDto
-                (a.AuthorId, 
-                a.Name, 
-                a.Email, 
+                (a.AuthorId,
+                a.Name,
+                a.Email,
                 a.Cheeps.Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp)).ToList())
             )
             .FirstOrDefaultAsync();
@@ -33,28 +33,29 @@ public class AuthorRepository : IAuthorRepository
         return author;
     }
 
-    public async void CreateAuthor(string name, string email)
+    public async void CreateAuthor(CreateAuthorDto author)
     {
         var newAuthor = new Author
         {
             AuthorId = Guid.NewGuid(),
-            Name = name,
-            Email = email,
+            Name = author.Name,
+            Email = author.Email,
             Cheeps = new List<Cheep>()
         };
 
         _context.Authors.Add(newAuthor);
         await _context.SaveChangesAsync();
     }
+
     public async Task<AuthorDto> GetAuthorByEmail(string email)
     {
         var author = await _context.Authors
             .Include(a => a.Cheeps)
             .Where(a => a.Email == email)
             .Select(a => new AuthorDto(
-                a.AuthorId, 
-                a.Name, 
-                a.Email, 
+                a.AuthorId,
+                a.Name,
+                a.Email,
                 a.Cheeps.Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp)).ToList())
             )
             .FirstOrDefaultAsync();
@@ -63,7 +64,11 @@ public class AuthorRepository : IAuthorRepository
         {
             throw new Exception("Author doesn't exist");
         }
-        
+
         return author;
+    }
+
+    public async Task<bool> AuthorExists(string name){
+        return await _context.Authors.AnyAsync(a => a.Name == name);
     }
 }

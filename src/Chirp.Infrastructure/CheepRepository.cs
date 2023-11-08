@@ -35,4 +35,20 @@ public class CheepRepository : ICheepRepository
             .Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp))
             .ToListAsync();
     }
+
+    public async void CreateCheep(CreateCheepDto cheep){
+        var author = await _context.Authors.SingleAsync(a => a.Name == cheep.Author);
+
+        var newCheep = new Cheep
+        {
+            CheepId = Guid.NewGuid(),
+            AuthorId = author.AuthorId,
+            Author = author,
+            Text = cheep.Text,
+            TimeStamp = DateTime.Now
+        };
+
+        _context.Cheeps.Add(newCheep);
+        await _context.SaveChangesAsync();
+    }
 }
