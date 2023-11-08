@@ -76,13 +76,13 @@ jobs:
             - name: Login to Azure
               uses: azure/login@v1
               with:
-                creds: '{"clientId":"${{ vars.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ vars.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ vars.AZURE_TENANT_ID }}"}'
+                  creds: '{"clientId":"${{ vars.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ vars.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ vars.AZURE_TENANT_ID }}"}'
 
             - name: Apply EF Bundle
               run: |
                   CONNECTION_STRING=$(az webapp config connection-string list --name $WEBAPP_NAME --resource-group $RESOURCE_GROUP --query [].value --output tsv)
                   chmod +x efbundle
-                  .efbundle --connection-string "$CONNECTION_STRING"
+                  ./efbundle --connection-string "$CONNECTION_STRING"
 
             - name: Deploy to Azure Web App
               id: deploy-to-webapp
