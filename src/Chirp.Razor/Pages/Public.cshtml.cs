@@ -19,4 +19,16 @@ public class PublicModel : PageModel
         Cheeps = cheeps.ToList();
         return Page();
     }
+
+    // post cheep
+    public async Task<IActionResult> OnPost([FromForm] string message)
+    {
+        if (string.IsNullOrWhiteSpace(message) || !User.Identity!.IsAuthenticated)
+        {
+            return RedirectToPage();
+        }
+        
+        
+        return RedirectToPage();
+    }
 }
