@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Application.IntegrationTests;
 
+// Code is adapted from: https://www.milanjovanovic.tech/blog/testcontainers-integration-testing-using-docker-in-dotnet
 public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsyncLifetime
 {
 	private readonly MsSqlContainer _dbContainer = new MsSqlBuilder()
