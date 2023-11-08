@@ -82,7 +82,7 @@ jobs:
               run: |
                   CONNECTION_STRING=$(az webapp config connection-string list --name $WEBAPP_NAME --resource-group $RESOURCE_GROUP --query [].value --output tsv)
                   chmod +x efbundle
-                  ./efbundle --connection-string "$CONNECTION_STRING"
+                  ./efbundle --connection "$CONNECTION_STRING"
 
             - name: Deploy to Azure Web App
               id: deploy-to-webapp
