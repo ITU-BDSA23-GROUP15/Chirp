@@ -30,11 +30,8 @@ jobs:
               with:
                   dotnet-version: "7.0.x"
 
-            - name: Restore
-              run: dotnet restore
-
             - name: Build
-              run: dotnet build ${{ env.WEBAPP_PACKAGE_PATH }} --configuration ${{ env.DOTNET_CONFIG }}
+              run: dotnet build ${{ env.WEBAPP_PACKAGE_PATH }} -c ${{ env.DOTNET_CONFIG }}
 
             - name: Publish
               run: dotnet publish ${{ env.WEBAPP_PACKAGE_PATH }} -c ${{ env.DOTNET_CONFIG }} --no-build
@@ -49,7 +46,7 @@ jobs:
               run: dotnet tool install --global dotnet-ef
 
             - name: Build Migrations Bundle
-              run: dotnet ef migrations bundle -p ${{env.WEBAPP_INFRA_PATH }} -s ${{env.WEBAPP_PACKAGE_PATH }} -c ${{ env.DOTNET_CONFIG }} --no-build --self-contained
+              run: dotnet ef migrations bundle -p ${{env.WEBAPP_INFRA_PATH }} -s ${{env.WEBAPP_PACKAGE_PATH }} -c ${{ env.DOTNET_CONFIG }} --self-contained
 
             - name: Upload Migrations Bundle
               uses: actions/upload-artifact@v3
