@@ -1,11 +1,23 @@
+using Microsoft.AspNetCore.Mvc.Testing;
+
 namespace Application.IntegrationTests;
 
-public class RazorTest : BaseIntegrationTest
+public class RazorTests : BaseIntegrationTest
 {
 	private readonly HttpClient _client;
-	public RazorTest(IntegrationTestWebAppFactory factory) : base(factory)
+	public RazorTests(IntegrationTestWebAppFactory factory) : base(factory)
 	{
-		_client = factory.CreateClient();
+		_client = factory.CreateClient(new WebApplicationFactoryClientOptions
+		{
+			AllowAutoRedirect = true,
+			HandleCookies = true
+		});
+	}
+
+	[Fact]
+	public void AlwaysTrue()
+	{
+		Assert.True(true);
 	}
 
     [Fact]
