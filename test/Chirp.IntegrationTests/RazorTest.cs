@@ -14,7 +14,7 @@ public class RazorTest : BaseIntegrationTest
         var response = await _client.GetAsync("/");
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
-
+        System.Console.WriteLine(content);
         Assert.Contains("Chirp!", content);
         Assert.Contains("Public Timeline", content);
     }
