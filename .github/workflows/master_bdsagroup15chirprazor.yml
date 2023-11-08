@@ -62,9 +62,6 @@ jobs:
         name: "Deploy to Azure"
         runs-on: ubuntu-latest
         needs: build
-        environment:
-            name: "Production"
-            url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
         steps:
             - uses: actions/download-artifact@v3
@@ -79,9 +76,7 @@ jobs:
             - name: Login to Azure
               uses: azure/login@v1
               with:
-                  client-id: ${{ vars.AZURE_CLIENT_ID }}
-                  tenant-id: ${{ vars.AZURE_TENANT_ID }}
-                  subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+                creds: '{"clientId":"${{ vars.AZURE_CLIENT_ID }}","clientSecret":"${{ secrets.AZURE_CLIENT_SECRET }}","subscriptionId":"${{ vars.AZURE_SUBSCRIPTION_ID }}","tenantId":"${{ vars.AZURE_TENANT_ID }}"}'
 
             - name: Apply EF Bundle
               run: |
@@ -94,6 +89,4 @@ jobs:
               uses: azure/webapps-deploy@v3
               with:
                   app-name: ${{env.WEBAPP_NAME }}
-                  slot-name: "Production"
-                  publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CEA05D565A284343AA3F002DF3A70770 }}
                   package: ./razor
