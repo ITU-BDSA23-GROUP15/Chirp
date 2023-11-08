@@ -19,18 +19,12 @@ builder.Services.AddRazorPages()
 
 var app = builder.Build();
 
-
-// Create and seed DB
-if(app.Environment.IsDevelopment())
+using(var scope = app.Services.CreateScope())
 {
-    using(var scope = app.Services.CreateScope())
-    {
-        var chirpContext = scope.ServiceProvider.GetRequiredService<ChirpContext>(); 
-        chirpContext.Database.EnsureCreated();
-        DbInitializer.SeedDatabase(chirpContext);
-    }
+	var chirpContext = scope.ServiceProvider.GetRequiredService<ChirpContext>(); 
+	chirpContext.Database.EnsureCreated();
+	DbInitializer.SeedDatabase(chirpContext);
 }
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

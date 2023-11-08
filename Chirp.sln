@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Infrastructure", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Core", "src\Chirp.Core\Chirp.Core.csproj", "{2886790B-BE3D-48E1-B59E-30DC1DBBAF23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Razor.Tests", "test\Chirp.Razor.Tests.csproj", "{1D87D90A-639F-49B5-BCE6-50DA6949A306}"
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +65,18 @@ Global
 		{2886790B-BE3D-48E1-B59E-30DC1DBBAF23}.Release|x64.Build.0 = Release|Any CPU
 		{2886790B-BE3D-48E1-B59E-30DC1DBBAF23}.Release|x86.ActiveCfg = Release|Any CPU
 		{2886790B-BE3D-48E1-B59E-30DC1DBBAF23}.Release|x86.Build.0 = Release|Any CPU
+		{1D87D90A-639F-49B5-BCE6-50DA6949A306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D87D90A-639F-49B5-BCE6-50DA6949A306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D87D90A-639F-49B5-BCE6-50DA6949A306}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1D87D90A-639F-49B5-BCE6-50DA6949A306}.Debug|x64.Build.0 = Debug|Any CPU
+		{1D87D90A-639F-49B5-BCE6-50DA6949A306}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1D87D90A-639F-49B5-BCE6-50DA6949A306}.Debug|x86.Build.0 = Debug|Any CPU
+		{1D87D90A-639F-49B5-BCE6-50DA6949A306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D87D90A-639F-49B5-BCE6-50DA6949A306}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D87D90A-639F-49B5-BCE6-50DA6949A306}.Release|x64.ActiveCfg = Release|Any CPU
+		{1D87D90A-639F-49B5-BCE6-50DA6949A306}.Release|x64.Build.0 = Release|Any CPU
+		{1D87D90A-639F-49B5-BCE6-50DA6949A306}.Release|x86.ActiveCfg = Release|Any CPU
+		{1D87D90A-639F-49B5-BCE6-50DA6949A306}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E89A1B28-544D-46C0-938E-60D770CF3E3E} = {5E0BE637-0C4B-44DD-BAC8-1C0C403C9C9D}
