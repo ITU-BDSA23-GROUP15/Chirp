@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Application.IntegrationTests;
+namespace Application.Testing;
 
 // Code is adapted from: https://www.milanjovanovic.tech/blog/testcontainers-integration-testing-using-docker-in-dotnet
 public abstract class BaseIntegrationTest : IClassFixture<IntegrationTestWebAppFactory>, IDisposable
