@@ -22,24 +22,26 @@ public class PublicModel : PageModel
         return Page();
     }
 
+    [BindProperty]
+    public string Text {get;set;}
+
     // post cheep
-    public async Task<IActionResult> OnPost([FromForm] string message)
+    public async Task<IActionResult> OnPost()
     {
-        if (string.IsNullOrWhiteSpace(message) || !User.Identity!.IsAuthenticated)
+        if (!User.Identity!.IsAuthenticated)
         {
-            return RedirectToPage();
+            return RedirectToPage("Public");
         }
 
-        var email_claim = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Email);
-        string email = email_claim!.Value;
+        var email = User.Claims.Where(e => e.Type == "emails").Select(e => e.Value).SingleOrDefault();
         string userName = User.Identity!.Name!;
 
         if (!await _authorRepository.AuthorExists(userName)){
-            _authorRepository.CreateAuthor(new CreateAuthorDto(userName, email));
+            await _authorRepository.CreateAuthor(new CreateAuthorDto(userName, email!));
         }
         
-        _cheepRepository.CreateCheep(new CreateCheepDto(message, userName));
+        await _cheepRepository.CreateCheep(new CreateCheepDto(Text, userName));
 
-        return RedirectToPage();
+        return RedirectToPage("Public");
     }
 }

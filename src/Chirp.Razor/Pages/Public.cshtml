@@ -1,5 +1,6 @@
 ﻿@page "/"
 @model Chirp.Razor.Pages.PublicModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
@@ -12,14 +13,15 @@
         <div class="cheepbox">
             <h3>What's on your mind @(User.Identity!.Name)?</h3>
             <form method="post">
-                <input style="float: left" type="text" asp-for="Text">
+                <input style="float: left" type="Text" asp-for="Text">
                 <input type="submit" value="Share">
+                @Html.AntiForgeryToken()
             </form>
         </div>
     }
     else
     {
-        <em>You need to <a href="/login">log in</a> to cheep.</em>
+        <em>You need to <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">log in</a> to cheep.</em>
     }
 
     @if (Model.Cheeps.Any())
