@@ -1,6 +1,5 @@
 namespace Chirp.Infrastructure;
 
-using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Chirp.Core;
 
@@ -15,11 +14,11 @@ public class CheepRepository : ICheepRepository
 
     public async Task<IEnumerable<CheepDto>> GetCheeps(int pageIndex, int pageRange)
     {
-		return await _context.Cheeps
-			.Include(c => c.Author)
-			.OrderByDescending(c => c.TimeStamp)
-			.Skip((pageIndex - 1) * pageRange)
-			.Take(pageRange)
+        return await _context.Cheeps
+            .Include(c => c.Author)
+            .OrderByDescending(c => c.TimeStamp)
+            .Skip((pageIndex - 1) * pageRange)
+            .Take(pageRange)
             .Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp))
             .ToListAsync();
     }
@@ -28,11 +27,28 @@ public class CheepRepository : ICheepRepository
     {
         return await _context.Cheeps
             .Include(c => c.Author)
-			.OrderByDescending(c => c.TimeStamp)
+            .OrderByDescending(c => c.TimeStamp)
             .Where(c => c.Author.Name == author)
             .Skip((pageIndex - 1) * pageRange)
             .Take(pageRange)
             .Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp))
             .ToListAsync();
+    }
+
+    public async Task CreateCheep(CreateCheepDto cheep)
+    {
+        var author = await _context.Authors.FirstOrDefaultAsync(a => a.Name == cheep.Author);
+
+        var newCheep = new Cheep
+        {
+            CheepId = Guid.NewGuid(),
+            AuthorId = author!.AuthorId,
+            Author = author,
+            Text = cheep.Text,
+            TimeStamp = DateTime.Now
+        };
+
+        await _context.Cheeps.AddAsync(newCheep);
+        await _context.SaveChangesAsync();
     }
 }
