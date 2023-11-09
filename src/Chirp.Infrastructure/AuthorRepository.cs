@@ -33,7 +33,7 @@ public class AuthorRepository : IAuthorRepository
         return author;
     }
 
-    public async void CreateAuthor(CreateAuthorDto author)
+    public async Task CreateAuthor(CreateAuthorDto author)
     {
         var newAuthor = new Author
         {
@@ -43,7 +43,7 @@ public class AuthorRepository : IAuthorRepository
             Cheeps = new List<Cheep>()
         };
 
-        _context.Authors.Add(newAuthor);
+        await _context.Authors.AddAsync(newAuthor);
         await _context.SaveChangesAsync();
     }
 

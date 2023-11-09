@@ -4,5 +4,5 @@ public interface ICheepRepository
 {
     Task<IEnumerable<CheepDto>> GetCheeps(int pageIndex, int pageRange);
     Task<IEnumerable<CheepDto>> GetCheepsFromAuthor(string author, int pageIndex, int pageRange);
-    void CreateCheep(CreateCheepDto cheep);
+    Task CreateCheep(CreateCheepDto cheep);
 }
