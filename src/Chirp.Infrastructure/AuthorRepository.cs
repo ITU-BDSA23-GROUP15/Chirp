@@ -40,7 +40,8 @@ public class AuthorRepository : IAuthorRepository
             AuthorId = Guid.NewGuid(),
             Name = author.Name,
             Email = author.Email,
-            Cheeps = new List<Cheep>()
+            Cheeps = new List<Cheep>(),
+            Followers = new List<Follower>()
         };
 
         await _context.Authors.AddAsync(newAuthor);

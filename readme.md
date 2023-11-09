@@ -77,7 +77,7 @@ Navigate to src and run
 
 ## Running docker
 **Open bash terminal inside container**
-´sudo docker exec -it sql1 "bash"´
+`sudo docker exec -it sql1 "bash"`
 
 **Open sqlcmd inside container**
-/opt/mssql-tools/bin/sqlcmd -S localhost -U SA
+`/opt/mssql-tools/bin/sqlcmd -S localhost -U SA`
