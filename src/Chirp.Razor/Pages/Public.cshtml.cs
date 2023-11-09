@@ -15,7 +15,7 @@ public class PublicModel : PageModel
         _authorRepository = authorRepository;
         Cheeps = new List<CheepDto>();
     }
-    public async Task<IActionResult> OnGet([FromQuery(Name = "page")] int pageIndex = 1)
+    public async Task<IActionResult> OnGetAsync([FromQuery(Name = "page")] int pageIndex = 1)
     {
         var cheeps = await _cheepRepository.GetCheeps(pageIndex, 32); 
         Cheeps = cheeps.ToList();
@@ -26,7 +26,7 @@ public class PublicModel : PageModel
     public string Text {get;set;}
 
     // post cheep
-    public async Task<IActionResult> OnPost()
+    public async Task<IActionResult> OnPostAsync()
     {
         if (!User.Identity!.IsAuthenticated)
         {

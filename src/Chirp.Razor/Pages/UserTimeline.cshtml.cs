@@ -15,7 +15,7 @@ public class UserTimelineModel : PageModel
         _authorRepository = authorRepository;
         Cheeps = new List<CheepDto>();
     }
-    public async Task<IActionResult> OnGet(string author, [FromQuery(Name = "page")] int pageIndex = 1)
+    public async Task<IActionResult> OnGetAsync(string author, [FromQuery(Name = "page")] int pageIndex = 1)
     {
         var cheeps = await _cheepRepository.GetCheepsFromAuthor(author, pageIndex, 32);
         Cheeps = cheeps.ToList();
@@ -25,7 +25,7 @@ public class UserTimelineModel : PageModel
     [BindProperty]
     public string Text {get;set;}
 
-    public async Task<IActionResult> OnPost(string Text)
+    public async Task<IActionResult> OnPostAsync()
     {
         if (!User.Identity!.IsAuthenticated)
         {
