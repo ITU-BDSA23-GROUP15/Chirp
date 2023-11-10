@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Chirp.Razor.Pages;
 
@@ -17,29 +18,30 @@ public class PublicModel : PageModel
     }
     public async Task<IActionResult> OnGetAsync([FromQuery(Name = "page")] int pageIndex = 1)
     {
-        var cheeps = await _cheepRepository.GetCheeps(pageIndex, 32); 
+        var cheeps = await _cheepRepository.GetCheeps(pageIndex, 32);
         Cheeps = cheeps.ToList();
         return Page();
     }
 
     [BindProperty]
-    public string Text {get;set;}
+    public string Text { get; set; }
 
     // post cheep
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!User.Identity!.IsAuthenticated)
+        if (!User.Identity!.IsAuthenticated || string.IsNullOrWhiteSpace(Text))
         {
             return RedirectToPage("Public");
         }
 
-        var email = User.Claims.Where(e => e.Type == "emails").Select(e => e.Value).SingleOrDefault();
         string userName = User.Identity!.Name!;
 
-        if (!await _authorRepository.AuthorExists(userName)){
+        if (!await _authorRepository.AuthorExists(userName))
+        {
+            var email = User.Claims.Where(e => e.Type == "emails").Select(e => e.Value).SingleOrDefault();
             await _authorRepository.CreateAuthor(new CreateAuthorDto(userName, email!));
         }
-        
+
         await _cheepRepository.CreateCheep(new CreateCheepDto(Text, userName));
 
         return RedirectToPage("Public");
