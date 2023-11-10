@@ -23,22 +23,23 @@ public class UserTimelineModel : PageModel
     }
 
     [BindProperty]
-    public string Text {get;set;}
+    public string Text { get; set; }
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!User.Identity!.IsAuthenticated)
+        if (!User.Identity!.IsAuthenticated || string.IsNullOrWhiteSpace(Text))
         {
             return RedirectToPage("UserTimeline");
         }
 
-        var email = User.Claims.Where(e => e.Type == "emails").Select(e => e.Value).SingleOrDefault();
         string userName = User.Identity!.Name!;
 
-        if (!await _authorRepository.AuthorExists(userName)){
+        if (!await _authorRepository.AuthorExists(userName))
+        {
+            var email = User.Claims.Where(e => e.Type == "emails").Select(e => e.Value).SingleOrDefault();
             await _authorRepository.CreateAuthor(new CreateAuthorDto(userName, email!));
         }
-        
+
         await _cheepRepository.CreateCheep(new CreateCheepDto(Text, userName));
 
         return RedirectToPage("UserTimeline");
