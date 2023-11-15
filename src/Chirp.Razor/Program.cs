@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ChirpContext>(options => 
         options.UseSqlServer(builder.Configuration.GetConnectionString("ChirpDb")));
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();

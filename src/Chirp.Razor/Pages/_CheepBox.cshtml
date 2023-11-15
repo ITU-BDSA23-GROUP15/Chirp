@@ -1,0 +1,17 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@if (User.Identity!.IsAuthenticated)
+{
+    <div class="cheepbox">
+    <h3>What's on your mind @(User.Identity!.Name)?</h3>
+    <form method="post">
+        <input style="float: left" type="text" data-val="true" id="Text" name="Text">
+        <input type="submit" value="Share">
+        @Html.AntiForgeryToken()
+    </form>
+</div>
+}
+else
+{
+    <em>You need to <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">log in</a> to cheep.</em>
+}
