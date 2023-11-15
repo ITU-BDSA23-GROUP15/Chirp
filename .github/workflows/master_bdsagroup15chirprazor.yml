@@ -47,7 +47,7 @@ jobs:
                   path: ${{env.WEBAPP_PACKAGE_PATH }}/bin/${{env.DOTNET_CONFIG}}/net7.0/publish
 
             - name: Install EF Tool
-              run: dotnet tool install --global dotnet-ef
+              run: dotnet tool install --global dotnet-ef --version 7.0.14
 
             - name: Build Migrations Bundle
               run: dotnet ef migrations bundle -p ${{env.WEBAPP_INFRA_PATH }} -s ${{env.WEBAPP_PACKAGE_PATH }} --configuration ${{ env.DOTNET_CONFIG }} --self-contained --no-build
