@@ -5,10 +5,12 @@ namespace Application.Testing;
 public class CheepUnitTests : BaseIntegrationTest
 {
 	CheepRepository cheepRepository;
+	AuthorRepository authorRepository;
 	Faker<Author> authorGenerator;
 	public CheepUnitTests(IntegrationTestWebAppFactory factory) : base(factory)
 	{
 		cheepRepository = new CheepRepository(DbContext);
+		authorRepository = new AuthorRepository(DbContext);
 
 		authorGenerator = new Faker<Author>()
 			.RuleFor(u => u.AuthorId, (f, u) => f.Random.Guid())
@@ -46,6 +48,7 @@ public class CheepUnitTests : BaseIntegrationTest
 			.RuleFor(u => u.TimeStamp, (f, u) => f.Date.Past()); // generate random date in the past
 
 		var cheep = cheepGenerator.Generate();
+		await authorRepository.CreateAuthor(new CreateAuthorDto(cheep.Author.Name, cheep.Author.Email));
 		await cheepRepository.CreateCheep(new CreateCheepDto(cheep.Text, cheep.Author.Name));
 
 		// Act
