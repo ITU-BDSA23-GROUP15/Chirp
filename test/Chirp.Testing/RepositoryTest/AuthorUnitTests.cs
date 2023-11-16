@@ -102,5 +102,4 @@ public class AuthorUnitTests : BaseIntegrationTest
 		// Assert
 		await Assert.ThrowsAsync<Exception>(() => authorRepository.GetAuthorByEmail("WrongEmail@fail.dk"));
 	}
-
 }

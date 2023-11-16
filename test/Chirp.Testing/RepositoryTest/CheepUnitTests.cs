@@ -68,7 +68,6 @@ public class CheepUnitTests : BaseIntegrationTest
 		await authorRepository.CreateAuthor(new CreateAuthorDto(cheep.Author.Name, cheep.Author.Email));
 		await cheepRepository.CreateCheep(new CreateCheepDto(cheep.Text, cheep.Author.Name));
 
-		
 		var listOfFakeCheeps = cheepGenerator.Generate(10);
 		foreach (var fakeCheep in listOfFakeCheeps)
 		{
@@ -104,5 +103,4 @@ public class CheepUnitTests : BaseIntegrationTest
 		// Assert
 		Assert.Equal(10, cheeps.Count());
 	}
-
 }
