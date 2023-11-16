@@ -4,9 +4,10 @@ namespace Application.Testing;
 
 public class CheepUnitTests : BaseIntegrationTest
 {
-	CheepRepository cheepRepository;
-	AuthorRepository authorRepository;
-	Faker<Author> authorGenerator;
+	private readonly CheepRepository cheepRepository;
+	private readonly AuthorRepository authorRepository;
+	private readonly Faker<Author> authorGenerator;
+	private readonly Faker<Cheep> cheepGenerator;
 	public CheepUnitTests(IntegrationTestWebAppFactory factory) : base(factory)
 	{
 		cheepRepository = new CheepRepository(DbContext);
@@ -16,18 +17,19 @@ public class CheepUnitTests : BaseIntegrationTest
 			.RuleFor(u => u.AuthorId, (f, u) => f.Random.Guid())
 			.RuleFor(u => u.Name, (f, u) => f.Name.LastName())
 			.RuleFor(u => u.Email, (f, u) => f.Internet.Email());
+
+		cheepGenerator = new Faker<Cheep>()
+			.RuleFor(u => u.CheepId, (f, u) => f.Random.Guid())
+			.RuleFor(u => u.Author, (f, u) => authorGenerator.Generate()) // generate new author
+			.RuleFor(u => u.AuthorId, (f, u) => u.Author.AuthorId) // take fake author's id
+			.RuleFor(u => u.Text, (f, u) => "test sentence") // generate random sentence
+			.RuleFor(u => u.TimeStamp, (f, u) => f.Date.Past()); // generate random date in the past
 	}
 
 	[Fact]
 	public void CreateCheepGetTextTest()
 	{
 		// Arrange
-		var cheepGenerator = new Faker<Cheep>()
-			.RuleFor(u => u.CheepId, (f, u) => f.Random.Guid())
-			.RuleFor(u => u.Author, (f, u) => authorGenerator.Generate()) // generate new author
-			.RuleFor(u => u.AuthorId, (f, u) => u.Author.AuthorId) // take fake author's id
-			.RuleFor(u => u.Text, (f, u) => "test sentence") // generate random sentence
-			.RuleFor(u => u.TimeStamp, (f, u) => f.Date.Past()); // generate random date in the past
 
 		// Act
 		var cheep = cheepGenerator.Generate();
@@ -40,12 +42,6 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task GetCheepsReturn1Cheep()
 	{
 		// Arrange
-		var cheepGenerator = new Faker<Cheep>()
-			.RuleFor(u => u.CheepId, (f, u) => f.Random.Guid())
-			.RuleFor(u => u.Author, (f, u) => authorGenerator.Generate()) // generate new author
-			.RuleFor(u => u.AuthorId, (f, u) => u.Author.AuthorId) // take fake author's id
-			.RuleFor(u => u.Text, (f, u) => f.Lorem.Sentence()) // generate random sentence
-			.RuleFor(u => u.TimeStamp, (f, u) => f.Date.Past()); // generate random date in the past
 
 		var cheep = cheepGenerator.Generate();
 		await authorRepository.CreateAuthor(new CreateAuthorDto(cheep.Author.Name, cheep.Author.Email));
@@ -62,19 +58,14 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task GetCheepsReturn1CheepFromAuthor()
 	{
 		// Arrange
-		var cheepGenerator = new Faker<Cheep>()
-			.RuleFor(u => u.CheepId, (f, u) => f.Random.Guid())
-			.RuleFor(u => u.Author, (f, u) => authorGenerator.Generate()) // generate new author
-			.RuleFor(u => u.AuthorId, (f, u) => u.Author.AuthorId) // take fake author's id
-			.RuleFor(u => u.Text, (f, u) => f.Lorem.Sentence()) // generate random sentence
-			.RuleFor(u => u.TimeStamp, (f, u) => f.Date.Past()); // generate random date in the past
-
 		var cheep = cheepGenerator.Generate();
+		await authorRepository.CreateAuthor(new CreateAuthorDto(cheep.Author.Name, cheep.Author.Email));
 		await cheepRepository.CreateCheep(new CreateCheepDto(cheep.Text, cheep.Author.Name));
 
 		var listOfFakeCheeps = cheepGenerator.Generate(10);
 		foreach (var fakeCheep in listOfFakeCheeps)
 		{
+			await authorRepository.CreateAuthor(new CreateAuthorDto(fakeCheep.Author.Name, fakeCheep.Author.Email));
 			await cheepRepository.CreateCheep(new CreateCheepDto(fakeCheep.Text, fakeCheep.Author.Name));
 		}
 
@@ -83,6 +74,27 @@ public class CheepUnitTests : BaseIntegrationTest
 
 		// Assert
 		Assert.Single(cheeps);
+	}
+
+	[Fact]
+	public async Task GetCheepsReturn10Cheeps()
+	{
+		// Arrange
+		DbContext.RemoveRange(DbContext.Cheeps); //Removes all Cheeps made in former tests
+		DbContext.RemoveRange(DbContext.Authors); //Removes all Authors made in former tests
+
+		var listOfFakeCheeps = cheepGenerator.Generate(10);
+		foreach (var fakeCheep in listOfFakeCheeps)
+		{
+			await authorRepository.CreateAuthor(new CreateAuthorDto(fakeCheep.Author.Name, fakeCheep.Author.Email));
+			await cheepRepository.CreateCheep(new CreateCheepDto(fakeCheep.Text, fakeCheep.Author.Name));
+		}
+
+		// Act
+		var cheeps = await cheepRepository.GetCheeps(1, 32); // first page, 32 cheeps taken
+
+		// Assert
+		Assert.Equal(10, cheeps.Count());
 	}
 
 }
