@@ -7,7 +7,7 @@ public class AuthorRepository : IAuthorRepository
 {
     private readonly ChirpContext _context;
 
-    public AuthorRepository(ChirpContext context)
+	public AuthorRepository(ChirpContext context)
     {
         _context = context;
     }
@@ -17,12 +17,6 @@ public class AuthorRepository : IAuthorRepository
         var author = await _context.Authors
             .Include(a => a.Cheeps)
             .Where(a => a.Name == name)
-            .Select(a => new AuthorDto
-                (a.AuthorId,
-                a.Name,
-                a.Email,
-                a.Cheeps.Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp)).ToList())
-            )
             .FirstOrDefaultAsync();
 
         if (author == null)
@@ -30,7 +24,18 @@ public class AuthorRepository : IAuthorRepository
             throw new Exception("Author doesn't exist");
         }
 
-        return author;
+        var cheepDtos = author.Cheeps.Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp)).ToList();
+        var followerDtos = author.Followers.Select(f => new FollowerDto(f.FollowerId, f.FollowingId)).ToList();
+
+        var authorDto = new AuthorDto(
+            author.AuthorId,
+            author.Name,
+            author.Email,
+            cheepDtos,
+            followerDtos
+        );
+
+        return authorDto;
     }
 
     public async Task CreateAuthor(CreateAuthorDto author)
@@ -49,24 +54,37 @@ public class AuthorRepository : IAuthorRepository
     }
 
     public async Task<AuthorDto> GetAuthorByEmail(string email)
+{
+    var author = await _context.Authors
+        .Include(a => a.Cheeps)
+        .Where(a => a.Email == email)
+        .FirstOrDefaultAsync();
+
+    if (author == null)
     {
-        var author = await _context.Authors
-            .Include(a => a.Cheeps)
-            .Where(a => a.Email == email)
-            .Select(a => new AuthorDto(
-                a.AuthorId,
-                a.Name,
-                a.Email,
-                a.Cheeps.Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp)).ToList())
-            )
-            .FirstOrDefaultAsync();
+        throw new Exception("Author doesn't exist");
+    }
 
-        if (author == null)
+    var cheepDtos = author.Cheeps.Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp)).ToList();
+    var followerDtos = author.Followers.Select(f => new FollowerDto(f.FollowerId, f.FollowingId)).ToList();
+
+    var authorDto = new AuthorDto(
+        author.AuthorId,
+        author.Name,
+        author.Email,
+        cheepDtos,
+        followerDtos
+    );
+
+    return authorDto;
+}
+
+public List<Guid> FollowerIds
+    {
+        get
         {
-            throw new Exception("Author doesn't exist");
+            return author.Followers.Select(f => new FollowerDto(f.FollowerId, f.FollowingId)).ToList();
         }
-
-        return author;
     }
 
     public async Task<bool> AuthorExists(string name){

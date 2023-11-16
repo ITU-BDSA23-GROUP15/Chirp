@@ -8,12 +8,14 @@ public class UserTimelineModel : PageModel
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
     public List<CheepDto> Cheeps { get; set; }
+	public List<FollowerDto> Followers { get; set;}
 
-    public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
+	public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
         Cheeps = new List<CheepDto>();
+        Followers = authorRepository.GetAuthorByName(User.Identity!.Name!).Result.Followers.Count > 0 ? authorRepository.GetAuthorByName(User.Identity!.Name!).Result.Followers : new List<FollowerDto>();
     }
     public async Task<IActionResult> OnGet(string author, [FromQuery(Name = "page")] int pageIndex = 1)
     {
