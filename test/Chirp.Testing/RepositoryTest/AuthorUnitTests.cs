@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Application.Testing;
 
-public class UnitTest : BaseIntegrationTest
+public class AuthorUnitTests : BaseIntegrationTest
 {
-	public UnitTest(IntegrationTestWebAppFactory factory) : base(factory)
+	public AuthorUnitTests(IntegrationTestWebAppFactory factory) : base(factory)
 	{
 	}
 
