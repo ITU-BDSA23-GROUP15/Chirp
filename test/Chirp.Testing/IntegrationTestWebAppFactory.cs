@@ -15,6 +15,7 @@ public class IntegrationTestWebAppFactory : WebApplicationFactory<Program>, IAsy
 		.Build();
 	protected override void ConfigureWebHost(IWebHostBuilder builder)
 	{
+		builder.UseEnvironment("Testing");
 		builder.ConfigureTestServices(services =>
 		{
 			var descriptorType =
