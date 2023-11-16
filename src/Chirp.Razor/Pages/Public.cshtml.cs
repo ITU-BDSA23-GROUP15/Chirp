@@ -24,7 +24,7 @@ public class PublicModel : PageModel
     }
 
     [BindProperty]
-    public string Text { get; set; }
+    public string? Text { get; set; }
 
     // post cheep
     public async Task<IActionResult> OnPostAsync()
