@@ -14,5 +14,4 @@ public record CreateAuthorDto
 	public CreateAuthorDto() // parameterless constructor is created for the purpose of the unit tests
 	{
 	}
-
 }

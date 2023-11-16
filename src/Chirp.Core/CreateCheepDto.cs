@@ -14,5 +14,4 @@ public record CreateCheepDto
 	public CreateCheepDto() // parameterless constructor is created for the purpose of the unit tests
 	{
 	}
-
 }
