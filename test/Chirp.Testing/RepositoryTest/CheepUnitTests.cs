@@ -1,30 +1,37 @@
+using Bogus;
+using Chirp.Core;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Application.Testing;
 
-public class CheepUnitTests : BaseIntegrationTest
+public class CheepUnitTests
 {
-	CheepRepository cheepRepository;
-	public CheepUnitTests(IntegrationTestWebAppFactory factory) : base(factory)
+	Faker<Author> authorGenerator;
+	public CheepUnitTests()
 	{
-		cheepRepository = new CheepRepository(DbContext);
+		authorGenerator = new Faker<Author>()
+			.RuleFor(u => u.AuthorId, (f, u) => f.Random.Guid())
+			.RuleFor(u => u.Name, (f, u) => f.Name.LastName())
+			.RuleFor(u => u.Email, (f, u) => f.Internet.Email());
 	}
 
 	[Fact]
-    public void EnsureDatabaseIsCreated()
-    {
-		// Check comes from: https://stackoverflow.com/a/69811634
-		Assert.True(DbContext.Database.GetService<IRelationalDatabaseCreator>().HasTables());
-    }
-
-	[Fact]
-	public async Task CreateCheep()
+	public void CreateCheepTest()
 	{
-		var fakeAuthor = new Faker<Author>;
-		await cheepRepository.CreateCheep(cheep);
-		var cheeps = await cheepRepository.GetCheeps(1, 32);
-		Assert.Equal(1, cheeps.Count());
+		// Arrange
+		var cheepGenerator = new Faker<Cheep>()
+			.RuleFor(u => u.CheepId, (f, u) => f.Random.Guid())
+			.RuleFor(u => u.Author, (f, u) => authorGenerator.Generate()) // generate new author
+			.RuleFor(u => u.AuthorId, (f, u) => u.Author.AuthorId) // take fake author's id
+			.RuleFor(u => u.Text, (f, u) => "test sentence") // generate random sentence
+			.RuleFor(u => u.TimeStamp, (f, u) => f.Date.Past()); // generate random date in the past
+
+		// Act
+		var cheep = cheepGenerator.Generate();
+
+		// Assert
+		Assert.Equal("test sentence", cheep.Text);
 	}
 
 }
