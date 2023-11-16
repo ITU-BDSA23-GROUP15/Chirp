@@ -44,7 +44,7 @@ public class CheepRepository : ICheepRepository
             CheepId = Guid.NewGuid(),
             AuthorId = author!.AuthorId,
             Author = author,
-            Text = cheep.Text,
+            Text = cheep.Text!,
             TimeStamp = DateTime.Now
         };
 

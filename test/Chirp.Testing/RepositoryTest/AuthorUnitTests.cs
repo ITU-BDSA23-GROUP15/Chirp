@@ -43,7 +43,7 @@ public class AuthorUnitTests : BaseIntegrationTest
 
 		// Act
 		// Assert
-		await Assert.ThrowsAsync<Exception>(() => authorRepository.CreateAuthor(new CreateAuthorDto(author.Name, author.Email)));
+		await Assert.ThrowsAsync<Exception>(() => authorRepository.CreateAuthor(new CreateAuthorDto(author.Name!, author.Email!)));
 	}
 
 	[Fact]
@@ -53,7 +53,7 @@ public class AuthorUnitTests : BaseIntegrationTest
 		await authorRepository.CreateAuthor(author);
 
 		// Act
-		var authorDto = await authorRepository.GetAuthorByName(author.Name);
+		var authorDto = await authorRepository.GetAuthorByName(author.Name!);
 
 		// Assert
 		Assert.Equal(author.Name, authorDto.Name);
@@ -77,7 +77,7 @@ public class AuthorUnitTests : BaseIntegrationTest
 		await authorRepository.CreateAuthor(author);
 
 		// Act
-		var authorDto = await authorRepository.GetAuthorByEmail(author.Email);
+		var authorDto = await authorRepository.GetAuthorByEmail(author.Email!);
 
 		// Assert
 		Assert.Equal(author.Email, authorDto.Email);

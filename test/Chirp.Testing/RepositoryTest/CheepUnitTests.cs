@@ -44,8 +44,9 @@ public class CheepUnitTests : BaseIntegrationTest
 		DbContext.RemoveRange(DbContext.Authors); //Removes all Authors made in former tests
 
 		var fakeAuthor = authorGenerator.Generate();
+
 		await authorRepository.CreateAuthor(fakeAuthor);
-		await cheepRepository.CreateCheep(new CreateCheepDto(cheepGenerator.Generate().Text, fakeAuthor.Name));
+		await cheepRepository.CreateCheep(new CreateCheepDto(cheepGenerator.Generate().Text!, fakeAuthor.Name!));
 
 		// Act
 		var cheeps = await cheepRepository.GetCheeps(1, 32); // first page, 32 cheeps taken
@@ -64,17 +65,17 @@ public class CheepUnitTests : BaseIntegrationTest
 		var specificAuthor = authorGenerator.Generate();
 
 		await authorRepository.CreateAuthor(specificAuthor);
-		await cheepRepository.CreateCheep(new CreateCheepDto(cheepGenerator.Generate().Text, specificAuthor.Name));
+		await cheepRepository.CreateCheep(new CreateCheepDto(cheepGenerator.Generate().Text!, specificAuthor.Name!));
 
 		foreach (var fakeCheep in cheepGenerator.Generate(10))
 		{
 			var fakeAuthor = authorGenerator.Generate();
 			await authorRepository.CreateAuthor(fakeAuthor);
-			await cheepRepository.CreateCheep(new CreateCheepDto(fakeCheep.Text, fakeAuthor.Name));
+			await cheepRepository.CreateCheep(new CreateCheepDto(fakeCheep.Text!, fakeAuthor.Name!));
 		}
 
 		// Act
-		var cheeps = await cheepRepository.GetCheepsFromAuthor(specificAuthor.Name, 1, 32); // first page, 32 cheeps taken
+		var cheeps = await cheepRepository.GetCheepsFromAuthor(specificAuthor.Name!, 1, 32); // first page, 32 cheeps taken
 
 		// Assert
 		Assert.Single(cheeps);
@@ -92,7 +93,7 @@ public class CheepUnitTests : BaseIntegrationTest
 
 		foreach (var fakeCheep in cheepGenerator.Generate(10))
 		{
-			await cheepRepository.CreateCheep(new CreateCheepDto(fakeCheep.Text, fakeAuthor.Name));
+			await cheepRepository.CreateCheep(new CreateCheepDto(fakeCheep.Text!, fakeAuthor.Name!));
 		}
 
 		// Act
