@@ -15,7 +15,7 @@ public class CheepUnitTests : BaseIntegrationTest
 
 		authorGenerator = new Faker<Author>()
 			.RuleFor(u => u.AuthorId, (f, u) => f.Random.Guid())
-			.RuleFor(u => u.Name, (f, u) => f.Name.LastName())
+			.RuleFor(u => u.Name, (f, u) => f.IndexGlobal + f.Name.LastName()) //Index is to ensure that the name is unique
 			.RuleFor(u => u.Email, (f, u) => f.Internet.Email());
 
 		cheepGenerator = new Faker<Cheep>()
@@ -30,6 +30,8 @@ public class CheepUnitTests : BaseIntegrationTest
 	public void CreateCheepGetTextTest()
 	{
 		// Arrange
+		DbContext.RemoveRange(DbContext.Cheeps); //Removes all Cheeps made in former tests
+		DbContext.RemoveRange(DbContext.Authors); //Removes all Authors made in former tests
 
 		// Act
 		var cheep = cheepGenerator.Generate();
@@ -42,6 +44,8 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task GetCheepsReturn1Cheep()
 	{
 		// Arrange
+		DbContext.RemoveRange(DbContext.Cheeps); //Removes all Cheeps made in former tests
+		DbContext.RemoveRange(DbContext.Authors); //Removes all Authors made in former tests
 
 		var cheep = cheepGenerator.Generate();
 		await authorRepository.CreateAuthor(new CreateAuthorDto(cheep.Author.Name, cheep.Author.Email));
@@ -58,13 +62,17 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task GetCheepsReturn1CheepFromAuthor()
 	{
 		// Arrange
+		DbContext.RemoveRange(DbContext.Cheeps); //Removes all Cheeps made in former tests
+		DbContext.RemoveRange(DbContext.Authors); //Removes all Authors made in former tests
 		var cheep = cheepGenerator.Generate();
 		await authorRepository.CreateAuthor(new CreateAuthorDto(cheep.Author.Name, cheep.Author.Email));
 		await cheepRepository.CreateCheep(new CreateCheepDto(cheep.Text, cheep.Author.Name));
 
+		
 		var listOfFakeCheeps = cheepGenerator.Generate(10);
 		foreach (var fakeCheep in listOfFakeCheeps)
 		{
+			System.Console.WriteLine(fakeCheep.Author.Name);
 			await authorRepository.CreateAuthor(new CreateAuthorDto(fakeCheep.Author.Name, fakeCheep.Author.Email));
 			await cheepRepository.CreateCheep(new CreateCheepDto(fakeCheep.Text, fakeCheep.Author.Name));
 		}
