@@ -50,11 +50,6 @@ public class PublicModel : PageModel
     }
     public async Task<IActionResult> OnPostFollow(string authorName){
         if (User.Identity!.IsAuthenticated) {
-            // string userName = User.Identity!.Name!;
-            // var author = await _authorRepository.GetAuthorByName(userName);
-            // var authorToFollow = await _authorRepository.GetAuthorByName(Text);
-            // await _authorRepository.FollowAuthor(author.AuthorId, authorToFollow.AuthorId);
-
             Console.WriteLine($"User {User.Identity!.Name!}");
             var user = await _authorRepository.GetAuthorByName(User.Identity!.Name!);
             var author = await _authorRepository.GetAuthorByName(authorName);
@@ -63,8 +58,10 @@ public class PublicModel : PageModel
 
             
             await _authorRepository.FollowAuthor(user.AuthorId, author.AuthorId);
-            var authorWithFollowers = await _authorRepository.GetAuthorWithFollowers(author.AuthorId);
-            Console.WriteLine($"Current followers: {authorWithFollowers.Followers.Count}");
+            var authorWithFollowers = await _authorRepository.GetAuthorWithFollowers(user.AuthorId);
+            Console.WriteLine($"{user.Name} is Currently following: {authorWithFollowers.Following.Count} authors");
+            Console.WriteLine($"{user.Name} currently has followers: {authorWithFollowers.Followers.Count} authors");
+            
             return RedirectToPage("Public");
         }
         else {
