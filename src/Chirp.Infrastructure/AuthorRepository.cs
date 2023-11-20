@@ -72,4 +72,54 @@ public class AuthorRepository : IAuthorRepository
     public async Task<bool> AuthorExists(string name){
         return await _context.Authors.AnyAsync(a => a.Name == name);
     }
+
+    public async Task FollowAuthor(Guid authorId, Guid authorToFollowId) {
+        var author = await _context.Authors
+            .Include(a => a.Following)
+            .FirstOrDefaultAsync(a => a.AuthorId == authorId);
+
+        var authorToFollow = await _context.Authors
+            .Include(a => a.Followers)
+            .FirstOrDefaultAsync(a => a.AuthorId == authorToFollowId);
+
+        if (author == null || authorToFollow == null) {
+            throw new Exception("Author doesn't exist");
+        }
+
+        author.Following.Add(authorToFollow);
+        authorToFollow.Followers.Add(author);
+
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<AuthorWithFollowersDto> GetAuthorWithFollowers(Guid authorId)
+    {
+        var author = await _context.Authors
+            .Include(a => a.Following)
+            .Include(a => a.Followers)
+            .Where(a => a.AuthorId == authorId)
+            .Select(a => new AuthorWithFollowersDto(
+                a.AuthorId,
+                a.Name,
+                a.Email,
+                a.Followers.Select(f => new AuthorDto(
+                    f.AuthorId,
+                    f.Name,
+                    f.Email
+                )).ToList(),
+                a.Following.Select(f => new AuthorDto(
+                    f.AuthorId,
+                    f.Name,
+                    f.Email
+                )).ToList()
+            ))
+            .FirstOrDefaultAsync();
+
+        if (author == null)
+        {
+            throw new Exception("Author doesn't exist");
+        }
+
+        return author;
+    }
 }

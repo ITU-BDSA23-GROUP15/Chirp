@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Chirp.Razor.Pages;
+
 
 public class PublicModel : PageModel
 {
@@ -45,5 +47,28 @@ public class PublicModel : PageModel
         await _cheepRepository.CreateCheep(new CreateCheepDto(Text, userName));
 
         return RedirectToPage("Public");
+    }
+    public async Task<IActionResult> OnPostFollow(string authorName){
+        if (User.Identity!.IsAuthenticated) {
+            // string userName = User.Identity!.Name!;
+            // var author = await _authorRepository.GetAuthorByName(userName);
+            // var authorToFollow = await _authorRepository.GetAuthorByName(Text);
+            // await _authorRepository.FollowAuthor(author.AuthorId, authorToFollow.AuthorId);
+
+            Console.WriteLine($"User {User.Identity!.Name!}");
+            var user = await _authorRepository.GetAuthorByName(User.Identity!.Name!);
+            var author = await _authorRepository.GetAuthorByName(authorName);
+            Console.WriteLine($"User: {user.AuthorId}, {user.Name}, {user.Email}");
+            Console.WriteLine($"Author: {author.AuthorId}, {author.Name}, {author.Email}");
+
+            
+            await _authorRepository.FollowAuthor(user.AuthorId, author.AuthorId);
+            var authorWithFollowers = await _authorRepository.GetAuthorWithFollowers(author.AuthorId);
+            Console.WriteLine($"Current followers: {authorWithFollowers.Followers.Count}");
+            return RedirectToPage("Public");
+        }
+        else {
+            return RedirectToPage("Public");
+        }
     }
 }

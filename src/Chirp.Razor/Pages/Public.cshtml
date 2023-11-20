@@ -20,6 +20,12 @@
                         <strong>
                             <a href="/@cheep.Author">@cheep.Author</a>
                         </strong>
+
+                        <form method="post" asp-page-handler="Follow" asp-route-authorName="@cheep.Author">
+                            <input type="hidden" name="author" value="@cheep.Author" />
+                            <button type="submit" class="btn btn-primary btn-sm">Follow</button>
+                        </form>
+
                         @cheep.Text
                         <small>&mdash; @cheep.TimeStamp</small>
                     </p>
