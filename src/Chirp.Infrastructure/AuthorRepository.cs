@@ -18,10 +18,11 @@ public class AuthorRepository : IAuthorRepository
             .Include(a => a.Cheeps)
             .Where(a => a.Name == name)
             .Select(a => new AuthorDto
-                (a.AuthorId,
-                a.Name,
-                a.Email,
-                a.Cheeps.Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp)).ToList())
+                (
+                    a.AuthorId,
+                    a.Name,
+                    a.Email
+                )
             )
             .FirstOrDefaultAsync();
 
@@ -55,8 +56,8 @@ public class AuthorRepository : IAuthorRepository
             .Select(a => new AuthorDto(
                 a.AuthorId,
                 a.Name,
-                a.Email,
-                a.Cheeps.Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp)).ToList())
+                a.Email
+            )
             )
             .FirstOrDefaultAsync();
 
