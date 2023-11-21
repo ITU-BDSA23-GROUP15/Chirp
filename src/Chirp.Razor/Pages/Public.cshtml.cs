@@ -42,7 +42,6 @@ public class PublicModel : PageModel
             var email = User.Claims.Where(e => e.Type == "emails").Select(e => e.Value).SingleOrDefault();
             await _authorRepository.CreateAuthor(new CreateAuthorDto(userName, email!));
         }
-
         
         await _cheepRepository.CreateCheep(new CreateCheepDto(Text!, userName));
 
