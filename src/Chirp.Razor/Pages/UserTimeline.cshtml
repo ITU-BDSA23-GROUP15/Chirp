@@ -9,7 +9,23 @@
 
 <div>
     <h2> @routeName's Timeline </h2>
-    <partial name="_CheepBox">
+    
+    @if (User.Identity!.IsAuthenticated)
+    {
+        <div class="cheepbox">
+            <h3>What's on your mind @(User.Identity!.Name)?</h3>
+            <form method="post">
+                <input style="float: left" asp-for="Text">
+                <input type="submit" value="Share">
+                @Html.AntiForgeryToken()
+            </form>
+        </div>
+    }
+    else
+    {
+        <em>You need to <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">log in</a> to
+            cheep.</em>
+    }
 
     @if (Model.Cheeps.Any())
     {

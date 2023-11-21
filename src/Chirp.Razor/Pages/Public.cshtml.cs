@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Chirp.Razor.Pages;
 
@@ -24,12 +24,13 @@ public class PublicModel : PageModel
     }
 
     [BindProperty]
+    [StringLength(160)]
     public string? Text { get; set; }
 
     // post cheep
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!User.Identity!.IsAuthenticated || string.IsNullOrWhiteSpace(Text))
+        if (!User.Identity!.IsAuthenticated)
         {
             return RedirectToPage("Public");
         }
@@ -42,7 +43,8 @@ public class PublicModel : PageModel
             await _authorRepository.CreateAuthor(new CreateAuthorDto(userName, email!));
         }
 
-        await _cheepRepository.CreateCheep(new CreateCheepDto(Text, userName));
+        
+        await _cheepRepository.CreateCheep(new CreateCheepDto(Text!, userName));
 
         return RedirectToPage("Public");
     }
