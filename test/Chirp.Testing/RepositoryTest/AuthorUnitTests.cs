@@ -14,8 +14,8 @@ public class AuthorUnitTests : BaseIntegrationTest
 		authorRepository = new AuthorRepository(DbContext);
 
 		authorGenerator = new Faker<CreateAuthorDto>()
-			.RuleFor(u => u.Name, (f, u) => f.Name.LastName())
-			.RuleFor(u => u.Email, (f, u) => f.Internet.Email());
+			.CustomInstantiator(f =>
+				new CreateAuthorDto(f.IndexGlobal + f.Internet.UserName(), f.Internet.Email()));
 	}
 
 	[Fact]

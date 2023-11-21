@@ -14,12 +14,12 @@ public class CheepUnitTests : BaseIntegrationTest
 		authorRepository = new AuthorRepository(DbContext);
 
 		authorGenerator = new Faker<CreateAuthorDto>()
-			.RuleFor(u => u.Name, (f, u) => f.IndexGlobal + f.Internet.UserName()) //Index is to ensure that the name is unique
-			.RuleFor(u => u.Email, (f, u) => f.Internet.Email());
+			.CustomInstantiator(f =>
+				new CreateAuthorDto(f.IndexGlobal + f.Internet.UserName(), f.Internet.Email()));
 
 		cheepGenerator = new Faker<CreateCheepDto>()
-			.RuleFor(u => u.Text, (f, u) => "test sentence")
-			.RuleFor(u => u.Author, (f, u) => authorGenerator.Generate().Name);
+			.CustomInstantiator(f =>
+				new CreateCheepDto("test sentence", authorGenerator.Generate().Name));
 	}
 
 	[Fact]
