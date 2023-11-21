@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Razor.Pages;
@@ -23,7 +24,8 @@ public class UserTimelineModel : PageModel
     }
 
     [BindProperty]
-    public string Text { get; set; }
+    [StringLength(160)]
+    public string? Text { get; set; }
 
     public async Task<IActionResult> OnPostAsync()
     {

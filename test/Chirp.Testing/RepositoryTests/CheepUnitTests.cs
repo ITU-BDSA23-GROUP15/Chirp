@@ -10,7 +10,7 @@ public class CheepUnitTests : BaseIntegrationTest
 	private readonly Faker<CreateCheepDto> cheepGenerator;
 	public CheepUnitTests(IntegrationTestWebAppFactory factory) : base(factory)
 	{
-		cheepRepository = new CheepRepository(DbContext);
+		cheepRepository = new CheepRepository(DbContext, new CreateCheepValidator());
 		authorRepository = new AuthorRepository(DbContext);
 
 		authorGenerator = new Faker<CreateAuthorDto>()

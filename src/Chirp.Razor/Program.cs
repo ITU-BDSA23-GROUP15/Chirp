@@ -10,6 +10,7 @@ builder.Services.AddDbContext<ChirpContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("ChirpDb")));
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<CreateCheepValidator>();
 // Authentication with Azure AD B2C
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAdB2C"));
