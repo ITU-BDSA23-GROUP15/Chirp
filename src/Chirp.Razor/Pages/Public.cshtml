@@ -12,13 +12,23 @@
     @if (User.Identity!.IsAuthenticated)
     {
         <div class="cheepbox">
-            <h3>What's on your mind @(User.Identity!.Name)?</h3>
+            <h3>What's on your mind @(User.Identity!.Name)?</h3> 
+            (<span id="test-lenght-counter">0</span>/160)
             <form method="post">
-                <input style="float: left" asp-for="Text">
+                <input style="float: left" asp-for="Text" oninput="updateLength()">
                 <input type="submit" value="Share">
                 @Html.AntiForgeryToken()
             </form>
         </div>
+
+        <script>
+            function updateLength() {
+                var counterBox = document.getElementById("test-lenght-counter");
+                var lengthOfInput = document.getElementById("Text").value.length;
+
+                counterBox.innerHTML = lengthOfInput;
+            }
+        </script>
     }
     else
     {
