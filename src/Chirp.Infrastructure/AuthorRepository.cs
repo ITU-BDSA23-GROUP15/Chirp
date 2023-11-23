@@ -18,10 +18,11 @@ public class AuthorRepository : IAuthorRepository
             .Include(a => a.Cheeps)
             .Where(a => a.Name == name)
             .Select(a => new AuthorDto
-                (a.AuthorId,
-                a.Name,
-                a.Email,
-                a.Cheeps.Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp)).ToList())
+                (
+                    a.AuthorId,
+                    a.Name,
+                    a.Email
+                )
             )
             .FirstOrDefaultAsync();
 
@@ -58,8 +59,8 @@ public class AuthorRepository : IAuthorRepository
             .Select(a => new AuthorDto(
                 a.AuthorId,
                 a.Name,
-                a.Email,
-                a.Cheeps.Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp)).ToList())
+                a.Email
+            )
             )
             .FirstOrDefaultAsync();
 
@@ -73,5 +74,61 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<bool> AuthorExists(string name){
         return await _context.Authors.AnyAsync(a => a.Name == name);
+    }
+
+    public async Task FollowAuthor(string authorName, string authorToFollowName) {
+        var author = await _context.Authors
+            .Include(a => a.Following)
+            .FirstOrDefaultAsync(a => a.Name == authorName);
+
+        var authorToFollow = await _context.Authors
+            .Include(a => a.Followers)
+            .FirstOrDefaultAsync(a => a.Name == authorToFollowName);
+
+        if (author == null || authorToFollow == null) {
+            throw new Exception("Author doesn't exist");
+        }
+
+        author.Following.Add(authorToFollow);
+        authorToFollow.Followers.Add(author);
+
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UnfollowAuthor(string authorName, string authorToUnfollowName) {
+        var author = await _context.Authors
+            .Include(a => a.Following)
+            .FirstOrDefaultAsync(a => a.Name == authorName);
+
+        var authorToUnfollow = await _context.Authors
+            .Include(a => a.Followers)
+            .FirstOrDefaultAsync(a => a.Name == authorToUnfollowName);
+
+        if (author == null || authorToUnfollow == null) {
+            throw new Exception("Author doesn't exist");
+        }
+
+        author.Following.Remove(authorToUnfollow);
+        authorToUnfollow.Followers.Remove(author);
+
+        await _context.SaveChangesAsync();
+    }
+
+    public IEnumerable<string> GetAuthorFollowing(string authorName) {
+        var author = _context.Authors
+            .Where(a => a.Name == authorName)
+            .SelectMany(a => a.Following)
+            .Select(a => a.Name);
+
+        return author;
+    }
+
+    public IEnumerable<string> GetAuthorFollowers(string authorName) {
+        var author = _context.Authors
+            .Where(a => a.Name == authorName)
+            .SelectMany(a => a.Followers)
+            .Select(a => a.Name);
+
+        return author;
     }
 }

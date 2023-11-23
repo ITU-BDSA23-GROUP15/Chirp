@@ -1,8 +1,8 @@
 namespace Chirp.Core;
 using FluentValidation;
 
-public record CheepDto(string Text, string Author, DateTime TimeStamp);
-public record CreateCheepDto(string Text, string Author);
+public record CheepDto(string Text, string AuthorName, DateTime TimeStamp);
+public record CreateCheepDto(string Text, string AuthorName);
 
 public class CreateCheepValidator : AbstractValidator<CreateCheepDto>
 {
