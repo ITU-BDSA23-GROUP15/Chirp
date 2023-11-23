@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Razor.Pages;
 
-
 public class PublicModel : PageModel
 {
     private readonly ICheepRepository _cheepRepository;
@@ -23,7 +22,6 @@ public class PublicModel : PageModel
     }
     public async Task<IActionResult> OnGetAsync([FromQuery(Name = "page")] int pageIndex = 1)
     {
-        
         if (User.Identity!.IsAuthenticated) {
             string userName = User.Identity!.Name!;
             
