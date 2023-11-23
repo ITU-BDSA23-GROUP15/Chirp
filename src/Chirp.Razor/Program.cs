@@ -29,7 +29,6 @@ if (app.Environment.IsDevelopment())
 	}
 }
 
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -43,13 +42,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseCookiePolicy(new CookiePolicyOptions()
 { 
-    Secure = CookieSecurePolicy.Always,
+    Secure = CookieSecurePolicy.Always
 });
 
 app.UseRouting();
