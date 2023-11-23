@@ -1,2 +1,2 @@
 namespace Chirp.Core;
-public record CreateCheepDto(string Text, string Author);
+public record CreateCheepDto(string Text, string AuthorName);

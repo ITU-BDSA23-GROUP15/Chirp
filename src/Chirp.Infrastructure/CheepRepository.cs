@@ -23,12 +23,12 @@ public class CheepRepository : ICheepRepository
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<CheepDto>> GetCheepsFromAuthor(string author, int pageIndex, int pageRange)
+    public async Task<IEnumerable<CheepDto>> GetCheepsFromAuthor(string authorName, int pageIndex, int pageRange)
     {
         return await _context.Cheeps
             .Include(c => c.Author)
             .OrderByDescending(c => c.TimeStamp)
-            .Where(c => c.Author.Name == author)
+            .Where(c => c.Author.Name == authorName)
             .Skip((pageIndex - 1) * pageRange)
             .Take(pageRange)
             .Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp))
@@ -37,7 +37,7 @@ public class CheepRepository : ICheepRepository
 
     public async Task CreateCheep(CreateCheepDto cheep)
     {
-        var author = await _context.Authors.FirstOrDefaultAsync(a => a.Name == cheep.Author);
+        var author = await _context.Authors.FirstOrDefaultAsync(a => a.Name == cheep.AuthorName);
 
         var newCheep = new Cheep
         {

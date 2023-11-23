@@ -15,9 +15,9 @@ public class UserTimelineModel : PageModel
         _authorRepository = authorRepository;
         Cheeps = new List<CheepDto>();
     }
-    public async Task<IActionResult> OnGetAsync(string author, [FromQuery(Name = "page")] int pageIndex = 1)
+    public async Task<IActionResult> OnGetAsync(string authorName, [FromQuery(Name = "page")] int pageIndex = 1)
     {
-        var cheeps = await _cheepRepository.GetCheepsFromAuthor(author, pageIndex, 32);
+        var cheeps = await _cheepRepository.GetCheepsFromAuthor(authorName, pageIndex, 32);
         Cheeps = cheeps.ToList();
         return Page();
     }

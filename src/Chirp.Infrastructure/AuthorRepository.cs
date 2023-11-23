@@ -92,6 +92,25 @@ public class AuthorRepository : IAuthorRepository
         await _context.SaveChangesAsync();
     }
 
+    public async Task UnfollowAuthor(Guid authorId, Guid authorToUnfollowId) {
+        var author = await _context.Authors
+            .Include(a => a.Following)
+            .FirstOrDefaultAsync(a => a.AuthorId == authorId);
+
+        var authorToUnfollow = await _context.Authors
+            .Include(a => a.Followers)
+            .FirstOrDefaultAsync(a => a.AuthorId == authorToUnfollowId);
+
+        if (author == null || authorToUnfollow == null) {
+            throw new Exception("Author doesn't exist");
+        }
+
+        author.Following.Remove(authorToUnfollow);
+        authorToUnfollow.Followers.Remove(author);
+
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<AuthorWithFollowersDto> GetAuthorWithFollowers(Guid authorId)
     {
         var author = await _context.Authors
@@ -119,6 +138,17 @@ public class AuthorRepository : IAuthorRepository
         {
             throw new Exception("Author doesn't exist");
         }
+
+        return author;
+    }
+
+    public IEnumerable<string> GetAuthorFollowing(string authorName) {
+        var author = _context.Authors
+            // .Include(a => a.Following)
+            .Where(a => a.Name == authorName)
+            .SelectMany(a => a.Following)
+            .Select(a => a.Name);
+        
 
         return author;
     }
