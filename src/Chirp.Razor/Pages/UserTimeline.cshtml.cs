@@ -8,22 +8,28 @@ public class UserTimelineModel : PageModel
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
     public List<CheepDto> Cheeps { get; set; }
+    public IEnumerable<string> Following { get; set; }
+    public IEnumerable<string> Followers { get; set; }
 
     public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
         Cheeps = new List<CheepDto>();
+        Following = new List<string>();
+        Followers = new List<string>();
     }
     public async Task<IActionResult> OnGetAsync(string authorName, [FromQuery(Name = "page")] int pageIndex = 1)
     {
         var cheeps = await _cheepRepository.GetCheepsFromAuthor(authorName, pageIndex, 32);
         Cheeps = cheeps.ToList();
+        Following =  _authorRepository.GetAuthorFollowing(authorName);
+        Followers = _authorRepository.GetAuthorFollowers(authorName);
         return Page();
     }
 
     [BindProperty]
-    public string Text { get; set; }
+    public string Text { get; set; } = "";
 
     public async Task<IActionResult> OnPostAsync()
     {

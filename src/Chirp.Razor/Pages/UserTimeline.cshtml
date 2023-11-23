@@ -9,6 +9,8 @@
 
 <div>
     <h2> @routeName's Timeline </h2>
+    <p>Followers: @Model.Followers.Count() | Following: @Model.Following.Count()</p>
+
     <partial name="_CheepBox">
 
     @if (Model.Cheeps.Any())
