@@ -2,14 +2,17 @@ namespace Chirp.Infrastructure;
 
 using Microsoft.EntityFrameworkCore;
 using Chirp.Core;
+using FluentValidation;
 
 public class CheepRepository : ICheepRepository
 {
     private readonly ChirpContext _context;
+    private readonly CreateCheepValidator _validator;
 
-    public CheepRepository(ChirpContext context)
+    public CheepRepository(ChirpContext context, CreateCheepValidator validator)
     {
         _context = context;
+        _validator = validator;
     }
 
     public async Task<IEnumerable<CheepDto>> GetCheeps(int pageIndex, int pageRange)
@@ -37,6 +40,13 @@ public class CheepRepository : ICheepRepository
 
     public async Task CreateCheep(CreateCheepDto cheep)
     {
+        var validationResult = await _validator.ValidateAsync(cheep);
+
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException(validationResult.Errors);
+        }
+
         var author = await _context.Authors.FirstOrDefaultAsync(a => a.Name == cheep.AuthorName);
 
         var newCheep = new Cheep

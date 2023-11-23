@@ -36,6 +36,9 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task CreateAuthor(CreateAuthorDto author)
     {
+        if(await AuthorExists(author.Name)){
+            throw new Exception("Author already exists");
+        }
         var newAuthor = new Author
         {
             AuthorId = Guid.NewGuid(),

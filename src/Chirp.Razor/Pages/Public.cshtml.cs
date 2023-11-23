@@ -1,8 +1,6 @@
-﻿using Chirp.Infrastructure.Migrations;
-using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Chirp.Razor.Pages;
 
@@ -43,19 +41,26 @@ public class PublicModel : PageModel
     }
 
     [BindProperty]
-    public string Text { get; set; } = "";
+    [StringLength(160)]
+    public string? Text { get; set; }
 
     // post cheep
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!User.Identity!.IsAuthenticated || string.IsNullOrWhiteSpace(Text))
+        if (!User.Identity!.IsAuthenticated)
         {
             return RedirectToPage("Public");
         }
 
         string userName = User.Identity!.Name!;
 
-        await _cheepRepository.CreateCheep(new CreateCheepDto(Text, userName));
+        if (!await _authorRepository.AuthorExists(userName))
+        {
+            var email = User.Claims.Where(e => e.Type == "emails").Select(e => e.Value).SingleOrDefault();
+            await _authorRepository.CreateAuthor(new CreateAuthorDto(userName, email!));
+        }
+        
+        await _cheepRepository.CreateCheep(new CreateCheepDto(Text!, userName));
 
         return RedirectToPage("Public");
     }
