@@ -44,7 +44,7 @@
                 <li>
 					<a href="/@cheep.AuthorName"><img style="width:48px; height:48px" src="https://avatars.githubusercontent.com/@cheep.AuthorName"></a>
                     <p>
-                            @if (User.Identity!.IsAuthenticated)
+                            @if (User.Identity!.IsAuthenticated && cheep.AuthorName != User.Identity!.Name)
                             {
                                 @if (Model.Following.Contains(cheep.AuthorName)) 
                                 {

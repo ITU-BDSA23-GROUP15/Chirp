@@ -10,7 +10,32 @@
 <div>
     
     <h2> @routeName's Timeline </h2>
-    <p>Followers: @Model.Followers.Count() | Following: @Model.Following.Count()</p>
+    <p>
+        @if (User.Identity!.IsAuthenticated && routeName.ToString() != User.Identity!.Name)
+        {
+            @if (Model.Followers.Contains(User.Identity!.Name)) 
+            {
+                <form method="post" asp-page-handler="Unfollow" asp-route-authorName="@routeName">
+                    <input type="hidden" name="author" value="@routeName" />
+                    <button type="submit" style="float: right">Unfollow</button>
+                </form>
+            } else if (Model.Following.Contains(User.Identity!.Name)) 
+            {
+                <form method="post" asp-page-handler="Follow" asp-route-authorName="@routeName">
+                    <input type="hidden" name="author" value="@routeName" />
+                    <button type="submit" style="float: right">Follow Back</button>
+                </form>
+            } else 
+            {
+                <form method="post" asp-page-handler="Follow" asp-route-authorName="@routeName">
+                    <input type="hidden" name="author" value="@routeName" />
+                    <button type="submit" style="float: right">Follow</button>
+                </form>
+            }
+        }
+        Followers: @Model.Followers.Count() | Following: @Model.Following.Count()
+        
+    </p>
     
     @if (User.Identity!.IsAuthenticated)
     {
@@ -49,7 +74,8 @@
                     <p>
                         <strong>
                             <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
-                        </strong>
+                        </strong> 
+                        <br/>
                         @cheep.Text
                         <small>&mdash; @cheep.TimeStamp</small>
                     </p>

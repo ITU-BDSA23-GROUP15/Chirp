@@ -65,22 +65,14 @@ public class PublicModel : PageModel
     public async Task<IActionResult> OnPostFollow(string authorName){
         if (User.Identity!.IsAuthenticated) {
             await _authorRepository.FollowAuthor(User.Identity!.Name!, authorName);
-
-            return RedirectToPage("Public");
         }
-        else {
-            return RedirectToPage("Public");
-        }
+            return RedirectToPage("public");
     }
 
     public async Task<IActionResult> OnPostUnfollow(string authorName){
         if (User.Identity!.IsAuthenticated) {
             await _authorRepository.UnfollowAuthor(User.Identity!.Name!, authorName);
-
-            return RedirectToPage("Public");
         }
-        else {
-            return RedirectToPage("Public");
-        }
+            return RedirectToPage("public");
     }
 }

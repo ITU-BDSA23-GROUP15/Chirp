@@ -52,4 +52,21 @@ public class UserTimelineModel : PageModel
 
         return RedirectToPage("UserTimeline");
     }
+
+    public async Task<IActionResult> OnPostFollow(string authorName){
+        string currentUrl = HttpContext.Request.Path;
+        if (User.Identity!.IsAuthenticated) {
+            await _authorRepository.FollowAuthor(User.Identity!.Name!, authorName);
+        }
+            return Redirect(currentUrl);
+    }
+
+    public async Task<IActionResult> OnPostUnfollow(string authorName){
+        string currentUrl = HttpContext.Request.Path;
+        if (User.Identity!.IsAuthenticated) {
+            await _authorRepository.UnfollowAuthor(User.Identity!.Name!, authorName);
+        }
+            return Redirect(currentUrl);
+        
+    }
 }
