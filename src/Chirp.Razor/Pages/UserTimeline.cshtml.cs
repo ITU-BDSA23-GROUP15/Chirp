@@ -82,6 +82,5 @@ public class UserTimelineModel : PageModel
             await _authorRepository.UnfollowAuthor(User.Identity!.Name!, authorName);
         }
             return Redirect(currentUrl);
-        
     }
 }
