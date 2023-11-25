@@ -4,14 +4,14 @@
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
-    var routeName = HttpContext.GetRouteValue("authorName");
+    string routeName = HttpContext.GetRouteValue("authorName").ToString();
 }
 
 <div>
     
     <h2> @routeName's Timeline </h2>
     <p>
-        @if (User.Identity!.IsAuthenticated && routeName.ToString() != User.Identity!.Name)
+        @if (Model.IsAuthenticated() && !Model.IsCurrentAuthor(routeName))
         {
             @if (Model.Followers.Contains(User.Identity!.Name)) 
             {
@@ -36,8 +36,8 @@
         Followers: @Model.Followers.Count() | Following: @Model.Following.Count()
         
     </p>
-    @if (routeName.ToString() == User.Identity!.Name) {
-        @if (User.Identity!.IsAuthenticated)
+    @if (Model.IsCurrentAuthor(routeName)) {
+        @if (Model.IsAuthenticated())
         {
             <div class="cheepbox">
                 <h3>What's on your mind @(User.Identity!.Name)?</h3>

@@ -30,7 +30,7 @@ public class UserTimelineModel : PageModel
         {
             Cheeps = (await _cheepRepository.GetCheepsFromAuthor(authorName, pageIndex, 32)).ToList();
         }
-                
+
         Following =  _authorRepository.GetAuthorFollowing(authorName);
         Followers = _authorRepository.GetAuthorFollowers(authorName);
         return Page();
@@ -39,6 +39,14 @@ public class UserTimelineModel : PageModel
     [BindProperty]
     [StringLength(160)]
     public string? Text { get; set; }
+
+    public bool IsAuthenticated() {
+        return User.Identity!.IsAuthenticated;
+    }
+
+    public bool IsCurrentAuthor(string authorName) {
+        return User.Identity!.IsAuthenticated && authorName == User.Identity!.Name;
+    }
 
     public async Task<IActionResult> OnPostAsync()
     {

@@ -9,7 +9,7 @@
 <div>
     <h2> Public Timeline </h2>
     
-    @if (User.Identity!.IsAuthenticated)
+    @if (Model.IsAuthenticated())
     {
         <div class="cheepbox">
             <h3>What's on your mind @(User.Identity!.Name)?</h3> 
@@ -44,7 +44,7 @@
                 <li>
 					<a href="/@cheep.AuthorName"><img style="width:48px; height:48px" src="https://avatars.githubusercontent.com/@cheep.AuthorName"></a>
                     <p>
-                            @if (User.Identity!.IsAuthenticated && cheep.AuthorName != User.Identity!.Name)
+                            @if (Model.IsAuthenticated() && !Model.IsCurrentAuthor(cheep.AuthorName))
                             {
                                 @if (Model.Following.Contains(cheep.AuthorName)) 
                                 {

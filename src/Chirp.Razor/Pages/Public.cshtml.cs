@@ -42,6 +42,14 @@ public class PublicModel : PageModel
     [StringLength(160)]
     public string? Text { get; set; }
 
+    public bool IsAuthenticated() {
+        return User.Identity!.IsAuthenticated;
+    }
+
+    public bool IsCurrentAuthor(string authorName) {
+        return User.Identity!.IsAuthenticated && authorName == User.Identity!.Name;
+    }
+
     // post cheep
     public async Task<IActionResult> OnPostAsync()
     {
