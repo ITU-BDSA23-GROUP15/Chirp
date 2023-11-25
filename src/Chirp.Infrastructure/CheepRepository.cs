@@ -38,6 +38,24 @@ public class CheepRepository : ICheepRepository
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<CheepDto>> GetCheepsFromFollowing(string authorName, int pageIndex, int pageRange)
+    {
+        var following = await _context.Authors
+            .Include(a => a.Following)
+            .Where(a => a.Name == authorName)
+            .SelectMany(a => a.Following)
+            .ToListAsync();
+
+        return await _context.Cheeps
+            .Include(c => c.Author)
+            .OrderByDescending(c => c.TimeStamp)
+            .Where(c => following.Contains(c.Author))
+            .Skip((pageIndex - 1) * pageRange)
+            .Take(pageRange)
+            .Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp))
+            .ToListAsync();
+    }
+
     public async Task CreateCheep(CreateCheepDto cheep)
     {
         var validationResult = await _validator.ValidateAsync(cheep);

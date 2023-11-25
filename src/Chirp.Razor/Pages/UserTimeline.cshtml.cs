@@ -22,8 +22,15 @@ public class UserTimelineModel : PageModel
     }
     public async Task<IActionResult> OnGetAsync(string authorName, [FromQuery(Name = "page")] int pageIndex = 1)
     {
-        var cheeps = await _cheepRepository.GetCheepsFromAuthor(authorName, pageIndex, 32);
-        Cheeps = cheeps.ToList();
+        if (User.Identity!.IsAuthenticated && User.Identity!.Name! == authorName)
+        {
+            Cheeps = (await _cheepRepository.GetCheepsFromFollowing(authorName, pageIndex, 32)).ToList();
+        }
+        else
+        {
+            Cheeps = (await _cheepRepository.GetCheepsFromAuthor(authorName, pageIndex, 32)).ToList();
+        }
+                
         Following =  _authorRepository.GetAuthorFollowing(authorName);
         Followers = _authorRepository.GetAuthorFollowers(authorName);
         return Page();
