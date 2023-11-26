@@ -11,6 +11,10 @@ public class UserTimelineModel : PageModel
     public List<CheepDto> Cheeps { get; set; }
     public IEnumerable<string> Following { get; set; }
     public IEnumerable<string> Followers { get; set; }
+    
+    [BindProperty]
+    [StringLength(160)]
+    public string? Text { get; set; }
 
     public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
@@ -20,9 +24,17 @@ public class UserTimelineModel : PageModel
         Following = new List<string>();
         Followers = new List<string>();
     }
+
+    public bool IsAuthenticated() {
+        return User.Identity!.IsAuthenticated;
+    }
+
+    public bool IsCurrentAuthor(string authorName) {
+        return User.Identity!.IsAuthenticated && authorName == User.Identity!.Name;
+    }
     public async Task<IActionResult> OnGetAsync(string authorName, [FromQuery(Name = "page")] int pageIndex = 1)
     {
-        if (User.Identity!.IsAuthenticated && User.Identity!.Name! == authorName)
+        if (IsAuthenticated() && IsCurrentAuthor(authorName))
         {
             Cheeps = (await _cheepRepository.GetCheepsFromFollowing(authorName, pageIndex, 32)).ToList();
         }
@@ -36,21 +48,9 @@ public class UserTimelineModel : PageModel
         return Page();
     }
 
-    [BindProperty]
-    [StringLength(160)]
-    public string? Text { get; set; }
-
-    public bool IsAuthenticated() {
-        return User.Identity!.IsAuthenticated;
-    }
-
-    public bool IsCurrentAuthor(string authorName) {
-        return User.Identity!.IsAuthenticated && authorName == User.Identity!.Name;
-    }
-
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!User.Identity!.IsAuthenticated || string.IsNullOrWhiteSpace(Text))
+        if (!IsAuthenticated() || string.IsNullOrWhiteSpace(Text))
         {
             return RedirectToPage("UserTimeline");
         }
@@ -70,7 +70,7 @@ public class UserTimelineModel : PageModel
 
     public async Task<IActionResult> OnPostFollow(string authorName){
         string currentUrl = HttpContext.Request.Path;
-        if (User.Identity!.IsAuthenticated) {
+        if (IsAuthenticated()) {
             await _authorRepository.FollowAuthor(User.Identity!.Name!, authorName);
         }
             return Redirect(currentUrl);
@@ -78,7 +78,7 @@ public class UserTimelineModel : PageModel
 
     public async Task<IActionResult> OnPostUnfollow(string authorName){
         string currentUrl = HttpContext.Request.Path;
-        if (User.Identity!.IsAuthenticated) {
+        if (IsAuthenticated()) {
             await _authorRepository.UnfollowAuthor(User.Identity!.Name!, authorName);
         }
             return Redirect(currentUrl);
