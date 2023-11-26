@@ -11,6 +11,10 @@ public class UserTimelineModel : PageModel
     public List<CheepDto> Cheeps { get; set; }
     public IEnumerable<string> Following { get; set; }
     public IEnumerable<string> Followers { get; set; }
+    
+    [BindProperty]
+    [StringLength(160)]
+    public string? Text { get; set; }
 
     public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
@@ -20,22 +24,33 @@ public class UserTimelineModel : PageModel
         Following = new List<string>();
         Followers = new List<string>();
     }
+
+    public bool IsAuthenticated() {
+        return User.Identity!.IsAuthenticated;
+    }
+
+    public bool IsCurrentAuthor(string authorName) {
+        return User.Identity!.IsAuthenticated && authorName == User.Identity!.Name;
+    }
     public async Task<IActionResult> OnGetAsync(string authorName, [FromQuery(Name = "page")] int pageIndex = 1)
     {
-        var cheeps = await _cheepRepository.GetCheepsFromAuthor(authorName, pageIndex, 32);
-        Cheeps = cheeps.ToList();
+        if (IsAuthenticated() && IsCurrentAuthor(authorName))
+        {
+            Cheeps = (await _cheepRepository.GetCheepsFromFollowing(authorName, pageIndex, 32)).ToList();
+        }
+        else
+        {
+            Cheeps = (await _cheepRepository.GetCheepsFromAuthor(authorName, pageIndex, 32)).ToList();
+        }
+
         Following =  _authorRepository.GetAuthorFollowing(authorName);
         Followers = _authorRepository.GetAuthorFollowers(authorName);
         return Page();
     }
 
-    [BindProperty]
-    [StringLength(160)]
-    public string? Text { get; set; }
-
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!User.Identity!.IsAuthenticated || string.IsNullOrWhiteSpace(Text))
+        if (!IsAuthenticated() || string.IsNullOrWhiteSpace(Text))
         {
             return RedirectToPage("UserTimeline");
         }
@@ -51,5 +66,21 @@ public class UserTimelineModel : PageModel
         await _cheepRepository.CreateCheep(new CreateCheepDto(Text, userName));
 
         return RedirectToPage("UserTimeline");
+    }
+
+    public async Task<IActionResult> OnPostFollow(string authorName){
+        string currentUrl = HttpContext.Request.Path;
+        if (IsAuthenticated()) {
+            await _authorRepository.FollowAuthor(User.Identity!.Name!, authorName);
+        }
+            return Redirect(currentUrl);
+    }
+
+    public async Task<IActionResult> OnPostUnfollow(string authorName){
+        string currentUrl = HttpContext.Request.Path;
+        if (IsAuthenticated()) {
+            await _authorRepository.UnfollowAuthor(User.Identity!.Name!, authorName);
+        }
+            return Redirect(currentUrl);
     }
 }

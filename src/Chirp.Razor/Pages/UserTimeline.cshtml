@@ -4,39 +4,65 @@
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
-    var routeName = HttpContext.GetRouteValue("authorName");
+    string routeName = HttpContext.GetRouteValue("authorName").ToString() ?? "";
 }
 
 <div>
     
     <h2> @routeName's Timeline </h2>
-    <p>Followers: @Model.Followers.Count() | Following: @Model.Following.Count()</p>
-    
-    @if (User.Identity!.IsAuthenticated)
-    {
-        <div class="cheepbox">
-            <h3>What's on your mind @(User.Identity!.Name)?</h3>
-            (<span id="test-lenght-counter">0</span>/160)
-            <form method="post">
-                <input style="float: left" asp-for="Text" oninput="updateLength()">
-                <input type="submit" value="Share">
-                @Html.AntiForgeryToken()
-            </form>
-        </div>
-
-        <script>
-            function updateLength() {
-                var counterBox = document.getElementById("test-lenght-counter");
-                var lengthOfInput = document.getElementById("Text").value.length;
-
-                counterBox.innerHTML = lengthOfInput;
+    <p>
+        @if (Model.IsAuthenticated() && !Model.IsCurrentAuthor(routeName))
+        {
+            @if (Model.Followers.Contains(User.Identity!.Name)) 
+            {
+                <form method="post" asp-page-handler="Unfollow" asp-route-authorName="@routeName">
+                    <input type="hidden" name="author" value="@routeName" />
+                    <button type="submit" style="float: right">Unfollow</button>
+                </form>
+            } else if (Model.Following.Contains(User.Identity!.Name)) 
+            {
+                <form method="post" asp-page-handler="Follow" asp-route-authorName="@routeName">
+                    <input type="hidden" name="author" value="@routeName" />
+                    <button type="submit" style="float: right">Follow Back</button>
+                </form>
+            } else 
+            {
+                <form method="post" asp-page-handler="Follow" asp-route-authorName="@routeName">
+                    <input type="hidden" name="author" value="@routeName" />
+                    <button type="submit" style="float: right">Follow</button>
+                </form>
             }
-        </script>
-    }
-    else
-    {
-        <em>You need to <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">log in</a> to
-            cheep.</em>
+        }
+        Followers: @Model.Followers.Count() | Following: @Model.Following.Count()
+        
+    </p>
+    @if (Model.IsCurrentAuthor(routeName)) {
+        @if (Model.IsAuthenticated())
+        {
+            <div class="cheepbox">
+                <h3>What's on your mind @(User.Identity!.Name)?</h3>
+                (<span id="test-lenght-counter">0</span>/160)
+                <form method="post">
+                    <input style="float: left" asp-for="Text" oninput="updateLength()">
+                    <input type="submit" value="Share">
+                    @Html.AntiForgeryToken()
+                </form>
+            </div>
+
+            <script>
+                function updateLength() {
+                    var counterBox = document.getElementById("test-lenght-counter");
+                    var lengthOfInput = document.getElementById("Text").value.length;
+
+                    counterBox.innerHTML = lengthOfInput;
+                }
+            </script>
+        }
+        else
+        {
+            <em>You need to <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">log in</a> to
+                cheep.</em>
+        }
     }
 
     @if (Model.Cheeps.Any())
@@ -49,7 +75,8 @@
                     <p>
                         <strong>
                             <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
-                        </strong>
+                        </strong> 
+                        <br/>
                         @cheep.Text
                         <small>&mdash; @cheep.TimeStamp</small>
                     </p>

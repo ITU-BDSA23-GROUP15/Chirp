@@ -12,6 +12,10 @@ public class PublicModel : PageModel
     public IEnumerable<string> Following { get; set; }
     public IEnumerable<string> Followers { get; set; }
 
+    [BindProperty]
+    [StringLength(160)]
+    public string? Text { get; set; }
+
     public PublicModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
         _cheepRepository = cheepRepository;
@@ -20,9 +24,17 @@ public class PublicModel : PageModel
         Following = new List<string>();
         Followers = new List<string>();
     }
+
+    public bool IsAuthenticated() {
+        return User.Identity!.IsAuthenticated;
+    }
+
+    public bool IsCurrentAuthor(string authorName) {
+        return User.Identity!.IsAuthenticated && authorName == User.Identity!.Name;
+    }
     public async Task<IActionResult> OnGetAsync([FromQuery(Name = "page")] int pageIndex = 1)
     {
-        if (User.Identity!.IsAuthenticated) {
+        if (IsAuthenticated()) {
             string userName = User.Identity!.Name!;
             
             if (!await _authorRepository.AuthorExists(userName))
@@ -38,14 +50,10 @@ public class PublicModel : PageModel
         return Page();
     }
 
-    [BindProperty]
-    [StringLength(160)]
-    public string? Text { get; set; }
-
     // post cheep
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!User.Identity!.IsAuthenticated)
+        if (!IsAuthenticated())
         {
             return RedirectToPage("Public");
         }
@@ -63,24 +71,16 @@ public class PublicModel : PageModel
         return RedirectToPage("Public");
     }
     public async Task<IActionResult> OnPostFollow(string authorName){
-        if (User.Identity!.IsAuthenticated) {
+        if (IsAuthenticated()) {
             await _authorRepository.FollowAuthor(User.Identity!.Name!, authorName);
-
-            return RedirectToPage("Public");
         }
-        else {
-            return RedirectToPage("Public");
-        }
+            return RedirectToPage("public");
     }
 
     public async Task<IActionResult> OnPostUnfollow(string authorName){
-        if (User.Identity!.IsAuthenticated) {
+        if (IsAuthenticated()) {
             await _authorRepository.UnfollowAuthor(User.Identity!.Name!, authorName);
-
-            return RedirectToPage("Public");
         }
-        else {
-            return RedirectToPage("Public");
-        }
+            return RedirectToPage("public");
     }
 }
