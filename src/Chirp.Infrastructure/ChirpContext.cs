@@ -12,7 +12,7 @@ public class ChirpContext : DbContext
         
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Author>().Property(a => a.AuthorId).IsRequired();
         modelBuilder.Entity<Author>().Property(a => a.Name).IsRequired();
