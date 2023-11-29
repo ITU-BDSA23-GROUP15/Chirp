@@ -1,16 +1,16 @@
-﻿@page "/claims"
-@model Chirp.Razor.Pages.PublicModel
+﻿@page "/about"
+@model Chirp.Razor.Pages.AboutMeModel
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
 }
 
 <div>
-    <h2> Claims </h2>
+    <h2> About me </h2>
     <div>
-    @if (User.Identity!.IsAuthenticated)
+    @if (Model.IsAuthenticated)
     {
-            @foreach (var claim in User.Claims)
+            @foreach (var claim in Model.FilteredClaims)
             {
                 <p>@claim</p>
             }
