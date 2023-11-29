@@ -36,7 +36,7 @@ public class UserTimelineModel : PageModel
     {
         if (IsAuthenticated() && IsCurrentAuthor(authorName))
         {
-            Cheeps = (await _cheepRepository.GetCheepsFromFollowing(authorName, pageIndex, 32)).ToList();
+            Cheeps = (await _cheepRepository.GetPersonalCheeps(authorName, pageIndex, 32)).ToList();
         }
         else
         {
