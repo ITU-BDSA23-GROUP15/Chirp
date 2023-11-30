@@ -18,14 +18,32 @@
             <h2>Following</h2>
             @foreach (var following in Model.Following)
             {
-                <p>@following</p>
+                <a href="/@following">@following</a> <br>
             }
 
             <h2>Followers</h2>
             @foreach (var follower in Model.Followers)
             {
-                <p>@follower</p>
+                <a href="/@follower">@follower</a> <br>
             }
+            <h2>My cheeps</h2>
+            <ul id="messagelist" class="cheeps">
+                @foreach (var cheep in Model.Cheeps)
+                {
+                    <li>
+                        <a href="/@cheep.AuthorName"><img style="width:48px; height:48px" src="https://avatars.githubusercontent.com/@cheep.AuthorName"></a>
+                        <p>
+                            <strong>
+                                <a href="/@cheep.AuthorName">@cheep.AuthorName</a> 
+                                
+                                <small>&mdash; @cheep.TimeStamp</small>
+                            </strong>
+                            <br>
+                            @cheep.Text
+                        </p>
+                    </li>
+                }
+            </ul>
 
             
     }

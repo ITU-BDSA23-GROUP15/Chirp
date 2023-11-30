@@ -13,7 +13,7 @@
     {
         <div class="cheepbox">
             <h3>What's on your mind @(User.Identity!.Name)?</h3> 
-            (<span id="test-lenght-counter">0</span>/160)
+            (<span id="text-length-counter">0</span>/160)
             <form method="post">
                 <input style="float: left" asp-for="Text" oninput="updateLength()">
                 <input type="submit" value="Share">
@@ -23,7 +23,7 @@
 
         <script>
             function updateLength() {
-                var counterBox = document.getElementById("test-lenght-counter");
+                var counterBox = document.getElementById("text-length-counter");
                 var lengthOfInput = document.getElementById("Text").value.length;
 
                 counterBox.innerHTML = lengthOfInput;
@@ -44,24 +44,24 @@
                 <li>
 					<a href="/@cheep.AuthorName"><img style="width:48px; height:48px" src="https://avatars.githubusercontent.com/@cheep.AuthorName"></a>
                     <p>
-                            @if (Model.IsAuthenticated() && !Model.IsCurrentAuthor(cheep.AuthorName))
+                            @if (!Model.IsCurrentAuthor(cheep.AuthorName))
                             {
                                 @if (Model.Following.Contains(cheep.AuthorName)) 
                                 {
-                                    <form method="post" asp-page-handler="Unfollow" asp-route-authorName="@cheep.AuthorName">
-                                        <input type="hidden" name="author" value="@cheep.AuthorName" />
+                                    <form method="post" asp-page-handler="Unfollow">
+                                        <input type="hidden" name="authorName" value="@cheep.AuthorName" />
                                         <button type="submit" style="float: right">Unfollow</button>
                                     </form>
                                 } else if (Model.Followers.Contains(cheep.AuthorName)) 
                                 {
-                                    <form method="post" asp-page-handler="Follow" asp-route-authorName="@cheep.AuthorName">
-                                        <input type="hidden" name="author" value="@cheep.AuthorName" />
+                                    <form method="post" asp-page-handler="Follow">
+                                        <input type="hidden" name="authorName" value="@cheep.AuthorName" />
                                         <button type="submit" style="float: right">Follow Back</button>
                                     </form>
                                 } else 
                                 {
-                                    <form method="post" asp-page-handler="Follow" asp-route-authorName="@cheep.AuthorName">
-                                        <input type="hidden" name="author" value="@cheep.AuthorName" />
+                                    <form method="post" asp-page-handler="Follow">
+                                        <input type="hidden" name="authorName" value="@cheep.AuthorName" />
                                         <button type="submit" style="float: right">Follow</button>
                                     </form>
                                 }

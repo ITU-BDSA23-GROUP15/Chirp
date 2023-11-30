@@ -17,19 +17,28 @@ namespace Chirp.Razor.Pages;
         {
             _authorRepository = authorRepository;
             _cheepRepository = cheepRepository;
+            
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGetAsync([FromQuery(Name = "page")] int pageIndex = 1)
         {
             IsAuthenticated = User.Identity?.IsAuthenticated ?? false;
-
-            if (IsAuthenticated)
-            {
+            if (IsAuthenticated) {
+                string userName = User.Identity!.Name!;
+                
+                if (!await _authorRepository.AuthorExists(userName))
+                {
+                    var email = User.Claims.Where(e => e.Type == "emails").Select(e => e.Value).SingleOrDefault();
+                    await _authorRepository.CreateAuthor(new CreateAuthorDto(userName, email!));
+                }
+                var cheeps = await _cheepRepository.GetCheepsFromAuthor(userName,pageIndex, int.MaxValue);
+                Cheeps = cheeps.ToList();
                 var desiredClaimTypes = new List<string> { "name", "emails" };
                 FilteredClaims = User.Claims.Where(c => desiredClaimTypes.Contains(c.Type));
-                Following = _authorRepository.GetAuthorFollowing(User.Identity!.Name!);
-                Followers = _authorRepository.GetAuthorFollowers(User.Identity!.Name!);
-                // Cheeps = (await _cheepRepository.GetCheepsFromAuthor(User.Identity!.Name!, pageIndex, 32)).ToList();
+                Following =  _authorRepository.GetAuthorFollowing(userName);
+                Followers = _authorRepository.GetAuthorFollowers(userName);
+                return Page();
             }
+            return RedirectToPage("Public");   
         }
     }

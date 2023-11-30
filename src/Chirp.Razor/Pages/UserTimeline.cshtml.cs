@@ -43,8 +43,8 @@ public class UserTimelineModel : PageModel
             Cheeps = (await _cheepRepository.GetCheepsFromAuthor(authorName, pageIndex, 32)).ToList();
         }
 
-        Following =  _authorRepository.GetAuthorFollowing(authorName);
-        Followers = _authorRepository.GetAuthorFollowers(authorName);
+        Following =  _authorRepository.GetAuthorFollowing(User.Identity!.Name!);
+        Followers = _authorRepository.GetAuthorFollowers(User.Identity!.Name!);
         return Page();
     }
 
@@ -68,19 +68,17 @@ public class UserTimelineModel : PageModel
         return RedirectToPage("UserTimeline");
     }
 
-    public async Task<IActionResult> OnPostFollow(string authorName){
-        string currentUrl = HttpContext.Request.Path;
+    public async Task<IActionResult> OnPostFollowAsync(string authorName){
         if (IsAuthenticated()) {
             await _authorRepository.FollowAuthor(User.Identity!.Name!, authorName);
         }
-            return Redirect(currentUrl);
+        return RedirectToPage("UserTimeline");
     }
 
-    public async Task<IActionResult> OnPostUnfollow(string authorName){
-        string currentUrl = HttpContext.Request.Path;
+    public async Task<IActionResult> OnPostUnfollowAsync(string authorName){
         if (IsAuthenticated()) {
             await _authorRepository.UnfollowAuthor(User.Identity!.Name!, authorName);
-        }
-            return Redirect(currentUrl);
+        }   
+        return RedirectToPage("UserTimeline");
     }
 }
