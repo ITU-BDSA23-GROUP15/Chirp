@@ -50,7 +50,7 @@ public class UserTimelineModel : PageModel
     }
     public async Task<IActionResult> OnGetAsync(string authorName, [FromQuery(Name = "page")] int pageIndex = 1)
     {
-        if (IsAuthenticated() && IsCurrentAuthor(authorName))
+        if (IsCurrentAuthor(authorName))
         {
             Cheeps = (await _cheepRepository.GetPersonalCheeps(authorName, pageIndex, 32)).ToList();
         }
