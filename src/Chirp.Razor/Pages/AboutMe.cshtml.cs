@@ -17,7 +17,6 @@ namespace Chirp.Razor.Pages;
         {
             _authorRepository = authorRepository;
             _cheepRepository = cheepRepository;
-            
         }
 
         public async Task<IActionResult> OnGetAsync([FromQuery(Name = "page")] int pageIndex = 1)
