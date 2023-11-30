@@ -9,8 +9,8 @@ public class PublicModel : PageModel
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
     public List<CheepDto> Cheeps { get; set; }
-    public IEnumerable<string> Following { get; set; }
-    public IEnumerable<string> Followers { get; set; }
+    public IEnumerable<string> Following { get; set; } = new List<string>();
+    public IEnumerable<string> Followers { get; set; } = new List<string>();
 
     [BindProperty]
     [StringLength(160)]
@@ -21,8 +21,6 @@ public class PublicModel : PageModel
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
         Cheeps = new List<CheepDto>();
-        Following = new List<string>();
-        Followers = new List<string>();
     }
 
     public bool IsAuthenticated() {

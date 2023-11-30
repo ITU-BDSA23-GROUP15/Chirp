@@ -15,15 +15,19 @@
             <div>
                 <a href="/@(User.Identity.Name)">my timeline</a> |
                 <a href="/">public timeline</a> |
-                <a href="/claims">claims</a> |
-                <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">logout [@(User.Identity.Name)]</a> 
+                <a href="/about">about me</a>
+                <div style="float: right">   
+                    <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">logout [@(User.Identity.Name)]</a> 
+                </div>
             </div>
         }
         else
         {
             <div>
-                <a href="/">public timeline</a> |
-                <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">login</a>
+                <a href="/">public timeline</a>
+                <div style="float: right"> 
+                    <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">login</a>
+                </div>
             </div>
         }
     </div>
