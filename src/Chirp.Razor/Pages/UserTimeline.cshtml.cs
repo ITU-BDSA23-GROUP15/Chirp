@@ -15,6 +15,8 @@ public class UserTimelineModel : PageModel
     [BindProperty]
     [StringLength(160)]
     public string? Text { get; set; }
+    [FromQuery(Name = "page")]
+    public int PageIndex { get; set; } = 1;
 
     public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
@@ -31,6 +33,20 @@ public class UserTimelineModel : PageModel
 
     public bool IsCurrentAuthor(string authorName) {
         return User.Identity!.IsAuthenticated && authorName == User.Identity!.Name;
+    }
+
+    public int NextPage() {
+        if (Cheeps.Count < 32) {
+            return PageIndex;
+        }
+        return PageIndex + 1;
+    }
+
+    public int PreviousPage() {
+        if (PageIndex == 1) {
+            return 1;
+        }
+        return PageIndex - 1;
     }
     public async Task<IActionResult> OnGetAsync(string authorName, [FromQuery(Name = "page")] int pageIndex = 1)
     {
