@@ -10,11 +10,9 @@
 <div>
     
     <h2> @routeName's Timeline </h2>
+    <p> Followers: @Model.FollowersCount | Following: @Model.FollowingCount </p>
     @if (Model.IsCurrentAuthor(routeName)) 
     {
-        <p>
-            Followers: @Model.Followers.Count() | Following: @Model.Following.Count()
-        </p>
         <div class="cheepbox">
             <h3>What's on your mind @(User.Identity!.Name)?</h3>
             (<span id="text-length-counter">0</span>/160)
