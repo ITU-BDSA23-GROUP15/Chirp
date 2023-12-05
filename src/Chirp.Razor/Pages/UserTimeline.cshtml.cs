@@ -52,7 +52,6 @@ public class UserTimelineModel : PageModel
     }
     public async Task<IActionResult> OnGetAsync(string authorName, [FromQuery(Name = "page")] int pageIndex = 1)
     {
-
         Following =  _authorRepository.GetAuthorFollowing(User.Identity!.Name!);
         Followers = _authorRepository.GetAuthorFollowers(User.Identity!.Name!);
         if (IsCurrentAuthor(authorName))
@@ -67,8 +66,6 @@ public class UserTimelineModel : PageModel
             FollowingCount = _authorRepository.GetAuthorFollowing(authorName).Count();
             FollowersCount = _authorRepository.GetAuthorFollowers(authorName).Count();
         }
-
-        
 
         return Page();
     }
