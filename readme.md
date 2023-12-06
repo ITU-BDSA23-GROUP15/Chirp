@@ -95,7 +95,8 @@ Navigate to src and run
 
 `/opt/mssql-tools/bin/sqlcmd -S localhost -U SA`
 
-**Update PDF-file (report specific)**
+## Update PDF-file (report specific)
+
 Navigate to docs-folder
 
 `cd docs`
