@@ -1,4 +1,5 @@
 ﻿@page "/about"
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model Chirp.Razor.Pages.AboutMeModel
 @{
     ViewData["Title"] = "Chirp!";
@@ -9,47 +10,54 @@
     <h2> About me </h2>
     <div>
     @if (Model.IsAuthenticated)
-    {
+        {
             @foreach (var claim in Model.FilteredClaims)
             {
-                <p>@claim</p>
+                    <p>@claim</p>
             }
 
+            <form method="post" onsubmit="return confirm('Are you sure that you want to delete your user?')">
+                <button type="submit">Forget me</button>
+            </form>
+            <br>
+
             <h2>Following: @Model.Following.Count() </h2>
+
             @foreach (var following in Model.Following)
             {
-                <a href="/@following">@following</a> <br>
+                    <a href="/@following">@following</a> <br>
             }
 
             <h2>Followers: @Model.Followers.Count()</h2>
             @foreach (var follower in Model.Followers)
             {
-                <a href="/@follower">@follower</a> <br>
+                    <a href="/@follower">@follower</a> <br>
             }
             <h2>My cheeps</h2>
             <ul id="messagelist" class="cheeps">
                 @foreach (var cheep in Model.Cheeps)
                 {
-                    <li>
-                        <a href="/@cheep.AuthorName"><img style="width:48px; height:48px" src="https://avatars.githubusercontent.com/@cheep.AuthorName"></a>
-                        <p>
-                            <strong>
-                                <a href="/@cheep.AuthorName">@cheep.AuthorName</a> 
-                                
-                                <small>&mdash; @cheep.TimeStamp</small>
-                            </strong>
-                            <br>
+                        <li>
+                            <a href="/@cheep.AuthorName"><img style="width:48px; height:48px"
+                                    src="https://avatars.githubusercontent.com/@cheep.AuthorName"></a>
+                            <p>
+                                <strong>
+                                    <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
+
+                                    <small>&mdash; @cheep.TimeStamp</small>
+                                </strong>
+                                <br>
                             @cheep.Text
-                        </p>
-                    </li>
+                            </p>
+                        </li>
                 }
             </ul>
 
-            
-    }
-    else
-    {
+
+        }
+        else
+        {
             <p>You are not logged in.</p>
-    }
+        }
     </div>
 </div>
