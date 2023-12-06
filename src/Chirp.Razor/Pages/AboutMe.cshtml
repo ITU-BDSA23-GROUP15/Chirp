@@ -44,7 +44,7 @@
                 <ul id="messagelist" class="cheeps">
                     <li>
                         <a href="/@follower"><img style="width:48px; height:48px" src="https://avatars.githubusercontent.com/@follower"></a>
-                        @if (!Model.IsCurrentAuthor(follower))
+                        @try {
                             @if (Model.Following.Contains(follower)) 
                             {
                                 <form method="post" asp-page-handler="Unfollow">
@@ -59,6 +59,10 @@
                                     <button type="submit" style="float: right">Follow Back</button>
                                 </form>
                             }
+                        }
+                        catch (Exception e) 
+                        {
+                            <p>@e</p>
                         }
                         <strong>
                             <a href="/@follower">@follower</a>
