@@ -10,37 +10,27 @@
 <div>
     
     <h2> @routeName's Timeline </h2>
-    <p>
-        Followers: @Model.Followers.Count() | Following: @Model.Following.Count()
-        
-    </p>
-    @if (Model.IsCurrentAuthor(routeName)) {
-        @if (Model.IsAuthenticated())
-        {
-            <div class="cheepbox">
-                <h3>What's on your mind @(User.Identity!.Name)?</h3>
-                (<span id="text-length-counter">0</span>/160)
-                <form method="post">
-                    <input style="float: left" asp-for="Text" oninput="updateLength()">
-                    <input type="submit" value="Share">
-                    @Html.AntiForgeryToken()
-                </form>
-            </div>
+    <p> Followers: @Model.FollowersCount | Following: @Model.FollowingCount </p>
+    @if (Model.IsCurrentAuthor(routeName)) 
+    {
+        <div class="cheepbox">
+            <h3>What's on your mind @(User.Identity!.Name)?</h3>
+            (<span id="text-length-counter">0</span>/160)
+            <form method="post">
+                <input style="float: left" asp-for="Text" oninput="updateLength()">
+                <input type="submit" value="Share">
+                @Html.AntiForgeryToken()
+            </form>
+        </div>
 
-            <script>
-                function updateLength() {
-                    var counterBox = document.getElementById("text-length-counter");
-                    var lengthOfInput = document.getElementById("Text").value.length;
+        <script>
+            function updateLength() {
+                var counterBox = document.getElementById("text-length-counter");
+                var lengthOfInput = document.getElementById("Text").value.length;
 
-                    counterBox.innerHTML = lengthOfInput;
-                }
-            </script>
-        }
-        else
-        {
-            <em>You need to <a asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignIn">log in</a> to
-                cheep.</em>
-        }
+                counterBox.innerHTML = lengthOfInput;
+            }
+        </script>
     }
 
     @if (Model.Cheeps.Any())
@@ -59,13 +49,15 @@
                                     <input type="hidden" name="authorName" value="@cheep.AuthorName" />
                                     <button type="submit" style="float: right">Unfollow</button>
                                 </form>
-                            } else if (Model.Followers.Contains(cheep.AuthorName)) 
+                            } 
+                            else if (Model.Followers.Contains(cheep.AuthorName)) 
                             {
                                 <form method="post" asp-page-handler="Follow" >
                                     <input type="hidden" name="authorName" value="@cheep.AuthorName" />
                                     <button type="submit" style="float: right">Follow Back</button>
                                 </form>
-                            } else 
+                            } 
+                            else 
                             {
                                 <form method="post" asp-page-handler="Follow">
                                     <input type="hidden" name="authorName" value="@cheep.AuthorName" />
@@ -88,4 +80,8 @@
     {
         <em>There are no cheeps so far.</em>
     }
+    <div style="text-align: right">
+        <a href="/@routeName?page=@Model.PreviousPage()">Previous page</a> |
+        <a href="/@routeName?page=@Model.NextPage()">Next page</a>
+    </div>
 </div>

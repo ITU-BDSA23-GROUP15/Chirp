@@ -21,13 +21,14 @@
             </form>
             <br>
 
-            <h2>Following</h2>
+            <h2>Following: @Model.Following.Count() </h2>
+
             @foreach (var following in Model.Following)
             {
                     <a href="/@following">@following</a> <br>
             }
 
-            <h2>Followers</h2>
+            <h2>Followers: @Model.Followers.Count()</h2>
             @foreach (var follower in Model.Followers)
             {
                     <a href="/@follower">@follower</a> <br>
