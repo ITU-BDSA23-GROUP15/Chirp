@@ -46,7 +46,7 @@ public class AboutMeModel : PageModel
             var desiredClaimTypes = new List<string> { "name", "emails" };
             FilteredClaims = User.Claims.Where(c => desiredClaimTypes.Contains(c.Type));
             Following = _authorRepository.GetAuthorFollowing(userName);
-            // Followers = _authorRepository.GetAuthorFollowers(userName);
+            Followers = _authorRepository.GetAuthorFollowers(userName);
             return Page();
         }
         return RedirectToPage("Public");
