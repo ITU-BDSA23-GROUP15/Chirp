@@ -44,25 +44,19 @@
                 <ul id="messagelist" class="cheeps">
                     <li>
                         <a href="/@follower"><img style="width:48px; height:48px" src="https://avatars.githubusercontent.com/@follower"></a>
-                        @try {
-                            @if (Model.Following.Contains(follower)) 
-                            {
-                                <form method="post" asp-page-handler="Unfollow">
-                                    <input type="hidden" name="authorName" value="@follower" />
-                                    <button type="submit" style="float: right">Unfollow</button>
-                                </form>
-                            }
-                            else 
-                            {
-                                <form method="post" asp-page-handler="Follow">
-                                    <input type="hidden" name="authorName" value="@follower" />
-                                    <button type="submit" style="float: right">Follow Back</button>
-                                </form>
-                            }
-                        }
-                        catch (Exception e) 
+                        @if (Model.Following.Contains(follower)) 
                         {
-                            <p>@e</p>
+                            <form method="post" asp-page-handler="Unfollow">
+                                <input type="hidden" name="authorName" value="@follower" />
+                                <button type="submit" style="float: right">Unfollow</button>
+                            </form>
+                        }
+                        else 
+                        {
+                            <form method="post" asp-page-handler="Follow">
+                                <input type="hidden" name="authorName" value="@follower" />
+                                <button type="submit" style="float: right">Follow Back</button>
+                            </form>
                         }
                         <strong>
                             <a href="/@follower">@follower</a>
