@@ -2,6 +2,7 @@
 title: _Chirp!_ Project Report
 subtitle: ITU BDSA 2023 Group 15
 author:
+	- # DONT REMOVE THIS
     - "Daniel Millard <dmil@itu.dk>"
     - "Frederik Rosenlund <frlr@itu.dk>"
     - "Jacob Pærregaard <jacp@itu.dk>"
@@ -31,7 +32,7 @@ numbersections: true
 
 Here comes a description of our domain model.
 
-![Illustration of the _Chirp!_ data model as UML class diagram.](docs/images/domain_model.png)
+![Illustration of the _Chirp!_ data model as UML class diagram.]()
 
 ## Architecture — In the small
 
