@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Razor.Pages;
@@ -8,26 +9,70 @@ public class UserTimelineModel : PageModel
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
     public List<CheepDto> Cheeps { get; set; }
+    public IEnumerable<string> Following { get; set; }
+    public IEnumerable<string> Followers { get; set; }
+    public int FollowingCount { get; private set; }
+    public int FollowersCount { get; private set; }
+    
+    [BindProperty]
+    [StringLength(160)]
+    public string? Text { get; set; }
+    [FromQuery(Name = "page")]
+    public int PageIndex { get; set; } = 1;
 
     public UserTimelineModel(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
         Cheeps = new List<CheepDto>();
+        Following = new List<string>();
+        Followers = new List<string>();
     }
-    public async Task<IActionResult> OnGetAsync(string author, [FromQuery(Name = "page")] int pageIndex = 1)
+
+    public bool IsAuthenticated() {
+        return User.Identity!.IsAuthenticated;
+    }
+
+    public bool IsCurrentAuthor(string authorName) {
+        return User.Identity!.IsAuthenticated && authorName == User.Identity!.Name;
+    }
+
+    public int NextPage() {
+        if (Cheeps.Count < 32) {
+            return PageIndex;
+        }
+        return PageIndex + 1;
+    }
+
+    public int PreviousPage() {
+        if (PageIndex == 1) {
+            return 1;
+        }
+        return PageIndex - 1;
+    }
+    public async Task<IActionResult> OnGetAsync(string authorName, [FromQuery(Name = "page")] int pageIndex = 1)
     {
-        var cheeps = await _cheepRepository.GetCheepsFromAuthor(author, pageIndex, 32);
-        Cheeps = cheeps.ToList();
+        Following =  _authorRepository.GetAuthorFollowing(User.Identity!.Name!);
+        Followers = _authorRepository.GetAuthorFollowers(User.Identity!.Name!);
+        if (IsCurrentAuthor(authorName))
+        {
+            Cheeps = (await _cheepRepository.GetPersonalCheeps(authorName, pageIndex, 32)).ToList();
+            FollowingCount = Following.Count();
+            FollowersCount = Followers.Count();
+        }
+        else
+        {
+            Cheeps = (await _cheepRepository.GetCheepsFromAuthor(authorName, pageIndex, 32)).ToList();
+            FollowingCount = _authorRepository.GetAuthorFollowing(authorName).Count();
+            FollowersCount = _authorRepository.GetAuthorFollowers(authorName).Count();
+        }
+
         return Page();
     }
 
-    [BindProperty]
-    public string Text { get; set; }
-
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!User.Identity!.IsAuthenticated || string.IsNullOrWhiteSpace(Text))
+        if (!IsAuthenticated() || string.IsNullOrWhiteSpace(Text))
         {
             return RedirectToPage("UserTimeline");
         }
@@ -42,6 +87,20 @@ public class UserTimelineModel : PageModel
 
         await _cheepRepository.CreateCheep(new CreateCheepDto(Text, userName));
 
+        return RedirectToPage("UserTimeline");
+    }
+
+    public async Task<IActionResult> OnPostFollowAsync(string authorName){
+        if (IsAuthenticated()) {
+            await _authorRepository.FollowAuthor(User.Identity!.Name!, authorName);
+        }
+        return RedirectToPage("UserTimeline");
+    }
+
+    public async Task<IActionResult> OnPostUnfollowAsync(string authorName){
+        if (IsAuthenticated()) {
+            await _authorRepository.UnfollowAuthor(User.Identity!.Name!, authorName);
+        }   
         return RedirectToPage("UserTimeline");
     }
 }
