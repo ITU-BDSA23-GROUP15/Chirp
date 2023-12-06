@@ -8,55 +8,26 @@ namespace Application.Testing;
 
 [Parallelizable(ParallelScope.Self)]
 [TestFixture]
-public class UITests : PageTest
+public class UiTests : PageTest
 {
     [Test]
-    public async Task EndToEndUiTest()
+    public async Task HomepageHasPlaywrightInTitleAndGetStartedLinkLinkingtoTheIntroPage()
     {
-        
-            await Page.GotoAsync("http://localhost:5273/");
-            // await page.getByText("Public Timeline You need to").click();
-            // await page.getByRole("link", { name: "log in" }).click();
-            // await page.getByLabel("Username or email address").click();
-            // await page.getByLabel("Username or email address").fill("macj@itu.dk");
-            // await page.getByLabel("Username or email address").press("Tab");
-            // await page.getByLabel("Password").fill("Ons24nov99");
-            // await page.getByLabel("Password").press("Enter");
-            // await page.locator("#Text").click();
-            // await page.locator("#Text").fill("Omg I am UI testing");
-            // await page.getByRole("button", { name: "Share" }).click();
-            // await page.getByRole("link", { name: "my timeline" }).click();
-            // await page.getByRole("link", { name: "public timeline" }).click();
-            // await page.getByRole("link", { name: "about me" }).click();
-            // await page.getByRole("link", { name: "my timeline" }).click();
-            // await page.getByRole("link", { name: "public timeline" }).click();
-            // await page.locator("li").filter({ hasText: "Follow Jacqualine Gilcoine — 08/01/2023 13:17:39 Starbuck now is what we hear" }).getByRole("button").click();
-            // await page.getByRole("link", { name: "about me" }).click();
-            // await page.getByRole("link", { name: "my timeline" }).click();
-            // await page.getByRole("link", { name: "logout [Noerklit]" }).click();   
+        await Page.GotoAsync("https://playwright.dev");
+
+        // Expect a title "to contain" a substring.
+        await Expect(Page).ToHaveTitleAsync(new Regex("Playwright"));
+
+        // create a locator
+        var getStarted = Page.GetByRole(AriaRole.Link, new() { Name = "Get started" });
+
+        // Expect an attribute "to be strictly equal" to the value.
+        await Expect(getStarted).ToHaveAttributeAsync("href", "/docs/intro");
+
+        // Click the get started link.
+        await getStarted.ClickAsync();
+
+        // Expects the URL to contain intro.
+        await Expect(Page).ToHaveURLAsync(new Regex(".*intro"));
     }
 }
-// import { test, expect } from '@playwright/test';
-
-// test('test', async ({ page }) => {
-//   await page.goto('http://localhost:5273/');
-//   await page.getByText('Public Timeline You need to').click();
-//   await page.getByRole('link', { name: 'log in' }).click();
-//   await page.getByLabel('Username or email address').click();
-//   await page.getByLabel('Username or email address').fill('macj@itu.dk');
-//   await page.getByLabel('Username or email address').press('Tab');
-//   await page.getByLabel('Password').fill('Ons24nov99');
-//   await page.getByLabel('Password').press('Enter');
-//   await page.locator('#Text').click();
-//   await page.locator('#Text').fill('Omg I am UI testing');
-//   await page.getByRole('button', { name: 'Share' }).click();
-//   await page.getByRole('link', { name: 'my timeline' }).click();
-//   await page.getByRole('link', { name: 'public timeline' }).click();
-//   await page.getByRole('link', { name: 'about me' }).click();
-//   await page.getByRole('link', { name: 'my timeline' }).click();
-//   await page.getByRole('link', { name: 'public timeline' }).click();
-//   await page.locator('li').filter({ hasText: 'Follow Jacqualine Gilcoine — 08/01/2023 13:17:39 Starbuck now is what we hear' }).getByRole('button').click();
-//   await page.getByRole('link', { name: 'about me' }).click();
-//   await page.getByRole('link', { name: 'my timeline' }).click();
-//   await page.getByRole('link', { name: 'logout [Noerklit]' }).click();
-// });
