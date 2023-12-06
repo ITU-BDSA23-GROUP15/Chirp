@@ -16,7 +16,6 @@ public class IntegrationTests : BaseIntegrationTest
 		_client = factory.CreateClient(new WebApplicationFactoryClientOptions {
 			AllowAutoRedirect = false
 		});
-
 	}
 
 	[Fact]
