@@ -47,18 +47,6 @@ input[type="submit"]:disabled {
 	opacity: 0.5;
 	pointer-events: none;
 }
-.delete-btn{
-  background: red;
-  border: 1px solid #3b0707;
-  padding: 1px 3px;
-  font-family: 'Trebuchet MS', sans-serif;
-  font-size: 14px;
-  font-weight: bold;
-  border-radius: 2px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  color: white;
-}
 
 button[type="submit"] {
 	background: #571010;
@@ -71,6 +59,10 @@ button[type="submit"] {
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
 	color: white;
+}
+
+.delete-btn{
+  background: red !important;
 }
 
 button[type="submit"]:hover {

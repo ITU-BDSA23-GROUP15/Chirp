@@ -29,7 +29,7 @@
                         <a href="/@following"><img style="width:48px; height:48px" src="https://avatars.githubusercontent.com/@following"></a>
                         <form method="post" asp-page-handler="Unfollow">
                             <input type="hidden" name="authorName" value="@following" />
-                            <button type="submit" class="btn" style="float: right">Unfollow</button>
+                            <button type="submit" style="float: right">Unfollow</button>
                         </form>
                         <strong>
                             <a href="/@following">@following</a>
@@ -48,14 +48,14 @@
                         {
                             <form method="post" asp-page-handler="Unfollow">
                                 <input type="hidden" name="authorName" value="@follower" />
-                                <button type="submit" class="btn" style="float: right">Unfollow</button>
+                                <button type="submit" style="float: right">Unfollow</button>
                             </form>
                         }
                         else 
                         {
                             <form method="post" asp-page-handler="Follow">
                                 <input type="hidden" name="authorName" value="@follower" />
-                                <button type="submit" class="btn" style="float: right">Follow Back</button>
+                                <button type="submit" style="float: right">Follow Back</button>
                             </form>
                         }
                         <strong>
