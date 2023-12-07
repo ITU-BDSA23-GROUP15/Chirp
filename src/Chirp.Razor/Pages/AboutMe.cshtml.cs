@@ -58,11 +58,17 @@ public class AboutMeModel : PageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPostDeleteAsync()
+    public async Task<IActionResult> OnPostForgetAuthorAsync()
     {
         await _authorRepository.DeleteAuthor(User.Identity!.Name!);
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return RedirectToPage("Public");
+    }
+
+    public async Task<IActionResult> OnPostDeleteCheepAsync(Guid cheepId)
+    {
+        await _cheepRepository.DeleteCheep(cheepId);
+        return RedirectToPage("AboutMe");
     }
 
     public async Task<IActionResult> OnPostFollowAsync(string authorName)
