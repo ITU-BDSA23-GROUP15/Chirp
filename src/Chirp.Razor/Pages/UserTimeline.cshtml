@@ -8,7 +8,6 @@
 }
 
 <div>
-    
     <h2> @routeName's Timeline </h2>
     <p> Followers: @Model.FollowersCount | Following: @Model.FollowingCount </p>
     @if (Model.IsCurrentAuthor(routeName)) 
@@ -40,37 +39,35 @@
             {
                 <li>
 					<a href="/@cheep.AuthorName"><img style="width:48px; height:48px" src="https://avatars.githubusercontent.com/@cheep.AuthorName"></a>
-                    <p>
-                        @if (!Model.IsCurrentAuthor(cheep.AuthorName))
+                    @if (!Model.IsCurrentAuthor(cheep.AuthorName) && Model.IsAuthenticated())
+                    {
+                        @if (Model.Following.Contains(cheep.AuthorName)) 
                         {
-                            @if (Model.Following.Contains(cheep.AuthorName)) 
-                            {
-                                <form method="post" asp-page-handler="Unfollow">
-                                    <input type="hidden" name="authorName" value="@cheep.AuthorName" />
-                                    <button type="submit" style="float: right">Unfollow</button>
-                                </form>
-                            } 
-                            else if (Model.Followers.Contains(cheep.AuthorName)) 
-                            {
-                                <form method="post" asp-page-handler="Follow" >
-                                    <input type="hidden" name="authorName" value="@cheep.AuthorName" />
-                                    <button type="submit" style="float: right">Follow Back</button>
-                                </form>
-                            } 
-                            else 
-                            {
-                                <form method="post" asp-page-handler="Follow">
-                                    <input type="hidden" name="authorName" value="@cheep.AuthorName" />
-                                    <button type="submit" style="float: right">Follow</button>
-                                </form>
-                            }
+                            <form method="post" asp-page-handler="Unfollow">
+                                <input type="hidden" name="authorName" value="@cheep.AuthorName" />
+                                <button type="submit" style="float: right">Unfollow</button>
+                            </form>
+                        } 
+                        else if (Model.Followers.Contains(cheep.AuthorName)) 
+                        {
+                            <form method="post" asp-page-handler="Follow" >
+                                <input type="hidden" name="authorName" value="@cheep.AuthorName" />
+                                <button type="submit" style="float: right">Follow Back</button>
+                            </form>
+                        } 
+                        else 
+                        {
+                            <form method="post" asp-page-handler="Follow">
+                                <input type="hidden" name="authorName" value="@cheep.AuthorName" />
+                                <button type="submit" style="float: right">Follow</button>
+                            </form>
                         }
-                        <strong>
-                            <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
-                        </strong> 
-                        <br/>
+                    }
+                    <strong><a href="/@cheep.AuthorName">@cheep.AuthorName</a></strong> 
+                    <small>&mdash; @cheep.TimeStamp</small>
+                    <br>
+                    <p>
                         @cheep.Text
-                        <small>&mdash; @cheep.TimeStamp</small>
                     </p>
                 </li>
             }

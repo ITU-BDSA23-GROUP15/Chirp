@@ -8,7 +8,7 @@ public class UserTimelineModel : PageModel
 {
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
-    public List<CheepDto> Cheeps { get; set; }
+    public IEnumerable<CheepDto> Cheeps { get; set; }
     public IEnumerable<string> Following { get; set; }
     public IEnumerable<string> Followers { get; set; }
     public int FollowingCount { get; private set; }
@@ -38,7 +38,7 @@ public class UserTimelineModel : PageModel
     }
 
     public int NextPage() {
-        if (Cheeps.Count < 32) {
+        if (Cheeps.Count() < 32) {
             return PageIndex;
         }
         return PageIndex + 1;
@@ -52,12 +52,6 @@ public class UserTimelineModel : PageModel
     }
     public async Task<IActionResult> OnGetAsync(string authorName, [FromQuery(Name = "page")] int pageIndex = 1)
     {
-
-		if (authorName.Equals("about")) 
-		{
-			return RedirectToPage("AboutMe");
-		}
-
         Following =  _authorRepository.GetAuthorFollowing(User.Identity!.Name!);
         Followers = _authorRepository.GetAuthorFollowers(User.Identity!.Name!);
         if (IsCurrentAuthor(authorName))

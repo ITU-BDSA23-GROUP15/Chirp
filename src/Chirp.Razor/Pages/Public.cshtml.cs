@@ -8,9 +8,9 @@ public class PublicModel : PageModel
 {
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
-    public List<CheepDto> Cheeps { get; set; }
-    public IEnumerable<string> Following { get; set; } = new List<string>();
-    public IEnumerable<string> Followers { get; set; } = new List<string>();
+    public IEnumerable<CheepDto> Cheeps { get; set; }
+    public IEnumerable<string> Following { get; set; }
+    public IEnumerable<string> Followers { get; set; }
 
     [BindProperty]
     [StringLength(160)]
@@ -23,6 +23,8 @@ public class PublicModel : PageModel
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
         Cheeps = new List<CheepDto>();
+        Following = new List<string>();
+        Followers = new List<string>();
     }
 
     public bool IsAuthenticated() {
@@ -34,7 +36,7 @@ public class PublicModel : PageModel
     }
 
     public int NextPage() {
-        if (Cheeps.Count < 32) {
+        if (Cheeps.Count() < 32) {
             return PageIndex;
         }
         return PageIndex + 1;
@@ -68,7 +70,7 @@ public class PublicModel : PageModel
     // post cheep
     public async Task<IActionResult> OnPostAsync()
     {
-        if (!IsAuthenticated())
+        if (!IsAuthenticated() || string.IsNullOrWhiteSpace(Text))
         {
             return RedirectToPage("Public");
         }
