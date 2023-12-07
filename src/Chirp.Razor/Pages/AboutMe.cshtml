@@ -16,7 +16,7 @@
                 <p>@claim</p>
             }
 
-            <form method="post" asp-page-handler="ForgetAuthor" onsubmit="return confirm('Are you sure that you want to delete your user?')">
+            <form method="post" asp-page-handler="ForgetAuthor" onsubmit="return confirm('Are you sure you want to delete your user?')">
                 <button type="submit">Forget me</button>
             </form>     
             <br>
@@ -71,7 +71,7 @@
                 {
                     <li>
                         <a href="/@cheep.AuthorName"><img style="width:48px; height:48px" src="https://avatars.githubusercontent.com/@cheep.AuthorName"></a>
-                        <form method="post" asp-page-handler="DeleteCheep">
+                        <form method="post" asp-page-handler="DeleteCheep" onsubmit="return confirm('Are you sure you want to delete this cheep?')">
                             <input type="hidden" name="cheepId" value="@cheep.CheepId" />
                             <button type="submit" style="float: right">Delete</button>
                         </form>
