@@ -17,7 +17,7 @@
             (<span id="text-length-counter">0</span>/160)
             <form method="post">
                 <input style="float: left" asp-for="Text" oninput="updateLength()">
-                <input type="submit" value="Share">
+                <input type="submit" class="btn" value="Share">
                 @Html.AntiForgeryToken()
             </form>
         </div>
@@ -45,21 +45,21 @@
                         {
                             <form method="post" asp-page-handler="Unfollow">
                                 <input type="hidden" name="authorName" value="@cheep.AuthorName" />
-                                <button type="submit" style="float: right">Unfollow</button>
+                                <button type="submit" class="btn" style="float: right">Unfollow</button>
                             </form>
                         } 
                         else if (Model.Followers.Contains(cheep.AuthorName)) 
                         {
                             <form method="post" asp-page-handler="Follow" >
                                 <input type="hidden" name="authorName" value="@cheep.AuthorName" />
-                                <button type="submit" style="float: right">Follow Back</button>
+                                <button type="submit" class="btn" style="float: right">Follow Back</button>
                             </form>
                         } 
                         else 
                         {
                             <form method="post" asp-page-handler="Follow">
                                 <input type="hidden" name="authorName" value="@cheep.AuthorName" />
-                                <button type="submit" style="float: right">Follow</button>
+                                <button type="submit" class="btn" style="float: right">Follow</button>
                             </form>
                         }
                     }
