@@ -61,8 +61,8 @@ button[type="submit"] {
 	color: white;
 }
 
-.delete-btn{
-  background: red !important;
+.delete-btn {
+	background: red !important;
 }
 
 button[type="submit"]:hover {
@@ -185,8 +185,11 @@ div.page div.cheepbox p {
 	margin: 0;
 }
 
-div.page div.cheepbox input[type="text"] {
-	width: 585px;
+div.page div.cheepbox textarea {
+	width: 580px;
+	padding: 3px;
+	margin: 0;
+	resize: none;
 }
 
 div.page div.cheepbox input[type="submit"] {
