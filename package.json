@@ -1,0 +1,17 @@
+{
+  "name": "chirp",
+  "version": "1.0.0",
+  "description": "Application is deployed here: https://bdsagroup15chirprazor.azurewebsites.net/",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.40.1",
+    "@types/node": "^20.10.4"
+  }
+}
