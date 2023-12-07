@@ -22,7 +22,7 @@ public class CheepRepository : ICheepRepository
             .OrderByDescending(c => c.TimeStamp)
             .Skip((pageIndex - 1) * pageRange)
             .Take(pageRange)
-            .Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp))
+            .Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp, c.CheepId))
             .ToListAsync();
     }
 
@@ -34,7 +34,7 @@ public class CheepRepository : ICheepRepository
             .Where(c => c.Author.Name == authorName)
             .Skip((pageIndex - 1) * pageRange)
             .Take(pageRange)
-            .Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp))
+            .Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp, c.CheepId))
             .ToListAsync();
     }
 
@@ -52,7 +52,7 @@ public class CheepRepository : ICheepRepository
             .Where(c => c.Author.Name == authorName || following.Contains(c.Author))
             .Skip((pageIndex - 1) * pageRange)
             .Take(pageRange)
-            .Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp))
+            .Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp, c.CheepId))
             .ToListAsync();
     }
 
@@ -70,7 +70,7 @@ public class CheepRepository : ICheepRepository
             .Where(c => following.Contains(c.Author))
             .Skip((pageIndex - 1) * pageRange)
             .Take(pageRange)
-            .Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp))
+            .Select(c => new CheepDto(c.Text, c.Author.Name, c.TimeStamp, c.CheepId))
             .ToListAsync();
     }
 

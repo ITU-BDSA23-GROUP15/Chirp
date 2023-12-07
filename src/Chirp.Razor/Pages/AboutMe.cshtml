@@ -16,9 +16,9 @@
                 <p>@claim</p>
             }
 
-            <form method="post" asp-page-handler="Delete" onsubmit="return confirm('Are you sure that you want to delete your user?')">
+            <form method="post" asp-page-handler="ForgetAuthor" onsubmit="return confirm('Are you sure that you want to delete your user?')">
                 <button type="submit">Forget me</button>
-            </form>
+            </form>     
             <br>
 
             <h2>Following: @Model.Following.Count() </h2>
@@ -71,6 +71,10 @@
                 {
                     <li>
                         <a href="/@cheep.AuthorName"><img style="width:48px; height:48px" src="https://avatars.githubusercontent.com/@cheep.AuthorName"></a>
+                        <form method="post" asp-page-handler="DeleteCheep">
+                            <input type="hidden" name="cheepId" value="@cheep.CheepId" />
+                            <button type="submit" style="float: right">Delete</button>
+                        </form>
                         <strong><a href="/@cheep.AuthorName">@cheep.AuthorName</a></strong>
                         <small>&mdash; @cheep.TimeStamp</small>
                         <br>
