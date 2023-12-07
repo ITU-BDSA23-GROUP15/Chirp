@@ -16,7 +16,7 @@
             <h3>What's on your mind @(User.Identity!.Name)?</h3>
             (<span id="text-length-counter">0</span>/160)
             <form method="post">
-                <input style="float: left" asp-for="Text" oninput="updateLength()">
+                <textarea style="width: 580px; padding: 3px; margin: 0; resize: none;" rows="3" asp-for="Text" oninput="updateLength()"></textarea>
                 <input disabled id="cheep-submit-button" type="submit" value="Share">
                 @Html.AntiForgeryToken()
             </form>
