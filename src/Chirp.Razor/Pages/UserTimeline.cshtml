@@ -17,7 +17,7 @@
             (<span id="text-length-counter">0</span>/160)
             <form method="post">
                 <input style="float: left" asp-for="Text" oninput="updateLength()">
-                <input type="submit" value="Share">
+                <input disabled id="cheep-submit-button" type="submit" value="Share">
                 @Html.AntiForgeryToken()
             </form>
         </div>
@@ -25,9 +25,20 @@
         <script>
             function updateLength() {
                 var counterBox = document.getElementById("text-length-counter");
+				var cheepButton = document.getElementById("cheep-submit-button");
                 var lengthOfInput = document.getElementById("Text").value.length;
 
                 counterBox.innerHTML = lengthOfInput;
+
+				if (lengthOfInput > 0) 
+				{
+					cheepButton.disabled = false;
+				} 
+				else 
+				{
+					cheepButton.disabled = true;
+				}
+
             }
         </script>
     }
