@@ -67,7 +67,7 @@ public class AboutMeModel : PageModel
 
     public async Task<IActionResult> OnPostDeleteCheepAsync(Guid cheepId)
     {
-        Console.WriteLine($"Deleting cheep {cheepId}");
+        await _cheepRepository.DeleteCheep(cheepId);
         return RedirectToPage("AboutMe");
     }
 

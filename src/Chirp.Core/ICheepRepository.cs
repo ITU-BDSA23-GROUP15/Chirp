@@ -7,4 +7,5 @@ public interface ICheepRepository
     Task<IEnumerable<CheepDto>> GetCheepsFromFollowing(string authorName, int pageIndex, int pageRange);
     Task<IEnumerable<CheepDto>> GetPersonalCheeps(string authorName, int pageIndex, int pageRange);
     Task CreateCheep(CreateCheepDto cheep);
+    Task DeleteCheep(Guid cheepId);
 }

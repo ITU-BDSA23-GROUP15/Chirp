@@ -97,4 +97,11 @@ public class CheepRepository : ICheepRepository
         await _context.Cheeps.AddAsync(newCheep);
         await _context.SaveChangesAsync();
     }
+
+    public async Task DeleteCheep(Guid cheepId)
+    {
+        var cheep = await _context.Cheeps.FirstOrDefaultAsync(c => c.CheepId == cheepId);
+        _context.Cheeps.Remove(cheep!);
+        await _context.SaveChangesAsync();
+    }
 }
