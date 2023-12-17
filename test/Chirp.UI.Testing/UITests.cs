@@ -38,7 +38,7 @@ public class UITests : PageTest
         var config = new ConfigurationBuilder().AddUserSecrets<UITests>().Build();
         var UserName = config["UserName"];
         var Password = config["Password"];
-        
+
         await Page.GotoAsync("http://localhost:5273/");
 
         await Page.GetByRole(AriaRole.Link, new() { Name = "login" }).ClickAsync();
@@ -55,43 +55,42 @@ public class UITests : PageTest
 
         await Page.Locator("#Text").ClickAsync();
 
-        await Page.Locator("#Text").FillAsync("Can I cheep in this UI Test?");
+        await Page.Locator("#Text").FillAsync("This is a UI test, does this work?");
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
 
-        await Page.Locator("form").Filter(new() { HasText = "Share" }).ClickAsync();
-
-        await Page.Locator("#Text").DblClickAsync();
-
-        await Page.Locator("#Text").FillAsync("sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssaaa");
-
         await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
 
-        await Page.Locator("#Text").ClickAsync();
-
-        await Page.Locator("#Text").FillAsync("My own timeline oh wauw");
-
-        await Page.Locator("#Text").PressAsync("Enter");
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Next page" }).ClickAsync();
 
         await Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" }).ClickAsync();
+
+        await Page.GetByRole(AriaRole.Link, new() { Name = "Next page" }).ClickAsync();
 
         await Page.GetByRole(AriaRole.Link, new() { Name = "about me" }).ClickAsync();
 
-        await Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" }).ClickAsync();
+        void Page_Dialog_EventHandler(object sender, IDialog dialog)
+        {
+            Console.WriteLine($"Dialog message: {dialog.Message}");
+            dialog.AcceptAsync();
+            Page.Dialog -= Page_Dialog_EventHandler;
+        }
+        Page.Dialog += Page_Dialog_EventHandler;
+        await Page.Locator("li").Filter(new() { HasText = "This is a UI test, does this work?" }).GetByRole(AriaRole.Button).ClickAsync();
 
-        await Page.Locator("li").Filter(new() { HasText = "Follow Jacqualine Gilcoine — 08/01/2023 13:17:39 Starbuck now is what we hear" }).GetByRole(AriaRole.Link).Nth(1).ClickAsync();
+        await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
+
+        await Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" }).ClickAsync();
 
         await Page.Locator("li").Filter(new() { HasText = "Follow Jacqualine Gilcoine — 08/01/2023 13:17:39 Starbuck now is what we hear" }).GetByRole(AriaRole.Button).ClickAsync();
 
+        await Page.Locator("li").Filter(new() { HasText = "Unfollow Jacqualine Gilcoine — 08/01/2023 13:17:39 Starbuck now is what we hear" }).GetByRole(AriaRole.Link).Nth(1).ClickAsync();
+
+        await Page.GetByRole(AriaRole.Link, new() { Name = "about me" }).ClickAsync();
+
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Unfollow" }).ClickAsync();
+
         await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
-
-        await Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" }).ClickAsync();
-
-        await Page.Locator("li").Filter(new() { HasText = "Unfollow Jacqualine Gilcoine — 08/01/2023 13:17:39 Starbuck now is what we hear" }).GetByRole(AriaRole.Button).ClickAsync();
-
-        await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
-
-        await Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" }).ClickAsync();
 
     }
 }
