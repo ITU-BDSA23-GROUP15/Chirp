@@ -131,4 +131,28 @@ public class AuthorRepository : IAuthorRepository
 
         return author;
     }
+
+    public async Task DeleteAuthor(string authorName)
+    {
+        var author = await _context.Authors
+            .Include(a => a.Cheeps)
+            .Include(a => a.Followers)
+            .Include(a => a.Following)
+            .FirstOrDefaultAsync(a => a.Name == authorName) ?? throw new Exception("Author doesn't exist");
+            
+		_context.Cheeps.RemoveRange(author.Cheeps);
+
+        foreach (var follower in author.Followers)
+        {
+            follower.Following.Remove(author);
+        }
+        foreach (var following in author.Following)
+        {
+            following.Followers.Remove(author);
+        }
+
+        _context.Authors.Remove(author);
+        
+        await _context.SaveChangesAsync();
+    }
 }

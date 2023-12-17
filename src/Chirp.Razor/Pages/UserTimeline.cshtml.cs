@@ -8,9 +8,11 @@ public class UserTimelineModel : PageModel
 {
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
-    public List<CheepDto> Cheeps { get; set; }
+    public IEnumerable<CheepDto> Cheeps { get; set; }
     public IEnumerable<string> Following { get; set; }
     public IEnumerable<string> Followers { get; set; }
+    public int FollowingCount { get; private set; }
+    public int FollowersCount { get; private set; }
     
     [BindProperty]
     [StringLength(160)]
@@ -36,7 +38,7 @@ public class UserTimelineModel : PageModel
     }
 
     public int NextPage() {
-        if (Cheeps.Count < 32) {
+        if (Cheeps.Count() < 32) {
             return PageIndex;
         }
         return PageIndex + 1;
@@ -50,17 +52,21 @@ public class UserTimelineModel : PageModel
     }
     public async Task<IActionResult> OnGetAsync(string authorName, [FromQuery(Name = "page")] int pageIndex = 1)
     {
-        if (IsAuthenticated() && IsCurrentAuthor(authorName))
+        Following =  _authorRepository.GetAuthorFollowing(User.Identity!.Name!);
+        Followers = _authorRepository.GetAuthorFollowers(User.Identity!.Name!);
+        if (IsCurrentAuthor(authorName))
         {
             Cheeps = (await _cheepRepository.GetPersonalCheeps(authorName, pageIndex, 32)).ToList();
+            FollowingCount = Following.Count();
+            FollowersCount = Followers.Count();
         }
         else
         {
             Cheeps = (await _cheepRepository.GetCheepsFromAuthor(authorName, pageIndex, 32)).ToList();
+            FollowingCount = _authorRepository.GetAuthorFollowing(authorName).Count();
+            FollowersCount = _authorRepository.GetAuthorFollowers(authorName).Count();
         }
 
-        Following =  _authorRepository.GetAuthorFollowing(User.Identity!.Name!);
-        Followers = _authorRepository.GetAuthorFollowers(User.Identity!.Name!);
         return Page();
     }
 
