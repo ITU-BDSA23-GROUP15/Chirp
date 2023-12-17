@@ -85,5 +85,5 @@ Navigate to src and run
 `/opt/mssql-tools/bin/sqlcmd -S localhost -U SA`
 
 ## UI Tests
-**Command to run the UI tests, which opens a browser, and slows the test down, so you can see what is happening (chromium might be required**
+**Command to run the UI tests, which opens a browser, and slows the test down, so you can see what is happening (chromium might be required)**
 dotnet test -- Playwright.BrowserName=chromium Playwright.LaunchOptions.Headless=false Playwright.LaunchOptions.SlowMo=2500 Playwright.LaunchOptions.Channel=msedge
