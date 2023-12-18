@@ -12,6 +12,7 @@ namespace Chirp.UI.Testing;
 public class UITests : PageTest
 {
     [Test]
+    // This test is simply run to make sure PlayWright is running correctly, should always pass
     public async Task HomepageHasPlaywrightInTitleAndGetStartedLinkLinkingtoTheIntroPage()
     {
         await Page.GotoAsync("https://playwright.dev");
