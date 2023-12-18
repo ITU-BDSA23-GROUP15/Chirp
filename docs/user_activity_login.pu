@@ -7,11 +7,11 @@ title Login - activity diagram
 
 start
 :Click login;
-:Redirect to github B2C authentication;
+:Redirect to Github B2C authentication;
 :Enter Github credentials;
 if (user exists?) then (yes)
 else (no)
-:Redirect to b2c user details page;
+:Redirect to B2C user details page;
 :Verify email;
 endif
 :Redirect to public timeline;

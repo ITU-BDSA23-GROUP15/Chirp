@@ -4,36 +4,36 @@ skin rose
 title authorized user
 
 start
-:Display public timeline;
-:Display cheepbox;
-:Write text into cheepbox and click share; 
+:Display Public Timeline;
+:Display Cheepbox;
+:Write text into Cheepbox and click "Share"; 
 note right
     Cheep gets posted
 end note
-:Redirects to public timeline;
-:Click on follow;
+:Refreshes page;
+:Click "Follow" on a User;
 note right
     User follows Author
 end note
-:Click on my timeline;
-:Display my timeline;
+:Click on "my timeline";
+:Display Personalized Timeline;
 note right
     Personalized cheeps (own cheeps + 
     cheeps of followed users)
 end note
-:Click on About Me;
+:Click on "about me";
 :Display About Me page;
-:Click on delete; 
-note right 
-    Cheep gets deleted
-end note
-:Redirects to my timeline;
+:Click "Delete" on a cheep;
+if (Are you sure?) then (yes)
+    :Deletes the cheep;
+    :Refreshes page;
+else (no)
+endif
 :Click on Forget me;
 if (Are you sure?) then (yes)
-    :Delete user and cheeps;
-    :Redirects to public timeline;
+    :Deletes user and cheeps;
+    :Logs out and redirects to public timeline;
 else (no)
-    :Redirects to my timeline;
 endif
 end
 @enduml

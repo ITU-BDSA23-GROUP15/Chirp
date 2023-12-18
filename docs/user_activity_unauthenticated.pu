@@ -5,7 +5,7 @@ title Unauthorized - activity diagram
 
 start
 :Display Public Page;
-:Click on Username;
+:Click on a Username;
 :Redirect to User's Timeline;
 :Display User's Timeline;
 :Go to Next/Previous Page;
