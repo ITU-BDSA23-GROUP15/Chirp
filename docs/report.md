@@ -75,6 +75,6 @@ The test suite can then be run by entering cd src/Chirp.Tests (maybe not, can ju
 # Ethics
 
 ## License
-We've chosen the MIT License
+We've chosen the MIT License, which is a permissive free software license, because of its limited restriction on reuse.
 
 ## LLMs, ChatGPT, CoPilot, and others
