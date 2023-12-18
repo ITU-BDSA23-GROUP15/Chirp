@@ -11,20 +11,20 @@ author:
 numbersections: true
 ---
 
--   [Design and Architecture of _Chirp!_](#design-and-architecture-of-chirp)
-    -   [Domain model](#domain-model)
-    -   [Architecture — In the small](#architecture--in-the-small)
-    -   [Architecture of deployed application](#architecture-of-deployed-application)
-    -   [User activities](#user-activities)
-    -   [Sequence of functionality/calls trough _Chirp!_](#sequence-of-functionalitycalls-trough-chirp)
--   [Process](#process)
-    -   [Build, test, release, and deployment](#build-test-release-and-deployment)
-    -   [Team work](#team-work)
-    -   [How to make _Chirp!_ work locally](#how-to-make-chirp-work-locally)
-    -   [How to run test suite locally](#how-to-run-test-suite-locally)
--   [Ethics](#ethics)
-    -   [License](#license)
-    -   [LLMs, ChatGPT, CoPilot, and others](#llms-chatgpt-copilot-and-others)
+- [Design and Architecture of _Chirp!_](#design-and-architecture-of-chirp)
+  - [Domain model](#domain-model)
+  - [Architecture — In the small](#architecture--in-the-small)
+  - [Architecture of deployed application](#architecture-of-deployed-application)
+  - [User activities](#user-activities)
+  - [Sequence of functionality/calls trough _Chirp!_](#sequence-of-functionalitycalls-trough-chirp)
+- [Process](#process)
+  - [Build, test, release, and deployment](#build-test-release-and-deployment)
+  - [Team work](#team-work)
+  - [How to make _Chirp!_ work locally](#how-to-make-chirp-work-locally)
+  - [How to run test suite locally](#how-to-run-test-suite-locally)
+- [Ethics](#ethics)
+  - [License](#license)
+  - [LLMs, ChatGPT, CoPilot, and others](#llms-chatgpt-copilot-and-others)
 
 # Design and Architecture of _Chirp!_
 
@@ -47,6 +47,17 @@ Here comes a description of our domain model.
 ## Build, test, release, and deployment
 
 ## Team work
+
+- Get issue from teacher/customer/whoever
+- Create issue with the format described in readme
+- The issue is up for grabs by everyone in the "new column"
+- A fitting member(s) will pickup the issue and start working on it.
+- Issue moves to "In progress"
+- Link pull request to issue, to track progress
+- Pull request gets ready for review by members who worked on the issue.
+- Pull review is requested to those who didn't work on the issue
+- Pull request is reviewed/merged
+- Issue is moved to "Done"
 
 ## How to make _Chirp!_ work locally
 - Probably something about docker? The program cant run without docker I think?
@@ -78,3 +89,9 @@ The test suite can then be run by entering cd src/Chirp.Tests (maybe not, can ju
 We've chosen the MIT License, which is a permissive free software license, because of its limited restriction on reuse.
 
 ## LLMs, ChatGPT, CoPilot, and others
+"State which LLM(s) were used during development of your project. In case you were not using any, just state so. In case you were using an LLM to support your development, briefly describe when and how it was applied. Reflect in writing to which degree the responses of the LLM were helpful. Discuss briefly if application of LLMs sped up your development or if the contrary was the case."
+
+- Co-pilot: has been useful for auto completing code that has already been made previously, especially the repository database functions.
+- Co-pilot: was not good at creating new code with new logic, almost always faulty and spent more time debugging autocompleted code than what it benefitted.
+- ChatGPT: has been used a lot as a starting point in debugging, when everything seemed overwehelming.
+- ChatGPT:General questions about project topics, that helped narrow down the scope of the task and therefore reasearching became a lot easier. 
