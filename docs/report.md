@@ -49,11 +49,32 @@ Here comes a description of our domain model.
 ## Team work
 
 ## How to make _Chirp!_ work locally
+- Probably something about docker? The program cant run without docker I think?
+
+To clone the project run the following command in the terminal: 
+
+- git clone https://github.com/ITU-BDSA23-GROUP15/Chirp.git
+
+From the root of the project run the following command to run the project locally:
+- dotnet run --project src/Chirp.Razor/
+- Open a browser and go to http://localhost:5273/
+- Do we need to do any migrations?
+
+
+You should now expect to see the public timeline, stating at the top of the site, that you need to login to cheep, a login button should be available at the top right.
 
 ## How to run test suite locally
+To run the test suite locally, you need to have a local instance of the program running. This can be done from the root of the project by entering 
+-  cd src/Chirp.Razor and dotnet run. This will start the program at http://localhost:5273/
+
+The test suite can then be run by entering cd src/Chirp.Tests (maybe not, can just do dotnet test from root of project) and afterwards dotnet test. This will run the test suite and output the results in the terminal.
+
+
+
 
 # Ethics
 
 ## License
+We've chosen the MIT License
 
 ## LLMs, ChatGPT, CoPilot, and others
