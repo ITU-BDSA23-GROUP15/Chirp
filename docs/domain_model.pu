@@ -1,11 +1,4 @@
 @startuml
-IdentityUser <-- Author
-Cheep "Cheeps *" -- "Author 1" Author
-
-class IdentityUser { /' Do we get anything from here??'/
-    +UserName: string
-    +Email: string
-}
 
 class Cheep {
     +CheepId: Guid
@@ -15,7 +8,7 @@ class Cheep {
     +TimeStamp: DateTime
 }
 
-class Author {
+class "Author" as Author {
     +AuthorId: Guid
     +Name: string
     +Email: string
@@ -23,5 +16,9 @@ class Author {
     +Following: List<Author>
     +Followers: List<Author>
 }
+
+Cheep "Cheeps *" -- "Author 1" Author
+Author -- Author : Follower *
+Author -- Author : Following *
 
 @enduml

@@ -37,6 +37,21 @@ Here comes a description of our domain model.
 ## Architecture — In the small
 
 ## Architecture of deployed application
+Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other.
+
+- Clients: 
+  - Web browser
+  - Mobile app
+- Web server: 
+  - ASP.NET Core
+  - Docker
+  - Azure
+- Database: 
+  - MSSQL
+  - Docker
+  - Azure
+
+Clients -> Web server <-> Database
 
 ## User activities
 
@@ -93,5 +108,5 @@ We've chosen the MIT License, which is a permissive free software license, becau
 
 - Co-pilot: has been useful for auto completing code that has already been made previously, especially the repository database functions.
 - Co-pilot: was not good at creating new code with new logic, almost always faulty and spent more time debugging autocompleted code than what it benefitted.
-- ChatGPT: has been used a lot as a starting point in debugging, when everything seemed overwehelming.
-- ChatGPT:General questions about project topics, that helped narrow down the scope of the task and therefore reasearching became a lot easier. 
+- ChatGPT: has been used a lot as a starting point in debugging, when everything seemed overwhelming.
+- ChatGPT:General questions about project topics, that helped narrow down the scope of the task and therefore researching became a lot easier. 
