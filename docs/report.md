@@ -106,7 +106,8 @@ We've chosen the MIT License, which is a permissive free software license, becau
 ## LLMs, ChatGPT, CoPilot, and others
 "State which LLM(s) were used during development of your project. In case you were not using any, just state so. In case you were using an LLM to support your development, briefly describe when and how it was applied. Reflect in writing to which degree the responses of the LLM were helpful. Discuss briefly if application of LLMs sped up your development or if the contrary was the case."
 
-- Co-pilot: has been useful for auto completing code that has already been made previously, especially the repository database functions.
-- Co-pilot: was not good at creating new code with new logic, almost always faulty and spent more time debugging autocompleted code than what it benefitted.
-- ChatGPT: has been used a lot as a starting point in debugging, when everything seemed overwhelming.
-- ChatGPT:General questions about project topics, that helped narrow down the scope of the task and therefore researching became a lot easier. 
+- Co-pilot: Has been useful for auto completing code that has already been made previously, especially the repository database functions.
+- Co-pilot: Was not good at creating new code with new logic, almost always faulty and spent more time debugging autocompleted code than what it benefitted.
+- ChatGPT: Has been used a lot as a starting point in debugging, when everything seemed overwhelming.
+- ChatGPT: General questions about project topics, that helped narrow down the scope of the task and therefore researching became a lot easier.
+- ChatGPT & Co-pilot: Has been used with varying succes, to understand errors provides by the compiler. Sometimes it was helpful, other times it simply did not understand the error and provided wrong suggestions.
