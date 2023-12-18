@@ -2,7 +2,7 @@
 IdentityUser <-- Author
 Cheep "Cheeps *" -- "Author 1" Author
 
-class IdentityUser {
+class IdentityUser { /' Do we get anything from here??'/
     +UserName: string
     +Email: string
 }
