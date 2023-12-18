@@ -83,15 +83,14 @@ public class UITests : PageTest
 
         await Page.GetByRole(AriaRole.Link, new() { Name = "public timeline" }).ClickAsync();
 
-        await Page.Locator("li").Filter(new() { HasText = "Follow Jacqualine Gilcoine — 08/01/2023 13:17:39 Starbuck now is what we hear" }).GetByRole(AriaRole.Button).ClickAsync();
+        await Page.Locator("li").Filter(new() { HasText = "Starbuck now is what we hear the worst." }).GetByRole(AriaRole.Button).ClickAsync();
 
-        await Page.Locator("li").Filter(new() { HasText = "Unfollow Jacqualine Gilcoine — 08/01/2023 13:17:39 Starbuck now is what we hear" }).GetByRole(AriaRole.Link).Nth(1).ClickAsync();
+        await Page.Locator("li").Filter(new() { HasText = "Starbuck now is what we hear the worst." }).GetByRole(AriaRole.Link).Nth(1).ClickAsync();
 
         await Page.GetByRole(AriaRole.Link, new() { Name = "about me" }).ClickAsync();
 
         await Page.GetByRole(AriaRole.Button, new() { Name = "Unfollow" }).ClickAsync();
 
         await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
-
     }
 }
