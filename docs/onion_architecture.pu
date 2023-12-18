@@ -1,0 +1,40 @@
+@startuml
+package "Chirp.Razor" as Razor {
+    package "Pages" as Pages {
+        class "AboutMe" as AboutMe
+        class "Public" as Public
+        class "UserTimeline" as UserTimeline
+    }
+    class "DbInitializer" as DbInitializer
+    class "Program" as Program
+}
+
+Package "Chirp.Infrastructure" as Infrastructure {
+    class "Cheep" as Cheep
+    class "CheepRepository" as CheepRepository
+    class "ChirpContext" as ChirpContext
+    class "Author" as Author
+    class "AuthorRepository" as AuthorRepository
+    package "Migrations" as Migrations {
+    }
+}
+
+Package "Chirp.Core" as Core {
+    class "AuthorDto" as AuthorDto
+    interface "IAuthorRepository" as IAuthorRepository
+    class "CheepDto" as CheepDto
+    interface "ICheepRepository" as ICheepRepository
+}
+
+database "MsSQL" as Chirp {
+    Infrastructure --> ChirpDb
+    Core --> ChirpDb
+}
+
+Pages ..> Infrastructure : use, create
+Pages ..> Core : use, create
+Program ..> Infrastructure : use
+Program ..> Core : use
+DbInitializer ..> Author : create
+    
+@enduml

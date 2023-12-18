@@ -1,0 +1,30 @@
+@startuml
+skin rose
+start
+:Attend lecture;
+:Look in weekly project work;
+:Write issues using template in our ReadMe;
+
+if (Issue is complex) then (yes)
+    :Multiple people work on issue;
+else (no)
+    :One person works on issue;
+endif
+:Create new branch;
+
+:Issue moves to "In Progress";
+:Link pull request to issue, to track progress;
+:Create pull request and request review
+from group members not working on current issue;
+
+if (Worked on issue?) then (yes)
+    :Wait for other group members to review and approve pull request;
+else (no)
+    :Review request;
+    :Accept pull request;
+endif
+:Resolve conflicts if any;
+:Merge to main;
+:Issue moves to "Done";
+stop
+@enduml

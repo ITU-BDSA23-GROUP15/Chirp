@@ -1,0 +1,39 @@
+@startuml
+skin rose
+
+title authorized user
+
+start
+:Display Public Timeline;
+:Display Cheepbox;
+:Write text into Cheepbox and click "Share"; 
+note right
+    Cheep gets posted
+end note
+:Refreshes page;
+:Click "Follow" on a User;
+note right
+    User follows Author
+end note
+:Click on "my timeline";
+:Display Personalized Timeline;
+note right
+    Personalized cheeps (own cheeps + 
+    cheeps of followed users)
+end note
+:Click on "about me";
+:Display About Me page;
+:Click "Delete" on a cheep;
+if (Are you sure?) then (yes)
+    :Deletes the cheep;
+    :Refreshes page;
+else (no)
+endif
+:Click on Forget me;
+if (Are you sure?) then (yes)
+    :Deletes user and cheeps;
+    :Logs out and redirects to public timeline;
+else (no)
+endif
+end
+@enduml
