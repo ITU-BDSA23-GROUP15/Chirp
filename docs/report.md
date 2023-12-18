@@ -63,16 +63,16 @@ Clients -> Web server <-> Database
 
 ## Team work
 
-- Get issue from teacher/customer/whoever
-- Create issue with the format described in readme
-- The issue is up for grabs by everyone in the "new column"
-- A fitting member(s) will pickup the issue and start working on it.
-- Issue moves to "In progress"
-- Link pull request to issue, to track progress
-- Pull request gets ready for review by members who worked on the issue.
-- Pull review is requested to those who didn't work on the issue
-- Pull request is reviewed/merged
-- Issue is moved to "Done"
+- Get issue from teacher/customer/whoever.
+- Create issue with the format described in readme.
+- The issue is up for grabs for everyone, and is located in the "new column".
+- A fitting member(s) will pickup the issue and begin working on it.
+- Issue moves to "In progress".
+- Link pull request to issue, to track progress.
+- Pull request is made ready for review by members who worked on the issue.
+- Pull review is requested to those who didn't work on the issue.
+- Pull request is reviewed if necessary feedback is given, if reviewers find the code satisfactory it is merged into the main branch.
+- Issue is moved to "Done".
 
 ## How to make _Chirp!_ work locally
 - Probably something about docker? The program cant run without docker I think?
@@ -86,8 +86,7 @@ From the root of the project run the following command to run the project locall
 - Open a browser and go to http://localhost:5273/
 - Do we need to do any migrations?
 
-
-You should now expect to see the public timeline, stating at the top of the site, that you need to login to cheep, a login button should be available at the top right.
+You should now expect to see the public timeline, stating at the top of the site, that you need to login to cheep, a login button should be available at the top right. The rest of the features on the site, will only become avaibalbe after logging in, which is done using your github account.
 
 ## How to run test suite locally
 To run the test suite locally, you need to have a local instance of the program running. This can be done from the root of the project by entering 
@@ -96,12 +95,10 @@ To run the test suite locally, you need to have a local instance of the program 
 The test suite can then be run by entering cd src/Chirp.Tests (maybe not, can just do dotnet test from root of project) and afterwards dotnet test. This will run the test suite and output the results in the terminal.
 
 
-
-
 # Ethics
 
 ## License
-We've chosen the MIT License, which is a permissive free software license, because of its limited restriction on reuse.
+We've chosen the MIT License, which is a permissive free software license, because of its limited restriction on reuse. In this project we wanted to encourage reuse of our code, and therefore we've chosen a license that allows for this. The MIT License is also a very common license, which makes it easy for others to understand the terms of the license.
 
 ## LLMs, ChatGPT, CoPilot, and others
 "State which LLM(s) were used during development of your project. In case you were not using any, just state so. In case you were using an LLM to support your development, briefly describe when and how it was applied. Reflect in writing to which degree the responses of the LLM were helpful. Discuss briefly if application of LLMs sped up your development or if the contrary was the case."
