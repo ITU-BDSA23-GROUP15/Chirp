@@ -478,3 +478,7 @@ $RECYCLE.BIN/
 
 # Stop data from being pushed
 data/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
