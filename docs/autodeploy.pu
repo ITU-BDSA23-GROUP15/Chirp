@@ -1,0 +1,23 @@
+@startuml Autodeploy
+partition "Build Code" {
+start
+:Push to main-branch;
+:Checkout repository & setup .NET v7.0.x;
+:Build Chirp.Razor-project;
+:Publish Chirp.Razor-project;
+:Upload Chirp.Razor-project;
+:Install EF-Tool and Build Migrations Bundle;
+:Upload Migrations Bundle;
+end
+}
+
+partition "Deploy to Azure" {
+start
+:Download Chirp.Razor-project;
+:Download Migrations Bundle;
+:Login to Azure;
+:Apply EF Bundle;
+:Deploy to Azure Web App;
+end
+}
+@enduml
