@@ -62,17 +62,7 @@ Clients -> Web server <-> Database
 ## Build, test, release, and deployment
 
 ## Team work
-
-- Get issue from teacher/customer/whoever.
-- Create issue with the format described in readme.
-- The issue is up for grabs for everyone, and is located in the "new column".
-- A fitting member(s) will pickup the issue and begin working on it.
-- Issue moves to "In progress".
-- Link pull request to issue, to track progress.
-- Pull request is made ready for review by members who worked on the issue.
-- Pull review is requested to those who didn't work on the issue.
-- Pull request is reviewed if necessary feedback is given, if reviewers find the code satisfactory it is merged into the main branch.
-- Issue is moved to "Done".
+When a new issue is created, it is automatically assigned to the "new" column in the project board. Members of the team can then assign themselves to the issue, with the amount of people working on it, being mainly dependent on the complexity of the issue. When a member assigns themselves to an issue, they move the issue to the "in progress" column. A new branch is created to work on the issue, and a pull request is linked to the issue, to track the progress on it. When the issue is considered completed, by the working members, the pull request is reviewed by the other members of the team. Members then review if they find the solution satisfactory. If the solution is not found satisfactory, they provide feedback, throught their review and await the working members to consider feedback and submit a corrected pull request for review. If the solution is found satisfactory, the pull request is merged into the main branch. The issue is then moved to the "done" column.
 
 ## How to make _Chirp!_ work locally
 - Probably something about docker? The program cant run without docker I think?

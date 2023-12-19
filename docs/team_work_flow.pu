@@ -1,9 +1,7 @@
 @startuml team_work_flow
 skin rose
 start
-:Attend lecture;
-:Look in weekly project work;
-:Write issues using template in our ReadMe;
+:Create issue;
 
 if (Issue is complex) then (yes)
     :Multiple people work on issue;
@@ -12,16 +10,23 @@ else (no)
 endif
 :Create new branch;
 
-:Issue moves to "In Progress";
+:Issue is moved to "In Progress";
 :Link pull request to issue, to track progress;
-:Create pull request and request review
-from group members not working on current issue;
+:Work on issue, until it is solved;
+:Request review on pull request from
+members who did not work on the issue;
 
-if (Worked on issue?) then (yes)
-    :Wait for other group members to review and approve pull request;
+if (Member worked on issue?) then (yes)
+    :Wait for other group members to 
+    review and approve pull request;
 else (no)
     :Review request;
-    :Accept pull request;
+    while (Is issue solved satisfactory?) is (no)
+        :Give feedback and request changes;
+        :Wait for members working on the issue to implement 
+        feedback and submit corrected pull request;
+    endwhile (yes)
+    :Approve pull request;
 endif
 :Resolve conflicts if any;
 :Merge to main;
