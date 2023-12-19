@@ -1,0 +1,9 @@
+@startuml Build and Test
+start
+:Checkout Respository;
+:Setup .NET with version 7.0.x;
+:Restore dependencies;
+:Build project;
+:Run tests (only test/Chirp.Testing);
+stop
+@enduml
