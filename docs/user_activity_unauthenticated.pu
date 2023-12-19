@@ -1,4 +1,4 @@
-@startuml
+@startuml user_activity_unauthenticated
 skin rose
 
 title Unauthorized - activity diagram

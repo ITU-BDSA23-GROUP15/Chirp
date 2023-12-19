@@ -1,4 +1,4 @@
-@startuml
+@startuml team_work_flow
 skin rose
 start
 :Attend lecture;

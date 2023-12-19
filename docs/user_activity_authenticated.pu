@@ -1,4 +1,4 @@
-@startuml
+@startuml user_activity_authenticated
 skin rose
 
 title authorized user
