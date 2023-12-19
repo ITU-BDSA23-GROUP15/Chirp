@@ -37,8 +37,8 @@ public class UITests : PageTest
     public async Task MyTest()
     {
         var config = new ConfigurationBuilder().AddUserSecrets<UITests>().Build();
-        var UserName = config["UserName"];
-        var Password = config["Password"];
+        var UserName = config["UserName"] ?? throw new InvalidOperationException("UserName is not set in the configuration.");
+        var Password = config["Password"] ?? throw new InvalidOperationException("Password is not set in the configuration.");
 
         await Page.GotoAsync("http://localhost:5273/");
 
@@ -70,7 +70,7 @@ public class UITests : PageTest
 
         await Page.GetByRole(AriaRole.Link, new() { Name = "about me" }).ClickAsync();
 
-        void Page_Dialog_EventHandler(object sender, IDialog dialog)
+        void Page_Dialog_EventHandler(object? sender, IDialog dialog)
         {
             Console.WriteLine($"Dialog message: {dialog.Message}");
             dialog.AcceptAsync();
