@@ -82,23 +82,15 @@ From the root of the project run the following command to run the project locall
 You should now expect to see the public timeline, stating at the top of the site, that you need to login to cheep, a login button should be available at the top right. The rest of the features on the site, will only become avaibalbe after logging in, which is done using your github account.
 
 ## How to run test suite locally
-<<<<<<< HEAD
 ### Unit and integration tests
 This project contains two test suites, as we have seperated our UI test, into a seperate test suite. To run our unit/integration tests simply open a terminal at the root of the project and run the command:
 ```
 dotnet test test/Chirp.Testing/
 ```
 As our tests are run in a docker container, coupled with the fact that our program relies on a database, every method we have requires a read from the database when testing it. Therefore our unit tests are also integration tests, as they test the integration between our code and the database.
-=======
-
-To run the test suite locally, you need to have a local instance of the program running. This can be done from the root of the project by entering
-
--   cd src/Chirp.Razor and dotnet run. This will start the program at http://localhost:5273/
->>>>>>> 85582077bc0eff2e9bc2a7e6cf03d3bbee37a12d
 
 We did not manage to create enough tests for full code coverage, with some methods lacking a corresponding test. The methods that are tested are *CreateAuthor, CreateCheep* and *GetCheeps*.
 
-<<<<<<< HEAD
 ### UI tests (E2E)
 Our UI test acts as an end to end test, as it tests the UI and functionality of our program as a whole by simulating user input.
 A few things is required to run the UI test suite. As our UI test is made with Playwright, the a supported browser for this needs to be installed. This can be ensured by running the following command:
@@ -134,8 +126,6 @@ The SlowMo value can be adjusted to your liking, to slow down or speed up the te
 
 The UI/E2E-test that this test suite contains, tests the overall functionality of our program along with the UI elements and the navigation between the URLs.
 
-=======
->>>>>>> 85582077bc0eff2e9bc2a7e6cf03d3bbee37a12d
 # Ethics
 
 ## License
