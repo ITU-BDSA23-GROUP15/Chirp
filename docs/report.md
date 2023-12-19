@@ -79,11 +79,49 @@ From the root of the project run the following command to run the project locall
 You should now expect to see the public timeline, stating at the top of the site, that you need to login to cheep, a login button should be available at the top right. The rest of the features on the site, will only become avaibalbe after logging in, which is done using your github account.
 
 ## How to run test suite locally
-To run the test suite locally, you need to have a local instance of the program running. This can be done from the root of the project by entering 
--  cd src/Chirp.Razor and dotnet run. This will start the program at http://localhost:5273/
+### Unit and integration tests
+This project contains two test suites, as we have seperated our UI test, into a seperate test suite. To run our unit/integration tests simply open a terminal at the root of the project and run the command:
+```
+dotnet test test/Chirp.Testing/
+```
+As our tests are run in a docker container, coupled with the fact that our program relies on a database, every method we have requires a read from the database when testing it. Therefore our unit tests are also integration tests, as they test the integration between our code and the database.
 
-The test suite can then be run by entering cd src/Chirp.Tests (maybe not, can just do dotnet test from root of project) and afterwards dotnet test. This will run the test suite and output the results in the terminal.
+We did not manage to create enough tests for full code coverage, with some methods lacking a corresponding test. The methods that are tested are *CreateAuthor, CreateCheep* and *GetCheeps*.
 
+### UI tests (E2E)
+Our UI test acts as an end to end test, as it tests the UI and functionality of our program as a whole by simulating user input.
+A few things is required to run the UI test suite. As our UI test is made with Playwright, the a supported browser for this needs to be installed. This can be ensured by running the following command:
+```
+npx playwright install
+```
+Furthermore, since an authenticated user is required to access most of the functionality of the program, and since our only means of authenticating is through Github, user secrets needs to be set up with a valid Github account. This can be done by running the following command:
+```
+dotnet user-secrets set "UserName" "<Insert your Github username>" --project test/Chirp.UI.Testing/Chirp.UI.Testing.csproj
+```
+Followed by:
+```
+dotnet user-secrets set "Password" "<Insert your Github password>" --project test/Chirp.UI.Testing/Chirp.UI.Testing.csproj
+```
+To run the UI test suite, you need to have a local instance of the program running. This can be done from a terminal at the root of the project by entering:
+```
+dotnet build
+```
+followed by:
+```
+dotnet run --project src/Chirp.Razor/
+```
+In another terminal at the root of the project, enter the following command to run the UI test suite:
+```
+dotnet test test/Chirp.UI.Testing/
+```
+If you have two factor authentication enabled on your Github account, the test suite needs to be run in headless mode, to allow for you to complete the authentication, when the test tries to log in. This can be done by running the following command instead of the one above:
+```
+dotnet test test/Chirp.UI.Testing/ -- Playwright.BrowserName=chromium Playwright.LaunchOptions.Headless=false Playwright.LaunchOptions.SlowMo=1000
+```
+The SlowMo value can be adjusted to your liking, to slow down or speed up the test suite, to make it easier to follow what is happening.
+
+
+The UI/E2E-test that this test suite contains, tests the overall functionality of our program along with the UI elements and the navigation between the URLs.
 
 # Ethics
 
