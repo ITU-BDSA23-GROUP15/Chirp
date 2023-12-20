@@ -16,24 +16,20 @@ numbersections: true
 
 ## Domain model
 
-![Picture of the domain model](figures/domain_model.png){width=300px}
+![An overview of our domain model and its corresponding classes.](figures/domain_model.png){width=300px}
 
-Here is an overview of our domain model and its corresponding classes.
+
 \newpage
 
 ## Architecture — In the small
 
-![Illustration of the program architecture (Onion architecture)](figures/Onion_architecture.drawio.png){width=300px}
-
-This is an illustration showing our final program architecture. The model is based on the Onion architecture model. 
+![An illustration showing our final program architecture. The model is based on the Onion architecture model.](figures/Onion_architecture.drawio.png){width=300px}
 
 \newpage
 
 ## Architecture of deployed application
 
-![deployed_architecture](figures/Deployed%20Architecture.png){width=300px}
-
-This is an illustration showing our final deployed architecture. The application is deployed on Microsoft Azure, and uses a MSSQL database.
+![An illustration showing our final deployed architecture. The application is deployed on Microsoft Azure, and uses a MSSQL database.](figures/Deployed%20Architecture.png){width=300px}
 
 \newpage
 
@@ -41,31 +37,27 @@ This is an illustration showing our final deployed architecture. The application
 
 ### Not logged in
 
-![Picture of user activity when the user is not logged in](figures/user_activity_unauthenticated.png)
+![Activity diagram of what a user could do while not logged in.](figures/user_activity_unauthenticated.png)
 
-Activity diagram of what a user could do while not logged in.
+
 \newpage
 
 ### Logged in
 
-![Picture of user activity when the user is logged in](figures/user_activity_authenticated.png){height=500px}
+![Activity diagram of what a user could do while logged in.](figures/user_activity_authenticated.png){height=500px}
 
-Activity diagram of what a user could do while logged in.
+
 \newpage
 
 ### Logging in
 
-![Picture of user activity logging in](figures/user_activity_login.png){height=500px}
-
-Activity diagram of a user logging into the application.
+![Activity diagram of a user logging into the application.](figures/user_activity_login.png){height=500px}
 
 \newpage
 
 ## Sequence of functionality/calls trough _Chirp!_
 
-![Sequence diagram showing the calls through the application](figures/SequenceCalls.png){width=300px}
-
-This is a sequence diagram showing the calls through the application. The diagram gives 3 different scenarios of how the application can be used, with corresponding functionality and calls.
+![This is a sequence diagram showing the calls through the application. The diagram gives 3 different scenarios of how the application can be used, with corresponding functionality and calls.](figures/SequenceCalls.png){width=300px}
 
 \newpage
 
@@ -75,13 +67,13 @@ This is a sequence diagram showing the calls through the application. The diagra
 
 ### Building and testing the application
 
-![Image of build and test](figures/Build%20and%20Test.png)
+![Illustration of build and test](figures/Build%20and%20Test.png)
 
 Whenever a push is made to GitHub, a workflow will start testing the application. This is the case for every branch and makes sure that whenever we make something - even if it is a new feature - the tests will run and the program won't fail when merged to main. This only includes the Chirp.Testing-folder as we had issues with GitHub-login for the UI-testing-workflow.
 
 ### Automating GitHub releases
 
-![Image of autorelease](figures/Autorelease.png){height=300px}
+![Illustration of auto release](figures/Autorelease.png){height=300px}
 
 When a tag is pushed to GitHub using the syntax "vx.y.z", a workflow is started that first tests the application (same as [building and testing the application](#building-and-testing-the-application)). If the tests passes a new release is made where the versio number (tag) is the title. The workflow then builds the application for windows, linux, macOS and macArm separately, zips them and uploads them to the release-page.
 
@@ -91,7 +83,7 @@ We use [semantic versioning](https://github.com/itu-bdsa/lecture_notes/blob/main
 
 ### Automating Azure deployment
 
-![Image of autodeploy](figures/Autodeploy.png){height=300px}
+![Illustration of auto deploy](figures/Autodeploy.png){height=300px}
 
 When a push is made to the main-branch a workflow deploying the application to our Azure server is started. The workflows first tasks builds the application, installs ef-tool and creates a migration bundle with the ef-tool. This is then uploaded.
 
@@ -101,7 +93,7 @@ A new task is then created that downloads the application and migrations bundle.
 
 ## Team work
 
-![Image showing how an issue is done](figures/team_work_flow.png){height=500px}
+![Illustration showing how an issue is done](figures/team_work_flow.png){height=500px}
 
 When a new issue is created, it is automatically assigned to the "new" column in the project board. Members of the team can then assign themselves to the issue, with the amount of people working on it, being mainly dependent on the complexity of the issue. When a member assigns themselves to an issue, they move the issue to the "in progress" column. A new branch is created to work on the issue, and a pull request is linked to the issue, to track the progress on it. When the issue is considered completed, by the working members, the pull request is reviewed by the other members of the team. Members then review if they find the solution satisfactory. If the solution is not found satisfactory, they provide feedback, throughout their review and await the working members to consider feedback and submit a corrected pull request for review. If the solution is found satisfactory, the pull request is merged into the main branch. The issue is then moved to the "done" column.
 
