@@ -2,13 +2,13 @@
 actor Client
 
 Node "App service" as AzureServer {
-    Node "Chirp App"
+    Node "Chirp App" as app
 }
 
 Node "SQLServer" as AzureDB{
     database "MSSQL" as MSSQL
 }
 
-Client --> AzureServer : HTTP request
-AzureServer --> AzureDB 
+Client -> AzureServer : HTTP request
+app -> MSSQL 
 @enduml
