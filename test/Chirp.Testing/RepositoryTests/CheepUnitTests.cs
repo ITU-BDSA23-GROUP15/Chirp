@@ -1,5 +1,6 @@
 using Chirp.Core;
 using Bogus.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Testing;
 
@@ -23,16 +24,18 @@ public class CheepUnitTests : BaseIntegrationTest
 			.RuleFor(x => x.TimeStamp, f => f.Date.Past());
 	}
 
-	private void ClearDB() {
+	private async Task ClearDB()
+	{
 		DbContext.RemoveRange(DbContext.Cheeps); //Removes all Cheeps made in former tests
-		DbContext.RemoveRange(DbContext.Authors); //Removes all Authors made in former tests
+		DbContext.RemoveRange(DbContext.Authors.Include(a => a.Following).Include(a => a.Followers)); //Removes all Authors made in former tests
+		await DbContext.SaveChangesAsync();
 	}
 
 	[Fact]
 	public async Task CreateCheepSavesToDB()
 	{
 		// Arrange
-		ClearDB();
+		await ClearDB();
 		var fakeAuthor = authorGenerator.Generate();
 		DbContext.Authors.Add(fakeAuthor);
 		await DbContext.SaveChangesAsync();
@@ -49,7 +52,7 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task CreateCheepSavesCorrectInfo()
 	{
 		// Arrange
-		ClearDB();
+		await ClearDB();
 		var fakeAuthor = authorGenerator.Generate();
 		DbContext.Authors.Add(fakeAuthor);
 		await DbContext.SaveChangesAsync();
@@ -68,7 +71,7 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task CreateCheepThrowsExceptionWhenTextIsTooLong()
 	{
 		// Arrange
-		ClearDB();
+		await ClearDB();
 		var fakeAuthor = authorGenerator.Generate();
 		DbContext.Authors.Add(fakeAuthor);
 		await DbContext.SaveChangesAsync();
@@ -84,7 +87,7 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task CreateCheepThrowsExceptionWhenTextIsEmpty()
 	{
 		// Arrange
-		ClearDB();
+		await ClearDB();
 		var fakeAuthor = authorGenerator.Generate();
 		DbContext.Authors.Add(fakeAuthor);
 		await DbContext.SaveChangesAsync();
@@ -100,7 +103,7 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task DeleteCheepRemovesCheepFromDB()
 	{
 		// Arrange
-		ClearDB();
+		await ClearDB();
 		var fakeAuthor = authorGenerator.Generate();
 		var fakeCheep = cheepGenerator
 			.RuleFor(a => a.Author, fakeAuthor)
@@ -122,7 +125,7 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task GetCheepsReturnsAny()
 	{
 		// Arrange
-		ClearDB();
+		await ClearDB();
 		var fakeAuthor = authorGenerator.Generate();
 		var fakeCheep = cheepGenerator
 			.RuleFor(a => a.Author, fakeAuthor)
@@ -143,7 +146,7 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task GetCheepsReturnsCorrectInfo()
 	{
 		// Arrange
-		ClearDB();
+		await ClearDB();
 		var fakeAuthor = authorGenerator.Generate();
 		var fakeCheep = cheepGenerator
 			.RuleFor(a => a.Author, fakeAuthor)
@@ -166,7 +169,7 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task GetCheepsReturnsOnly32()
 	{
 		// Arrange
-		ClearDB();
+		await ClearDB();
 		var fakeAuthor = authorGenerator.Generate();
 		var fakeCheeps = cheepGenerator
 			.RuleFor(a => a.Author, fakeAuthor)
@@ -187,7 +190,7 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task GetCheepsReturnsSecondPage()
 	{
 		// Arrange
-		ClearDB();
+		await ClearDB();
 		var fakeAuthor = authorGenerator.Generate();
 		var fakeCheeps = cheepGenerator
 			.RuleFor(a => a.Author, fakeAuthor)
@@ -208,7 +211,7 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task GetCheepsFromAuthorReturnsAny()
 	{
 		// Arrange
-		ClearDB();
+		await ClearDB();
 		var fakeAuthor = authorGenerator.Generate();
 		var fakeCheep = cheepGenerator
 			.RuleFor(a => a.Author, fakeAuthor)
@@ -229,7 +232,7 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task GetCheepsFromAuthorReturnsCorrectInfo()
 	{
 		// Arrange
-		ClearDB();
+		await ClearDB();
 		var fakeAuthor = authorGenerator.Generate();
 		var fakeCheep = cheepGenerator
 			.RuleFor(a => a.Author, fakeAuthor)
@@ -252,7 +255,7 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task GetCheepsFromAuthorReturnsOnly32()
 	{
 		// Arrange
-		ClearDB();
+		await ClearDB();
 		var fakeAuthor = authorGenerator.Generate();
 		var fakeCheeps = cheepGenerator
 			.RuleFor(a => a.Author, fakeAuthor)
@@ -273,7 +276,7 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task GetCheepsFromAuthorReturnsSecondPage()
 	{
 		// Arrange
-		ClearDB();
+		await ClearDB();
 		var fakeAuthor = authorGenerator.Generate();
 		var fakeCheeps = cheepGenerator
 			.RuleFor(a => a.Author, fakeAuthor)
@@ -294,7 +297,7 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task GetCheepsFromAuthorOnlyReturnsCheepsFromAuthor()
 	{
 		// Arrange
-		ClearDB();
+		await ClearDB();
 		var fakeAuthor1 = authorGenerator.Generate();
 		var fakeAuthor2 = authorGenerator.Generate();
 		var fakeCheep1 = cheepGenerator
@@ -322,7 +325,7 @@ public class CheepUnitTests : BaseIntegrationTest
 	public async Task GetPersonalCheepsOnlyReturnsCheepsFromAuthorAndFollowing()
 	{
 		// Arrange
-		ClearDB();
+		await ClearDB();
 		var fakeAuthor1 = authorGenerator.Generate();
 		var fakeAuthor2 = authorGenerator.Generate();
 		var fakeAuthor3 = authorGenerator.Generate();
