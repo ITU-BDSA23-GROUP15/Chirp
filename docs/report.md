@@ -75,9 +75,9 @@ Whenever a push is made to GitHub, a workflow will start testing the application
 
 ![Illustration of auto release](figures/Autorelease.png){height=300px}
 
-When a tag is pushed to GitHub using the syntax "vx.y.z", a workflow is started that first tests the application (same as [building and testing the application](#building-and-testing-the-application)). If the tests passes a new release is made where the versio number (tag) is the title. The workflow then builds the application for windows, linux, macOS and macArm separately, zips them and uploads them to the release-page.
+When a tag is pushed to GitHub using the syntax "vx.y.z", a workflow is started that first tests the application (same as [building and testing the application](#building-and-testing-the-application)). If the tests passes a new release is made where the version number (tag) is the title. The workflow then builds the application for windows, linux, macOS and macArm separately, zips them and uploads them to the release-page.
 
-We use [semantic versioning](https://github.com/itu-bdsa/lecture_notes/blob/main/sessions/session_03/Slides.md#semantic-versioning) as our "guide" on how to determine the versionnumber.
+We use [_semantic versioning_](https://github.com/ITU-BDSA23-GROUP15/Chirp/blob/main/readme.md#semantic-versioning) as our "guide" on how to determine the version number.
 
 \newpage
 
@@ -85,9 +85,9 @@ We use [semantic versioning](https://github.com/itu-bdsa/lecture_notes/blob/main
 
 ![Illustration of auto deploy](figures/Autodeploy.png){height=300px}
 
-When a push is made to the main-branch a workflow deploying the application to our Azure server is started. The workflows first tasks builds the application, installs ef-tool and creates a migration bundle with the ef-tool. This is then uploaded.
+When a push is made to the main-branch a workflow deploying the application to our Azure server is started. The first tasks in the workflow builds the application, installs ef-tool and creates a migration bundle with the ef-tool. This is then uploaded.
 
-A new task is then created that downloads the application and migrations bundle. The workflow then logs in to Azure and applies the bundle to our application through a connectionstring. Lastly the application is deployed to Azure using an Azure-webapp-deploy-action.
+A new task is then created that downloads the application and migrations bundle. The workflow then logs in to Azure and applies the bundle to our application through a connection string. Lastly the application is deployed to Azure using an Azure-webapp-deploy-action.
 
 \newpage
 
@@ -95,7 +95,7 @@ A new task is then created that downloads the application and migrations bundle.
 
 ![Illustration showing how an issue is done](figures/team_work_flow.png){height=500px}
 
-When a new issue is created, it is automatically assigned to the "new" column in the project board. Members of the team can then assign themselves to the issue, with the amount of people working on it, being mainly dependent on the complexity of the issue. When a member assigns themselves to an issue, they move the issue to the "in progress" column. A new branch is created to work on the issue, and a pull request is linked to the issue, to track the progress on it. When the issue is considered completed, by the working members, the pull request is reviewed by the other members of the team. Members then review if they find the solution satisfactory. If the solution is not found satisfactory, they provide feedback, throughout their review and await the working members to consider feedback and submit a corrected pull request for review. If the solution is found satisfactory, the pull request is merged into the main branch. The issue is then moved to the "done" column.
+When a new issue is created, it is automatically assigned to the "new" column in the project board. Members of the team can then assign themselves to the issue, with the amount of people working on it, being mainly dependent on the complexity of the issue. When a member assigns themselves to an issue, they move the issue to the "in progress" column. A new branch is created to work on the issue, and a pull request is linked to the issue, to track the progress on it. When the issue is considered completed, by the working members, the pull request is reviewed by the other members of the team. Members then review whether they find the solution satisfactory or not. If the solution is not found satisfactory, they provide feedback, throughout their review and await the working members to consider feedback and submit a corrected pull request for review. If the solution is found satisfactory, the pull request is merged into the main branch. The issue is then moved to the "done" column.
 
 ![Project Board right before handin](figures/ProjectBoard.png)
 
@@ -219,17 +219,6 @@ dotnet test test/Chirp.UI.Testing/
 If you have two factor authentication enabled on your Github account, if you do not want to set your Github account login in your user secrets or if you want to visually follow the test run the following command instead of the one above:
 
 ```console
-dotnet test test/Chirp.UI.Testing/ --
-Playwright.BrowserName=chromium
-Playwright.LaunchOptions.Headless=false
-Playwright.LaunchOptions.SlowMo=1000
-```
-
-The SlowMo value can be adjusted to your liking, to slow down or speed up the test suite, to make it easier to follow what is happening.
-
-If you have two factor authentication enabled on your Github account, the test suite needs to be run in headless mode, to allow for you to complete the authentication, when the test tries to log in. This can be done by running the following command instead of the one above:
-
-```
 dotnet test test/Chirp.UI.Testing/ --
 Playwright.BrowserName=chromium
 Playwright.LaunchOptions.Headless=false
