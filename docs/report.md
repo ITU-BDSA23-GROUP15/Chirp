@@ -44,7 +44,7 @@ Here comes a description of our domain model.
 "Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other."
 
 
-[![deployed_architecture](http://tinyurl.com/yutshgjm)](http://tinyurl.com/yutshgjm)<!--![deployed_architecture](./figures/deployed_architecture.puml)-->
+[![deployed_architecture](http://tinyurl.com/ykof3tdp)](http://tinyurl.com/ykof3tdp)<!--![deployed_architecture](./figures/deployed_architecture.puml)-->
 
 ## User activities
 [![user_activity_unauthenticated](http://tinyurl.com/ylttngjo)](http://tinyurl.com/ylttngjo)<!--![user_activity_unauthenticated](./figures/user_activity_unauthenticated.puml)-->
@@ -61,13 +61,13 @@ Here comes a description of our domain model.
 
 ### Building and testing the application
 
-<!--![Image of build and test](./figures/buildandtest.puml)-->
+[![Image of build and test](http://tinyurl.com/yonnhmtn)](http://tinyurl.com/yonnhmtn)<!--![Image of build and test](./figures/buildandtest.puml)-->
 
 Whenever a push is made to GitHub, a workflow will start testing the application. This is the case for every branch and makes sure that whenever we make something - even if it is a new feature - the tests will run and the program won't fail when merged to main. This only includes the Chirp.Testing-folder as we had issues with GitHub-login for the UI-testing-workflow.
 
 ### Automatiting GitHub releases
 
-<!--![Image of autorelease](./figures/autorelease.puml)-->
+[![Image of autorelease](http://tinyurl.com/yul6zl7q)](http://tinyurl.com/yul6zl7q)<!--![Image of autorelease](./figures/autorelease.puml)-->
 
 When a tag is pushed to GitHub using the syntax "vx.y.z", a workflow is started that first tests the application (same as [building and testing the application](#building-and-testing-the-application)). If the tests passes a new release is made where the versio number (tag) is the title. The workflow then builds the application for windows, linux, macOS and macArm separately, zips them and uploads them to the release-page.
 
@@ -75,7 +75,7 @@ We use [semantic versioning](https://github.com/itu-bdsa/lecture_notes/blob/main
 
 ### Automating Azure deployment
 
-<!--![Image of autodeploy](./figures/autodeploy.puml)-->
+[![Image of autodeploy](http://tinyurl.com/ykchehop)](http://tinyurl.com/ykchehop)<!--![Image of autodeploy](./figures/autodeploy.puml)-->
 
 When a push is made to the main-branch a workflow deploying the application to our Azure server is started. The workflows first tasks builds the application, installs ef-tool and creates a migration bundle with the ef-tool. This is then uploaded.
 
