@@ -37,14 +37,14 @@ Here comes a description of our domain model.
 [![domain_model](http://tinyurl.com/yrawyrfh)](http://tinyurl.com/yrawyrfh)<!--![domain_model](./figures/domain_model.puml)-->
 
 ## Architecture — In the small
-
+![onion_architecture](figures/Onion_architecture.drawio.png)
 
 ## Architecture of deployed application
 
 "Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other."
 
 
-Clients -> Web server <-> Database
+[![deployed_architecture](http://tinyurl.com/yutshgjm)](http://tinyurl.com/yutshgjm)<!--![deployed_architecture](./figures/deployed_architecture.puml)-->
 
 ## User activities
 [![user_activity_unauthenticated](http://tinyurl.com/ylttngjo)](http://tinyurl.com/ylttngjo)<!--![user_activity_unauthenticated](./figures/user_activity_unauthenticated.puml)-->
@@ -58,10 +58,6 @@ Clients -> Web server <-> Database
 # Process
 
 ## Build, test, release, and deployment
-
-### Building and testing the application
-
-Whenever a push is made to GitHub, a workflow will start testing the application. This is the case for every branch and makes sure that whenever we make something - even if it is a new feature - the tests will run and the program won't fail when merged to main. T
 
 ## Team work
 
@@ -83,7 +79,7 @@ From the root of the project run the following command to run the project locall
 -   Open a browser and go to http://localhost:5273/
 -   Do we need to do any migrations?
 
-You should now expect to see the public timeline, stating at the top of the site, that you need to login to cheep, a login button should be available at the top right. The rest of the features on the site, will only become available after logging in, which is done using your github account.
+You should now expect to see the public timeline, stating at the top of the site, that you need to login to cheep, a login button should be available at the top right. The rest of the features on the site, will only become avaibalbe after logging in, which is done using your github account.
 
 ## How to run test suite locally
 ### Unit and integration tests
@@ -137,5 +133,11 @@ The UI/E2E-test that this test suite contains, tests the overall functionality o
 We've chosen the MIT License, which is a permissive free software license, because of its limited restriction on reuse. In this project we wanted to encourage reuse of our code, and therefore we've chosen a license that allows for this. The MIT License is also a very common license, which makes it easy for others to understand the terms of the license.
 
 ## LLMs, ChatGPT, CoPilot, and others
-During the development of our project, we have utilized ChatGPT and Copilot. ChatGPT has been used for general questions and research on project topics, to help narrow down the scopes of some of the more daunting tasks. We've also used both ChatGPT and Copilot as tools to understand error codes, when debugging our implementations, but with varying success. Somtimes suggested solutions were helpful, other times the LLM had not understood the error and provided wrong suggestions. 
-Copilots main function in our development project, has been to auto complete code that had already been made previously, especially the repository database functions. It has also been used to create new code, but if the logic was not already specified, the code was often faulty, which resulted in us spending a lot of time on debugging the autocompleted code. 
+
+"State which LLM(s) were used during development of your project. In case you were not using any, just state so. In case you were using an LLM to support your development, briefly describe when and how it was applied. Reflect in writing to which degree the responses of the LLM were helpful. Discuss briefly if application of LLMs sped up your development or if the contrary was the case."
+
+-   Co-pilot: Has been useful for auto completing code that has already been made previously, especially the repository database functions.
+-   Co-pilot: Was not good at creating new code with new logic, almost always faulty and spent more time debugging autocompleted code than what it benefitted.
+-   ChatGPT: Has been used a lot as a starting point in debugging, when everything seemed overwhelming.
+-   ChatGPT: General questions about project topics, that helped narrow down the scope of the task and therefore researching became a lot easier.
+-   ChatGPT & Co-pilot: Has been used with varying succes, to understand errors provides by the compiler. Sometimes it was helpful, other times it simply did not understand the error and provided wrong suggestions.
