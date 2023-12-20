@@ -8,7 +8,6 @@ start
 :Run tests (only test/Chirp.Testing);
 
 if (All tests passed?) then (yes)
-	:proceed to next step;
 else (no)
 	:stop workflow;
 	stop
