@@ -10,25 +10,7 @@ author:
 numbersections: true
 ---
 
--   [Design and Architecture of _Chirp!_](#design-and-architecture-of-chirp)
-    -   [Domain model](#domain-model)
-    -   [Architecture — In the small](#architecture--in-the-small)
-    -   [Architecture of deployed application](#architecture-of-deployed-application)
-    -   [User activities](#user-activities)
-    -   [Sequence of functionality/calls trough _Chirp!_](#sequence-of-functionalitycalls-trough-chirp)
--   [Process](#process)
-    -   [Build, test, release, and deployment](#build-test-release-and-deployment)
-        -   [Building and testing the application](#building-and-testing-the-application)
-        -   [Automatiting GitHub releases](#automatiting-github-releases)
-        -   [Automating Azure deployment](#automating-azure-deployment)
-    -   [Team work](#team-work)
-    -   [How to make _Chirp!_ work locally](#how-to-make-chirp-work-locally)
-    -   [How to run test suite locally](#how-to-run-test-suite-locally)
-        -   [Unit and integration tests](#unit-and-integration-tests)
-        -   [UI tests (E2E)](#ui-tests-e2e)
--   [Ethics](#ethics)
-    -   [License](#license)
-    -   [LLMs, ChatGPT, CoPilot, and others](#llms-chatgpt-copilot-and-others)
+\newpage
 
 # Design and Architecture of _Chirp!_
 
@@ -36,41 +18,47 @@ numbersections: true
 
 Here comes a description of our domain model.
 
-![domain_model](./figures/domain_model.png)
+![domain_model](figures/domain_model.png)
+\newpage
 
 ## Architecture — In the small
 
-![onion_architecture](figures/Onion_architecture.drawio.png)
+![DGUHIHUIBFDIDFNDF](figures/Onion_architecture.drawio.png){width=400px}
+\newpage
 
 ## Architecture of deployed application
 
 "Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other."
 
-![deployed_architecture](./figures/Deployed%20Architecture.png)
+![deployed_architecture](figures/Deployed%20Architecture.png)
+\newpage
 
 ## User activities
 
-![user_activity_unauthenticated](./figures/user_activity_unauthenticated.png)
+![JGDJHBGDJBGD](figures/user_activity_unauthenticated.png)
 
-![user_activity_authenticated](./figures/user_activity_authenticated.png)
+![user_activity_authenticated](figures/user_activity_authenticated.png)
 
-![user_activity_login](./figures/user_activity_login.png)
+![user_activity_login](figures/user_activity_login.png)
+\newpage
 
 ## Sequence of functionality/calls trough _Chirp!_
 
 # Process
 
+\newpage
+
 ## Build, test, release, and deployment
 
 ### Building and testing the application
 
-![Image of build and test](./figures/Build%20and%20Test.png)
+![Image of build and test](figures/Build%20and%20Test.png)
 
 Whenever a push is made to GitHub, a workflow will start testing the application. This is the case for every branch and makes sure that whenever we make something - even if it is a new feature - the tests will run and the program won't fail when merged to main. This only includes the Chirp.Testing-folder as we had issues with GitHub-login for the UI-testing-workflow.
 
 ### Automatiting GitHub releases
 
-![Image of autorelease](./figures/Autorelease.png)
+![Image of autorelease](figures/Autorelease.png)
 
 When a tag is pushed to GitHub using the syntax "vx.y.z", a workflow is started that first tests the application (same as [building and testing the application](#building-and-testing-the-application)). If the tests passes a new release is made where the versio number (tag) is the title. The workflow then builds the application for windows, linux, macOS and macArm separately, zips them and uploads them to the release-page.
 
@@ -78,7 +66,7 @@ We use [semantic versioning](https://github.com/itu-bdsa/lecture_notes/blob/main
 
 ### Automating Azure deployment
 
-![Image of autodeploy](./figures/Autodeploy.png)
+![Image of autodeploy](figures/Autodeploy.png)
 
 When a push is made to the main-branch a workflow deploying the application to our Azure server is started. The workflows first tasks builds the application, installs ef-tool and creates a migration bundle with the ef-tool. This is then uploaded.
 
@@ -86,7 +74,7 @@ A new task is then created that downloads the application and migrations bundle.
 
 ## Team work
 
-![team_work](./figures/team_work_flow.png)
+![team_work](figures/team_work_flow.png)
 
 When a new issue is created, it is automatically assigned to the "new" column in the project board. Members of the team can then assign themselves to the issue, with the amount of people working on it, being mainly dependent on the complexity of the issue. When a member assigns themselves to an issue, they move the issue to the "in progress" column. A new branch is created to work on the issue, and a pull request is linked to the issue, to track the progress on it. When the issue is considered completed, by the working members, the pull request is reviewed by the other members of the team. Members then review if they find the solution satisfactory. If the solution is not found satisfactory, they provide feedback, throughout their review and await the working members to consider feedback and submit a corrected pull request for review. If the solution is found satisfactory, the pull request is merged into the main branch. The issue is then moved to the "done" column.
 
@@ -114,7 +102,10 @@ Replace `<YourStrong@Passw0rd>` with a password of your choice. This password wi
 We now need to set a Connection string with the password to the docker, that you have just set in the previous command. This is aved in the user secrets, which can be done by running the following command from a terminal at the root of the project:
 
 ```
-dotnet user-secrets set "ConnectionStrings:ChirpDb" "Server=localhost;Database=ChirpDb;User Id=SA;Password=<YourStrong@Passw0rd>;MultipleActiveResultSets=true;TrustServerCertificate=True" --project src/Chirp.Razor/
+dotnet user-secrets set "ConnectionStrings:ChirpDb"
+"Server=localhost;Database=ChirpDb;User Id=SA;
+Password=<YourStrong@Passw0rd>;MultipleActiveResultSets=true;TrustServerCertificate=True"
+--project src/Chirp.Razor/
 ```
 
 From the root of the project run the following command to run the project locally:
@@ -151,13 +142,15 @@ npx playwright install
 Furthermore, since an authenticated user is required to access most of the functionality of the program, and since our only means of authenticating is through Github, user secrets needs to be set up with a valid Github account. This can be done by running the following command:
 
 ```
-dotnet user-secrets set "UserName" "<Insert your Github username>" --project test/Chirp.UI.Testing/Chirp.UI.Testing.csproj
+dotnet user-secrets set "UserName" "<Insert your Github username>"
+--project test/Chirp.UI.Testing/Chirp.UI.Testing.csproj
 ```
 
 Followed by:
 
 ```
-dotnet user-secrets set "Password" "<Insert your Github password>" --project test/Chirp.UI.Testing/Chirp.UI.Testing.csproj
+dotnet user-secrets set "Password" "<Insert your Github password>"
+--project test/Chirp.UI.Testing/Chirp.UI.Testing.csproj
 ```
 
 To run the UI test suite, you need to have a local instance of the program running. This can be done from a terminal at the root of the project by entering:
@@ -181,7 +174,10 @@ dotnet test test/Chirp.UI.Testing/
 If you have two factor authentication enabled on your Github account, the test suite needs to be run in headless mode, to allow for you to complete the authentication, when the test tries to log in. This can be done by running the following command instead of the one above:
 
 ```
-dotnet test test/Chirp.UI.Testing/ -- Playwright.BrowserName=chromium Playwright.LaunchOptions.Headless=false Playwright.LaunchOptions.SlowMo=1000
+dotnet test test/Chirp.UI.Testing/ --
+Playwright.BrowserName=chromium
+Playwright.LaunchOptions.Headless=false
+Playwright.LaunchOptions.SlowMo=1000
 ```
 
 The SlowMo value can be adjusted to your liking, to slow down or speed up the test suite, to make it easier to follow what is happening.
