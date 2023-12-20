@@ -41,7 +41,7 @@ jobs:
               run: dotnet publish ${{ env.WEBAPP_PACKAGE_PATH }} -c ${{ env.DOTNET_CONFIG }} --no-build
 
             - name: Upload Application
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                   name: Chirp.Razor
                   path: ${{env.WEBAPP_PACKAGE_PATH }}/bin/${{env.DOTNET_CONFIG}}/net7.0/publish
@@ -53,7 +53,7 @@ jobs:
               run: dotnet ef migrations bundle -p ${{env.WEBAPP_INFRA_PATH }} -s ${{env.WEBAPP_PACKAGE_PATH }} --configuration ${{ env.DOTNET_CONFIG }} --self-contained --no-build
 
             - name: Upload Migrations Bundle
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                   name: efbundle
                   path: efbundle
