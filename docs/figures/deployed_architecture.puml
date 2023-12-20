@@ -1,4 +1,4 @@
-@startuml
+@startuml Deployed Architecture
 actor Client
 
 Node "App service" as AzureServer {

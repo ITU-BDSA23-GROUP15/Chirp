@@ -482,3 +482,4 @@ data/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+/docs/plantuml-1.2023.13.jar
