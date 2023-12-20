@@ -1,0 +1,35 @@
+@startuml SequenceCalls
+actor "Client" as user
+participant "Application" as server
+Database "Database" as Database
+
+user -> server: GET
+activate user
+activate server
+server -> Database: Select * From Cheeps
+activate Database
+Database --> server: Resource
+deactivate Database
+server --> user: Status Code 200
+deactivate server
+
+user -> server: GET /login
+activate server
+server -> Auth: Authorize Client
+activate Auth
+Auth --> server: Success
+deactivate Auth
+server --> user: Status Code 200
+deactivate server
+
+user -> server: POST cheep
+activate server
+server -> Database: Insert Cheep into DB
+activate Database
+Database --> server: Resource
+deactivate Database
+server --> user: Status Code 200
+deactivate server
+deactivate user
+
+@enduml
