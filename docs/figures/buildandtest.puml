@@ -1,7 +1,7 @@
 @startuml Build and Test
 start
 :Checkout repository;
-:Setup .NET with version 7.0.x;
+:Setup .NET with version 7.0.400;
 :Restore dependencies;
 :Build project;
 :Run tests (only test/Chirp.Testing);
