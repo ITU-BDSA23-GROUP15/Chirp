@@ -18,12 +18,24 @@ public class AuthorUnitTests : BaseIntegrationTest
 			.RuleFor(a => a.Email, f => f.Internet.Email());
 	}
 
+	private async Task ClearDB()
+	{
+		DbContext.Cheeps.RemoveRange(DbContext.Cheeps);
+		var authors = DbContext.Authors.Include(a => a.Following).Include(a => a.Followers).ToList();
+		foreach (var author in authors)
+		{
+			author.Following.Clear();
+			author.Followers.Clear();
+		}
+		DbContext.Authors.RemoveRange(authors);
+		await DbContext.SaveChangesAsync();
+	}
+
 	[Fact]
 	public async Task CreateAuthorSavesToDB()
 	{
 		// Arrange
-		DbContext.RemoveRange(DbContext.Authors);
-		await DbContext.SaveChangesAsync();
+		await ClearDB();
 		var fakeAuthor = authorGenerator.Generate();
 		var createAuthorDto = new CreateAuthorDto(fakeAuthor.Name, fakeAuthor.Email);
 
@@ -38,8 +50,7 @@ public class AuthorUnitTests : BaseIntegrationTest
 	public async Task CreateAuthorSavesCorrectInfo()
 	{
 		// Arrange
-		DbContext.RemoveRange(DbContext.Authors);
-		await DbContext.SaveChangesAsync();
+		await ClearDB();
 		var fakeAuthor = authorGenerator.Generate();
 		var createAuthorDto = new CreateAuthorDto(fakeAuthor.Name, fakeAuthor.Email);
 
@@ -55,7 +66,7 @@ public class AuthorUnitTests : BaseIntegrationTest
 	public async Task CreatingExistingNameThrowsException()
 	{
 		// Arrange
-		DbContext.RemoveRange(DbContext.Authors);
+		await ClearDB(); 
 		var author = authorGenerator.Generate();
 		DbContext.Add(author);
 		await DbContext.SaveChangesAsync();
@@ -69,7 +80,7 @@ public class AuthorUnitTests : BaseIntegrationTest
 	public async Task DeleteAuthorRemovesAuthorFromDB()
 	{
 		// Arrange
-		DbContext.RemoveRange(DbContext.Authors);
+		await ClearDB();
 		var author = authorGenerator.Generate();
 		DbContext.Add(author);
 		await DbContext.SaveChangesAsync();
@@ -85,7 +96,7 @@ public class AuthorUnitTests : BaseIntegrationTest
 	public async Task AuthorExistsReturnsTrueIfAuthorExists()
 	{
 		// Arrange
-		DbContext.RemoveRange(DbContext.Authors);
+		await ClearDB();
 		var author = authorGenerator.Generate();
 		DbContext.Add(author);
 		await DbContext.SaveChangesAsync();
@@ -101,7 +112,7 @@ public class AuthorUnitTests : BaseIntegrationTest
 	public async Task AuthorExistsReturnsFalseIfAuthorDoesntExist()
 	{
 		// Arrange
-		DbContext.RemoveRange(DbContext.Authors);
+		await ClearDB();
 		var author = authorGenerator.Generate();
 		DbContext.Add(author);
 		await DbContext.SaveChangesAsync();
@@ -117,7 +128,7 @@ public class AuthorUnitTests : BaseIntegrationTest
 	public async Task FollowAuthorAddsAuthorsToFollowingAndFollowers()
 	{
 		// Arrange
-		DbContext.RemoveRange(DbContext.Authors);
+		await ClearDB();
 		var author = authorGenerator.Generate();
 		var authorToFollow = authorGenerator.Generate();
 		DbContext.Add(author);
@@ -142,7 +153,7 @@ public class AuthorUnitTests : BaseIntegrationTest
 	public async Task FollowAuthorThrowsExceptionIfAuthorToFollowDoesntExist()
 	{
 		// Arrange
-		DbContext.RemoveRange(DbContext.Authors);
+		await ClearDB();
 		var author = authorGenerator.Generate();
 		var authorToFollow = authorGenerator.Generate();
 		DbContext.Add(author);
@@ -157,7 +168,7 @@ public class AuthorUnitTests : BaseIntegrationTest
 	public async Task FollowAuthorThrowsExceptionIfAuthorDoesntExist()
 	{
 		// Arrange
-		DbContext.RemoveRange(DbContext.Authors);
+		await ClearDB();
 		var author = authorGenerator.Generate();
 		var authorToFollow = authorGenerator.Generate();
 		DbContext.Add(authorToFollow);
@@ -172,7 +183,7 @@ public class AuthorUnitTests : BaseIntegrationTest
 	public async Task FollowAuthorDoesntAddDuplicateFollowers()
 	{
 		// Arrange
-		DbContext.RemoveRange(DbContext.Authors);
+		await ClearDB();
 		var author = authorGenerator.Generate();
 		var authorToFollow = authorGenerator.Generate();
 		author.Following.Add(authorToFollow);
@@ -190,7 +201,7 @@ public class AuthorUnitTests : BaseIntegrationTest
 	public async Task UnfollowAuthorRemovesAuthorsFromFollowingAndFollowers()
 	{
 		// Arrange
-		DbContext.RemoveRange(DbContext.Authors);
+		await ClearDB();
 		var author = authorGenerator.Generate();
 		var authorToUnfollow = authorGenerator.Generate();
 		author.Following.Add(authorToUnfollow);
@@ -217,7 +228,7 @@ public class AuthorUnitTests : BaseIntegrationTest
 	public async Task GetAuthorFollowingReturnsCorrectAuthors()
 	{
 		// Arrange
-		DbContext.RemoveRange(DbContext.Authors);
+		await ClearDB();
 		var author = authorGenerator.Generate();
 		var authorToFollow = authorGenerator.Generate();
 		author.Following.Add(authorToFollow);
@@ -238,7 +249,7 @@ public class AuthorUnitTests : BaseIntegrationTest
 	public async Task GetAuthorFollowersReturnsCorrectAuthors()
 	{
 		// Arrange
-		DbContext.RemoveRange(DbContext.Authors);
+		await ClearDB();
 		var author = authorGenerator.Generate();
 		var authorToFollow = authorGenerator.Generate();
 		author.Following.Add(authorToFollow);

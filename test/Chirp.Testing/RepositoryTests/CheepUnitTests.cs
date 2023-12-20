@@ -26,8 +26,14 @@ public class CheepUnitTests : BaseIntegrationTest
 
 	private async Task ClearDB()
 	{
-		DbContext.RemoveRange(DbContext.Cheeps); //Removes all Cheeps made in former tests
-		DbContext.RemoveRange(DbContext.Authors.Include(a => a.Following).Include(a => a.Followers)); //Removes all Authors made in former tests
+		DbContext.Cheeps.RemoveRange(DbContext.Cheeps);
+		var authors = DbContext.Authors.Include(a => a.Following).Include(a => a.Followers).ToList();
+		foreach (var author in authors)
+		{
+			author.Following.Clear();
+			author.Followers.Clear();
+		}
+		DbContext.Authors.RemoveRange(authors);
 		await DbContext.SaveChangesAsync();
 	}
 
