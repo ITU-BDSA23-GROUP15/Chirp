@@ -1,4 +1,4 @@
-@startuml
+@startuml domain_model
 
 class Cheep {
     +CheepId: Guid

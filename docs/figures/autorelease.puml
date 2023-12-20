@@ -1,0 +1,39 @@
+@startuml Autorelease
+start
+:A tag "vx.y.z" is pushed to GitHub;
+:Checkout repository;
+:Setup .NET with version 7.0.x;
+:Restore dependencies;
+:Build project;
+:Run tests (only test/Chirp.Testing);
+
+if (All tests passed?) then (yes)
+else (no)
+	:stop workflow;
+	stop
+endif
+
+:Checkout repository;
+:Setup .NET with version 7.0.401;
+:;
+floating note right: These run sequentially
+split
+	:Build windows-release;
+	:Zip release;
+split again
+	:Build linux-release;
+	:Zip release;
+	split again
+	:Build osx-release;
+	:Zip release;
+	split again
+	:Build arm64-release;
+	:Zip release;
+end split
+
+
+:Publish with tag "vx.y.z";
+
+stop
+@enduml
+

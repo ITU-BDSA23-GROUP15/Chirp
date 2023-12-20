@@ -1,0 +1,34 @@
+@startuml team_work_flow
+start
+:Create issue;
+
+if (Issue is complex) then (yes)
+    :Multiple people work on issue;
+else (no)
+    :One person works on issue;
+endif
+:Create new branch;
+
+:Issue is moved to "In Progress";
+:Link pull request to issue, to track progress;
+:Work on issue, until it is solved;
+:Request review on pull request from
+members who did not work on the issue;
+
+if (Member worked on issue?) then (yes)
+    :Wait for other group members to 
+    review and approve pull request;
+else (no)
+    :Review request;
+    while (Is issue solved satisfactory?) is (no)
+        :Give feedback and request changes;
+        :Wait for members working on the issue to implement 
+        feedback and submit corrected pull request;
+    endwhile (yes)
+    :Approve pull request;
+endif
+:Resolve conflicts if any;
+:Merge to main;
+:Issue moves to "Done";
+stop
+@enduml
