@@ -56,7 +56,7 @@ Here comes a description of our domain model.
 
 Whenever a push is made to GitHub, a workflow will start testing the application. This is the case for every branch and makes sure that whenever we make something - even if it is a new feature - the tests will run and the program won't fail when merged to main. This only includes the Chirp.Testing-folder as we had issues with GitHub-login for the UI-testing-workflow.
 
-### Automatiting GitHub releases
+### Automating GitHub releases
 
 ![Image of autorelease](figures/Autorelease.png)
 
