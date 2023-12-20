@@ -176,9 +176,9 @@ This project contains two test suites, as we have separated our UI test, into a 
 dotnet test test/Chirp.Testing/
 ```
 
-As our tests are run in a docker container, coupled with the fact that our program relies on a database, every method we have requires a read from the database when testing it. Therefore our unit tests are also integration tests, as they test the integration between our code and the database.
+As our tests are run in a docker test containers, coupled with the fact that our program relies on a database, nearly every method we have requires a read from the database when testing it. Therefore our unit tests are also integration tests, as they depend on the integration between our code and the database. To have proper separation between unit tests and integration tests, we would need to make our unit tests use an in memory database. This would lead to a lot of duplicate test cases as they would be virtually copied to the integration tests, where we would use a docker test container for the database.
 
-We did not manage to create enough tests for full code coverage, with some methods lacking a corresponding test. The methods that are tested are _CreateAuthor, CreateCheep_ and _GetCheeps_.
+We have attempted to achieve a near full code coverage with our tests. Most of our repository methods are very similar, nearly identical, so a lot of our tests are very similar as well.
 
 ### UI tests (E2E)
 
