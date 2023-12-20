@@ -46,6 +46,13 @@ public class AuthorRepository : IAuthorRepository
             throw new Exception("Author doesn't exist");
         }
 
+        // Check if author is already following authorToFollow
+        // This should be unnecessary as "Following" and "Followers" should be Sets
+        // Additionally the database should prevent duplicates as it has a primary key on both columns(It does not, see src/Chirp.Infrastructure/Migrations/20231120134820_AddFollowersToAuthor.cs))
+        if (author.Following.Contains(authorToFollow) || authorToFollow.Followers.Contains(author)) {
+            throw new Exception("Duplicate follow");
+        }
+
         author.Following.Add(authorToFollow);
         authorToFollow.Followers.Add(author);
 
