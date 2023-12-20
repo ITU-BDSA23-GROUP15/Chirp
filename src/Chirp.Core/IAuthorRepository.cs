@@ -2,8 +2,6 @@ namespace Chirp.Core;
 
 public interface IAuthorRepository
 {
-    Task<AuthorDto> GetAuthorByEmail(string email);
-    Task<AuthorDto> GetAuthorByName(string authorName);
     IEnumerable<string> GetAuthorFollowers(string authorName);
     IEnumerable<string> GetAuthorFollowing(string authorName);
     Task<bool> AuthorExists(string authorName);

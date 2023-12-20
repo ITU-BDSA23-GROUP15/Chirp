@@ -1,0 +1,19 @@
+@startuml
+
+skin rose
+
+title Login - activity diagram
+
+
+start
+:Click login;
+:Redirect to Github B2C authentication;
+:Enter Github credentials;
+if (user exists?) then (yes)
+else (no)
+:Redirect to B2C user details page;
+:Verify email;
+endif
+:Redirect to public timeline;
+stop
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+
+class Cheep {
+    +CheepId: Guid
+    +AuthorId: Guid
+    +Author: Author
+    +Text: string
+    +TimeStamp: DateTime
+}
+
+class "Author" as Author {
+    +AuthorId: Guid
+    +Name: string
+    +Email: string
+    +Cheeps: List<Cheep>
+    +Following: List<Author>
+    +Followers: List<Author>
+}
+
+Cheep "Cheeps *" -- "Author 1" Author
+Author -- Author : Follower *
+Author -- Author : Following *
+
+@enduml
