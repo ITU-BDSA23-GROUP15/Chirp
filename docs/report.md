@@ -63,19 +63,50 @@ Clients -> Web server <-> Database
 
 ### Building and testing the application
 
-Whenever a push is made to GitHub, a workflow will start testing the application. This is the case for every branch and makes sure that whenever we make something - even if it is a new feature - the tests will run and the program won't fail when merged to main. T
+<!--![Image of build and test](./figures/buildandtest.puml)-->
+
+Whenever a push is made to GitHub, a workflow will start testing the application. This is the case for every branch and makes sure that whenever we make something - even if it is a new feature - the tests will run and the program won't fail when merged to main. This only includes the Chirp.Testing-folder as we had issues with GitHub-login for the UI-testing-workflow.
+
+### Automatiting GitHub releases
+
+<!--![Image of autorelease](./figures/autorelease.puml)-->
+
+When a tag is pushed to GitHub using the syntax "vx.y.z", a workflow is started that first tests the application (same as [building and testing the application](#building-and-testing-the-application)). If the tests passes a new release is made where the versio number (tag) is the title. The workflow then builds the application for windows, linux, macOS and macArm separately, zips them and uploads them to the release-page.
+
+We use [semantic versioning](https://github.com/itu-bdsa/lecture_notes/blob/main/sessions/session_03/Slides.md#semantic-versioning) as our "guide" on how to determine the versionnumber. 
+
+### Automating Azure deployment
+
+<!--![Image of autodeploy](./figures/autodeploy.puml)-->
+
+When a push is made to the main-branch a workflow deploying the application to our Azure server is started. The workflows first tasks builds the application, installs ef-tool and creates a migration bundle with the ef-tool. This is then uploaded.
+
+A new task is then created that downloads the application and migrations bundle. The workflow then logs in to Azure and applies the bundle to our application through a connectionstring. Lastly the application is deployed to Azure using an Azure-webapp-deploy-action.
 
 ## Team work
-
 When a new issue is created, it is automatically assigned to the "new" column in the project board. Members of the team can then assign themselves to the issue, with the amount of people working on it, being mainly dependent on the complexity of the issue. When a member assigns themselves to an issue, they move the issue to the "in progress" column. A new branch is created to work on the issue, and a pull request is linked to the issue, to track the progress on it. When the issue is considered completed, by the working members, the pull request is reviewed by the other members of the team. Members then review if they find the solution satisfactory. If the solution is not found satisfactory, they provide feedback, throught their review and await the working members to consider feedback and submit a corrected pull request for review. If the solution is found satisfactory, the pull request is merged into the main branch. The issue is then moved to the "done" column.
 
 ## How to make _Chirp!_ work locally
+To run our Chirp application locally it is required that you clone the project, which can be done by running the following command in the terminal:
+``` 
+git clone https://github.com/ITU-BDSA23-GROUP15/Chirp.git
+```
+As we are using a MSSQL database, it is required that you have docker installed on your machine. If you do not have docker installed, you can find a guide on how to install it [here](https://docs.docker.com/get-docker/).
 
--   Probably something about docker? The program cant run without docker I think?
 
-To clone the project run the following command in the terminal:
+To download a Docker image, create a container for it and run it, run the following command in the terminal:
+```
+sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=<YourStrong@Passw0rd>" \
+   -p 1433:1433 --name sql1 --hostname sql1 \
+   -d \
+   mcr.microsoft.com/mssql/server:2022-latest
+```
+Replace `<YourStrong@Passw0rd>` with a password of your choice. This password will be used to access the database, so make sure to remember it.
 
--   git clone https://github.com/ITU-BDSA23-GROUP15/Chirp.git
+We now need to set a Connection string with the password to the docker, that you have just set in the previous command. This is aved in the user secrets, which can be done by running the following command from a terminal at the root of the project:
+```
+dotnet user-secrets set "ConnectionStrings:ChirpDb" "Server=localhost;Database=ChirpDb;User Id=SA;Password=<YourStrong@Passw0rd>;MultipleActiveResultSets=true;TrustServerCertificate=True" --project src/Chirp.Razor/
+```
 
 From the root of the project run the following command to run the project locally:
 
@@ -87,7 +118,7 @@ You should now expect to see the public timeline, stating at the top of the site
 
 ## How to run test suite locally
 ### Unit and integration tests
-This project contains two test suites, as we have seperated our UI test, into a seperate test suite. To run our unit/integration tests simply open a terminal at the root of the project and run the command:
+This project contains two test suites, as we have seperated our UI test, into a seperate test suite. To run our unit/integration tests, make sure docker is running, open a terminal at the root of the project and run the command:
 ```
 dotnet test test/Chirp.Testing/
 ```
@@ -133,7 +164,6 @@ The UI/E2E-test that this test suite contains, tests the overall functionality o
 # Ethics
 
 ## License
-
 We've chosen the MIT License, which is a permissive free software license, because of its limited restriction on reuse. In this project we wanted to encourage reuse of our code, and therefore we've chosen a license that allows for this. The MIT License is also a very common license, which makes it easy for others to understand the terms of the license.
 
 ## LLMs, ChatGPT, CoPilot, and others
