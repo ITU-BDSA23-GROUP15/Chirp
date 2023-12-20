@@ -100,6 +100,8 @@ When a new issue is created, it is automatically assigned to the "new" column in
 
 ![Project Board right before handin](figures/ProjectBoard.png)
 
+Seen above is our project board, after we stopped working on our project. We have no unresolved issues, as we managed to implement the features we set out to implement. As far as we know and have tested, our functionality of the program should be complete to the extend we intended it to be.
+
 ## How to make _Chirp!_ work locally
 
 ### Initial setup for computers that do not have an ARM CPU
