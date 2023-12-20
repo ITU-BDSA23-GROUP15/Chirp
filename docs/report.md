@@ -18,13 +18,13 @@ numbersections: true
 
 Here comes a description of our domain model.
 
-![domain_model](figures/domain_model.png){width=300px}
+![Picture of the domain model](figures/domain_model.png){width=300px}
 
 \newpage
 
 ## Architecture — In the small
 
-![DGUHIHUIBFDIDFNDF](figures/Onion_architecture.drawio.png){width=300px}
+![Illustration of the program architecture (Onion architecture)](figures/Onion_architecture.drawio.png){width=300px}
 
 \newpage
 
