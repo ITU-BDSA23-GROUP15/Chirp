@@ -16,8 +16,6 @@ numbersections: true
 
 ## Domain model
 
-Here comes a description of our domain model.
-
 ![Picture of the domain model](figures/domain_model.png){width=300px}
 
 \newpage
