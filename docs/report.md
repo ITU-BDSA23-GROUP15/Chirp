@@ -100,6 +100,8 @@ Seen above is our project board, after we stopped working on our project. We hav
 
 ## How to make _Chirp!_ work locally
 
+**Note**: This will not work if you have not specified Azure Tenant and Client ID coupled to the app registration. These are secrets and are therefore not shared.
+
 ### Initial setup for computers that do not have an ARM CPU
 
 To run our Chirp application locally it is required that you clone the project, which can be done by running the following command in the terminal:
@@ -225,8 +227,6 @@ Playwright.LaunchOptions.SlowMo=1000
 The SlowMo value can be adjusted to your liking, to slow down or speed up the test suite, to make it easier to follow what is happening.
 
 The UI/E2E-test that this test suite contains, tests the overall functionality of our program along with the UI elements and the navigation between the URLs.
-
-**Note**: This will not work if you have not specified Azure Tenant and Client ID coupled to the app registration. These are secrets and are therefore not shared.
 
 # Ethics
 
