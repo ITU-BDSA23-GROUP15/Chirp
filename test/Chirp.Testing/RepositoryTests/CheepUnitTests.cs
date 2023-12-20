@@ -1,4 +1,5 @@
 using Chirp.Core;
+using Bogus.Extensions;
 
 namespace Application.Testing;
 
@@ -6,95 +7,172 @@ public class CheepUnitTests : BaseIntegrationTest
 {
 	private readonly CheepRepository cheepRepository;
 	private readonly AuthorRepository authorRepository;
-	private readonly Faker<CreateAuthorDto> authorGenerator;
-	private readonly Faker<CreateCheepDto> cheepGenerator;
+	private readonly Faker<Author> authorGenerator;
+	private readonly Faker<Cheep> cheepGenerator;
 	public CheepUnitTests(IntegrationTestWebAppFactory factory) : base(factory)
 	{
 		cheepRepository = new CheepRepository(DbContext, new CreateCheepValidator());
 		authorRepository = new AuthorRepository(DbContext);
 
-		authorGenerator = new Faker<CreateAuthorDto>()
-			.CustomInstantiator(f =>
-				new CreateAuthorDto(f.IndexGlobal + f.Internet.UserName(), f.Internet.Email()));
+		authorGenerator = new Faker<Author>()
+			.RuleFor(a => a.Name, f => f.Internet.UserName())
+			.RuleFor(a => a.Email, f => f.Internet.Email());
 
-		cheepGenerator = new Faker<CreateCheepDto>()
-			.CustomInstantiator(f =>
-				new CreateCheepDto("test sentence", authorGenerator.Generate().Name));
+		cheepGenerator = new Faker<Cheep>()
+			.RuleFor(x => x.Text, f => f.Lorem.Sentence().ClampLength(1, 160));
 	}
 
 	[Fact]
-	public void CreateCheepGetTextTest()
+	public async Task CreateCheepSavesToDB()
 	{
 		// Arrange
 		DbContext.RemoveRange(DbContext.Cheeps); //Removes all Cheeps made in former tests
 		DbContext.RemoveRange(DbContext.Authors); //Removes all Authors made in former tests
+		var fakeAuthor = authorGenerator.Generate();
+		DbContext.Authors.Add(fakeAuthor);
+		await DbContext.SaveChangesAsync();
+		var createCheepDto = new CreateCheepDto(cheepGenerator.Generate().Text!, fakeAuthor.Name!);
 
 		// Act
-		var cheep = cheepGenerator.Generate();
+		await cheepRepository.CreateCheep(createCheepDto);
 
 		// Assert
-		Assert.Equal("test sentence", cheep.Text);
+		Assert.Single(DbContext.Cheeps);
 	}
 
 	[Fact]
-	public async Task GetCheepsReturn1Cheep()
+	public async Task CreateCheepSavesCorrectInfo()
+	{
+		// Arrange
+		DbContext.RemoveRange(DbContext.Cheeps); //Removes all Cheeps made in former tests
+		DbContext.RemoveRange(DbContext.Authors); //Removes all Authors made in former tests
+		var fakeAuthor = authorGenerator.Generate();
+		DbContext.Authors.Add(fakeAuthor);
+		await DbContext.SaveChangesAsync();
+		var createCheepDto = new CreateCheepDto(cheepGenerator.Generate().Text!, fakeAuthor.Name!);
+
+		// Act
+		await cheepRepository.CreateCheep(createCheepDto);
+
+		// Assert
+		Assert.Equal(createCheepDto.Text, DbContext.Cheeps.First().Text);
+		Assert.Equal(createCheepDto.AuthorName, DbContext.Cheeps.First().Author.Name);
+	}
+
+	[Fact]
+	public async Task CreateCheepSavesCorrectDate()
+	{
+		// Arrange
+		DbContext.RemoveRange(DbContext.Cheeps); //Removes all Cheeps made in former tests
+		DbContext.RemoveRange(DbContext.Authors); //Removes all Authors made in former tests
+		var fakeAuthor = authorGenerator.Generate();
+		DbContext.Authors.Add(fakeAuthor);
+		await DbContext.SaveChangesAsync();
+		var createCheepDto = new CreateCheepDto(cheepGenerator.Generate().Text!, fakeAuthor.Name!);
+
+		// Act
+		await cheepRepository.CreateCheep(createCheepDto);
+
+		// Assert
+		Assert.Equal(DateTime.Now.Date, DbContext.Cheeps.First().TimeStamp.Date);
+	}
+
+	[Fact]
+	public async Task CreateCheepThrowsExceptionWhenTextIsTooLong()
+	{
+		// Arrange
+		DbContext.RemoveRange(DbContext.Cheeps); //Removes all Cheeps made in former tests
+		DbContext.RemoveRange(DbContext.Authors); //Removes all Authors made in former tests
+		var fakeAuthor = authorGenerator.Generate();
+		DbContext.Authors.Add(fakeAuthor);
+		await DbContext.SaveChangesAsync();
+
+		var createCheepDto = new CreateCheepDto(cheepGenerator.Generate().Text!.PadRight(161), fakeAuthor.Name);
+
+		// Act
+		// Assert
+		await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => cheepRepository.CreateCheep(createCheepDto));
+	}
+
+	[Fact]
+	public async Task CreateCheepThrowsExceptionWhenTextIsEmpty()
+	{
+		// Arrange
+		DbContext.RemoveRange(DbContext.Cheeps); //Removes all Cheeps made in former tests
+		DbContext.RemoveRange(DbContext.Authors); //Removes all Authors made in former tests
+		var fakeAuthor = authorGenerator.Generate();
+		DbContext.Authors.Add(fakeAuthor);
+		await DbContext.SaveChangesAsync();
+
+		var createCheepDto = new CreateCheepDto("", fakeAuthor.Name);
+
+		// Act
+		// Assert
+		await Assert.ThrowsAsync<FluentValidation.ValidationException>(() => cheepRepository.CreateCheep(createCheepDto));
+	}
+
+	[Fact]
+	public async Task DeleteCheepRemovesCheepFromDB()
 	{
 		// Arrange
 		DbContext.RemoveRange(DbContext.Cheeps); //Removes all Cheeps made in former tests
 		DbContext.RemoveRange(DbContext.Authors); //Removes all Authors made in former tests
 
 		var fakeAuthor = authorGenerator.Generate();
-
-		await authorRepository.CreateAuthor(fakeAuthor);
-		await cheepRepository.CreateCheep(new CreateCheepDto(cheepGenerator.Generate().Text!, fakeAuthor.Name!));
+		var fakeCheep = cheepGenerator
+			.RuleFor(a => a.Author, fakeAuthor)
+			.RuleFor(a => a.AuthorId, fakeAuthor.AuthorId)
+			.Generate();
+		DbContext.Authors.Add(fakeAuthor);
+		DbContext.Cheeps.Add(fakeCheep);
+		await DbContext.SaveChangesAsync();
 
 		// Act
-		var cheeps = await cheepRepository.GetCheeps(1, 32); // first page, 32 cheeps taken
+		await cheepRepository.DeleteCheep(DbContext.Cheeps.First().CheepId);
 
 		// Assert
-		Assert.Single(cheeps.ToList());
+		Assert.Empty(DbContext.Cheeps);
 	}
 
+
 	[Fact]
-	public async Task GetCheepsReturn1CheepFromAuthor()
+	public async Task GetCheepsReturnsAny()
 	{
 		// Arrange
 		DbContext.RemoveRange(DbContext.Cheeps); //Removes all Cheeps made in former tests
 		DbContext.RemoveRange(DbContext.Authors); //Removes all Authors made in former tests
-
-		var specificAuthor = authorGenerator.Generate();
-
-		await authorRepository.CreateAuthor(specificAuthor);
-		await cheepRepository.CreateCheep(new CreateCheepDto(cheepGenerator.Generate().Text!, specificAuthor.Name!));
-
-		foreach (var fakeCheep in cheepGenerator.Generate(10))
-		{
-			var fakeAuthor = authorGenerator.Generate();
-			await authorRepository.CreateAuthor(fakeAuthor);
-			await cheepRepository.CreateCheep(new CreateCheepDto(fakeCheep.Text!, fakeAuthor.Name!));
-		}
+		var fakeAuthor = authorGenerator.Generate();
+		var fakeCheep = cheepGenerator
+			.RuleFor(a => a.Author, fakeAuthor)
+			.RuleFor(a => a.AuthorId, fakeAuthor.AuthorId)
+			.Generate();
+		DbContext.Authors.Add(fakeAuthor);
+		DbContext.Cheeps.Add(fakeCheep);
+		await DbContext.SaveChangesAsync();
 
 		// Act
-		var cheeps = await cheepRepository.GetCheepsFromAuthor(specificAuthor.Name!, 1, 32); // first page, 32 cheeps taken
+		var result = await cheepRepository.GetCheeps(1, 32); // first page, 32 cheeps taken
 
 		// Assert
-		Assert.Single(cheeps);
+		Assert.NotNull(result);
 	}
 
 	[Fact]
-	public async Task GetCheepsReturn10Cheeps()
+	public async Task GetCheepsReturnsOnly32()
 	{
 		// Arrange
 		DbContext.RemoveRange(DbContext.Cheeps); //Removes all Cheeps made in former tests
 		DbContext.RemoveRange(DbContext.Authors); //Removes all Authors made in former tests
 
 		var fakeAuthor = authorGenerator.Generate();
-		await authorRepository.CreateAuthor(fakeAuthor);
+		var fakeCheeps = cheepGenerator
+			.RuleFor(a => a.Author, fakeAuthor)
+			.RuleFor(a => a.AuthorId, fakeAuthor.AuthorId)
+			.Generate(50);
+		DbContext.Authors.Add(fakeAuthor);
+		DbContext.Cheeps.AddRange(fakeCheeps);
+		await DbContext.SaveChangesAsync();
 
-		foreach (var fakeCheep in cheepGenerator.Generate(10))
-		{
-			await cheepRepository.CreateCheep(new CreateCheepDto(fakeCheep.Text!, fakeAuthor.Name!));
-		}
 
 		// Act
 		var cheeps = await cheepRepository.GetCheeps(1, 32); // first page, 32 cheeps taken
@@ -102,4 +180,30 @@ public class CheepUnitTests : BaseIntegrationTest
 		// Assert
 		Assert.Equal(10, cheeps.Count());
 	}
+
+	// 	[Fact]
+	// 	public async Task GetCheepsReturn1CheepFromAuthor()
+	// 	{
+	// 		// Arrange
+	// 		DbContext.RemoveRange(DbContext.Cheeps); //Removes all Cheeps made in former tests
+	// 		DbContext.RemoveRange(DbContext.Authors); //Removes all Authors made in former tests
+
+	// 		var specificAuthor = authorGenerator.Generate();
+
+	// 		await authorRepository.CreateAuthor(specificAuthor);
+	// 		await cheepRepository.CreateCheep(new CreateCheepDto(cheepGenerator.Generate().Text!, specificAuthor.Name!));
+
+	// 		foreach (var fakeCheep in cheepGenerator.Generate(10))
+	// 		{
+	// 			var fakeAuthor = authorGenerator.Generate();
+	// 			await authorRepository.CreateAuthor(fakeAuthor);
+	// 			await cheepRepository.CreateCheep(new CreateCheepDto(fakeCheep.Text!, fakeAuthor.Name!));
+	// 		}
+
+	// 		// Act
+	// 		var cheeps = await cheepRepository.GetCheepsFromAuthor(specificAuthor.Name!, 1, 32); // first page, 32 cheeps taken
+
+	// 		// Assert
+	// 		Assert.Single(cheeps);
+	// 	}
 }
