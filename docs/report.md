@@ -100,7 +100,7 @@ Seen above is our project board, after we stopped working on our project. We hav
 
 ## How to make _Chirp!_ work locally
 
-**Note**: This will not work if you have not specified Azure Tenant and Client ID coupled to the app registration. These are secrets and are therefore not shared.
+**Note**: Some parts of the application will not work if you have not specified Azure Tenant and Client ID coupled to the app registration. These are secrets and are therefore not shared.
 
 ### Initial setup for computers that do not have an ARM CPU
 
