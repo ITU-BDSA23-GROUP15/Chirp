@@ -11,19 +11,21 @@ numbersections: true
 ---
 
 - [Design and Architecture of _Chirp!_](#design-and-architecture-of-chirp)
-	- [Domain model](#domain-model)
-	- [Architecture — In the small](#architecture--in-the-small)
-	- [Architecture of deployed application](#architecture-of-deployed-application)
-	- [User activities](#user-activities)
-	- [Sequence of functionality/calls trough _Chirp!_](#sequence-of-functionalitycalls-trough-chirp)
+  - [Domain model](#domain-model)
+  - [Architecture — In the small](#architecture--in-the-small)
+  - [Architecture of deployed application](#architecture-of-deployed-application)
+  - [User activities](#user-activities)
+  - [Sequence of functionality/calls trough _Chirp!_](#sequence-of-functionalitycalls-trough-chirp)
 - [Process](#process)
-	- [Build, test, release, and deployment](#build-test-release-and-deployment)
-	- [Team work](#team-work)
-	- [How to make _Chirp!_ work locally](#how-to-make-chirp-work-locally)
-	- [How to run test suite locally](#how-to-run-test-suite-locally)
+  - [Build, test, release, and deployment](#build-test-release-and-deployment)
+  - [Team work](#team-work)
+  - [How to make _Chirp!_ work locally](#how-to-make-chirp-work-locally)
+  - [How to run test suite locally](#how-to-run-test-suite-locally)
+    - [Unit and integration tests](#unit-and-integration-tests)
+    - [UI tests (E2E)](#ui-tests-e2e)
 - [Ethics](#ethics)
-	- [License](#license)
-	- [LLMs, ChatGPT, CoPilot, and others](#llms-chatgpt-copilot-and-others)
+  - [License](#license)
+  - [LLMs, ChatGPT, CoPilot, and others](#llms-chatgpt-copilot-and-others)
 
 # Design and Architecture of _Chirp!_
 
@@ -31,29 +33,25 @@ numbersections: true
 
 Here comes a description of our domain model.
 
-![Illustration of the _Chirp!_ data model as UML class diagram.]()
+
+[![domain_model](http://tinyurl.com/yrawyrfh)](http://tinyurl.com/yrawyrfh)<!--![domain_model](./figures/domain_model.puml)-->
 
 ## Architecture — In the small
+![onion_architecture](figures/Onion_architecture.drawio.png)
 
 ## Architecture of deployed application
 
-Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other.
+"Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other."
 
--   Clients:
-    -   Web browser
-    -   Mobile app
--   Web server:
-    -   ASP.NET Core
-    -   Docker
-    -   Azure
--   Database:
-    -   MSSQL
-    -   Docker
-    -   Azure
 
-Clients -> Web server <-> Database
+[![deployed_architecture](http://tinyurl.com/yutshgjm)](http://tinyurl.com/yutshgjm)<!--![deployed_architecture](./figures/deployed_architecture.puml)-->
 
 ## User activities
+[![user_activity_unauthenticated](http://tinyurl.com/ylttngjo)](http://tinyurl.com/ylttngjo)<!--![user_activity_unauthenticated](./figures/user_activity_unauthenticated.puml)-->
+
+[![user_activity_authenticated](http://tinyurl.com/ysrr6qql)](http://tinyurl.com/ysrr6qql)<!--![user_activity_authenticated](./figures/user_activity_authenticated.puml)-->
+
+[![user_activity_login](http://tinyurl.com/ymzb2ybw)](http://tinyurl.com/ymzb2ybw)<!--![user_activity_login](./figures/user_activity_login.puml)-->
 
 ## Sequence of functionality/calls trough _Chirp!_
 
@@ -84,7 +82,10 @@ When a push is made to the main-branch a workflow deploying the application to o
 A new task is then created that downloads the application and migrations bundle. The workflow then logs in to Azure and applies the bundle to our application through a connectionstring. Lastly the application is deployed to Azure using an Azure-webapp-deploy-action.
 
 ## Team work
-When a new issue is created, it is automatically assigned to the "new" column in the project board. Members of the team can then assign themselves to the issue, with the amount of people working on it, being mainly dependent on the complexity of the issue. When a member assigns themselves to an issue, they move the issue to the "in progress" column. A new branch is created to work on the issue, and a pull request is linked to the issue, to track the progress on it. When the issue is considered completed, by the working members, the pull request is reviewed by the other members of the team. Members then review if they find the solution satisfactory. If the solution is not found satisfactory, they provide feedback, throught their review and await the working members to consider feedback and submit a corrected pull request for review. If the solution is found satisfactory, the pull request is merged into the main branch. The issue is then moved to the "done" column.
+
+[![team_work](http://tinyurl.com/yuk46hyj)](http://tinyurl.com/yuk46hyj)<!--![team_work](./figures/team_work_flow.puml)-->
+
+When a new issue is created, it is automatically assigned to the "new" column in the project board. Members of the team can then assign themselves to the issue, with the amount of people working on it, being mainly dependent on the complexity of the issue. When a member assigns themselves to an issue, they move the issue to the "in progress" column. A new branch is created to work on the issue, and a pull request is linked to the issue, to track the progress on it. When the issue is considered completed, by the working members, the pull request is reviewed by the other members of the team. Members then review if they find the solution satisfactory. If the solution is not found satisfactory, they provide feedback, throughout their review and await the working members to consider feedback and submit a corrected pull request for review. If the solution is found satisfactory, the pull request is merged into the main branch. The issue is then moved to the "done" column.
 
 ## How to make _Chirp!_ work locally
 To run our Chirp application locally it is required that you clone the project, which can be done by running the following command in the terminal:
@@ -114,7 +115,7 @@ From the root of the project run the following command to run the project locall
 -   Open a browser and go to http://localhost:5273/
 -   Do we need to do any migrations?
 
-You should now expect to see the public timeline, stating at the top of the site, that you need to login to cheep, a login button should be available at the top right. The rest of the features on the site, will only become available after logging in, which is done using your github account.
+You should now expect to see the public timeline, stating at the top of the site, that you need to login to cheep, a login button should be available at the top right. The rest of the features on the site, will only become avaibalbe after logging in, which is done using your github account.
 
 ## How to run test suite locally
 ### Unit and integration tests
@@ -167,5 +168,11 @@ The UI/E2E-test that this test suite contains, tests the overall functionality o
 We've chosen the MIT License, which is a permissive free software license, because of its limited restriction on reuse. In this project we wanted to encourage reuse of our code, and therefore we've chosen a license that allows for this. The MIT License is also a very common license, which makes it easy for others to understand the terms of the license.
 
 ## LLMs, ChatGPT, CoPilot, and others
-During the development of our project, we have utilized ChatGPT and Copilot. ChatGPT has been used for general questions and research on project topics, to help narrow down the scopes of some of the more daunting tasks. We've also used both ChatGPT and Copilot as tools to understand error codes, when debugging our implementations, but with varying success. Somtimes suggested solutions were helpful, other times the LLM had not understood the error and provided wrong suggestions. 
-Copilots main function in our development project, has been to auto complete code that had already been made previously, especially the repository database functions. It has also been used to create new code, but if the logic was not already specified, the code was often faulty, which resulted in us spending a lot of time on debugging the autocompleted code. 
+
+"State which LLM(s) were used during development of your project. In case you were not using any, just state so. In case you were using an LLM to support your development, briefly describe when and how it was applied. Reflect in writing to which degree the responses of the LLM were helpful. Discuss briefly if application of LLMs sped up your development or if the contrary was the case."
+
+-   Co-pilot: Has been useful for auto completing code that has already been made previously, especially the repository database functions.
+-   Co-pilot: Was not good at creating new code with new logic, almost always faulty and spent more time debugging autocompleted code than what it benefitted.
+-   ChatGPT: Has been used a lot as a starting point in debugging, when everything seemed overwhelming.
+-   ChatGPT: General questions about project topics, that helped narrow down the scope of the task and therefore researching became a lot easier.
+-   ChatGPT & Co-pilot: Has been used with varying succes, to understand errors provides by the compiler. Sometimes it was helpful, other times it simply did not understand the error and provided wrong suggestions.

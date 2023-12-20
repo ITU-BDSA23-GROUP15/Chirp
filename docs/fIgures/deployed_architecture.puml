@@ -1,0 +1,14 @@
+@startuml
+actor Client
+
+Node "App service" as AzureServer {
+    Node "Chirp App"
+}
+
+Node "SQLServer" as AzureDB{
+    database "MSSQL" as MSSQL
+}
+
+Client --> AzureServer : HTTP request
+AzureServer --> AzureDB 
+@enduml
