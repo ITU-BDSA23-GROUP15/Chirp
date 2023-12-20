@@ -100,7 +100,9 @@ Seen above is our project board, after we stopped working on our project. We hav
 
 ## How to make _Chirp!_ work locally
 
-**Note**: Some parts of the application will not work if you have not specified Azure Tenant and Client ID coupled to the app registration. These are secrets and are therefore not shared.
+**Note**: The login functionality (and what is locked behind authentication) will not work if you have not specified Azure TenantId and ClientId coupled to the app registration. These would need to be saved as user secrets under "AzureAdB2C:TenantId" and "AzureAdB2C:ClientId". As they are secrets and they are therefore not shared. Alternatively an Azure Tenant would need to be set up with Azure AD B2C with user flow and app registration.
+
+The functionality can still be used on the [deployed version](https://bdsagroup15chirprazor.azurewebsites.net).
 
 ### Initial setup for computers that do not have an ARM CPU
 
