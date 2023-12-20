@@ -11,19 +11,21 @@ numbersections: true
 ---
 
 - [Design and Architecture of _Chirp!_](#design-and-architecture-of-chirp)
-	- [Domain model](#domain-model)
-	- [Architecture — In the small](#architecture--in-the-small)
-	- [Architecture of deployed application](#architecture-of-deployed-application)
-	- [User activities](#user-activities)
-	- [Sequence of functionality/calls trough _Chirp!_](#sequence-of-functionalitycalls-trough-chirp)
+  - [Domain model](#domain-model)
+  - [Architecture — In the small](#architecture--in-the-small)
+  - [Architecture of deployed application](#architecture-of-deployed-application)
+  - [User activities](#user-activities)
+  - [Sequence of functionality/calls trough _Chirp!_](#sequence-of-functionalitycalls-trough-chirp)
 - [Process](#process)
-	- [Build, test, release, and deployment](#build-test-release-and-deployment)
-	- [Team work](#team-work)
-	- [How to make _Chirp!_ work locally](#how-to-make-chirp-work-locally)
-	- [How to run test suite locally](#how-to-run-test-suite-locally)
+  - [Build, test, release, and deployment](#build-test-release-and-deployment)
+  - [Team work](#team-work)
+  - [How to make _Chirp!_ work locally](#how-to-make-chirp-work-locally)
+  - [How to run test suite locally](#how-to-run-test-suite-locally)
+    - [Unit and integration tests](#unit-and-integration-tests)
+    - [UI tests (E2E)](#ui-tests-e2e)
 - [Ethics](#ethics)
-	- [License](#license)
-	- [LLMs, ChatGPT, CoPilot, and others](#llms-chatgpt-copilot-and-others)
+  - [License](#license)
+  - [LLMs, ChatGPT, CoPilot, and others](#llms-chatgpt-copilot-and-others)
 
 # Design and Architecture of _Chirp!_
 
@@ -31,29 +33,25 @@ numbersections: true
 
 Here comes a description of our domain model.
 
-![Illustration of the _Chirp!_ data model as UML class diagram.]()
+
+[![domain_model](http://tinyurl.com/yrawyrfh)](http://tinyurl.com/yrawyrfh)<!--![domain_model](./figures/domain_model.puml)-->
 
 ## Architecture — In the small
 
+
 ## Architecture of deployed application
 
-Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other.
+"Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other."
 
--   Clients:
-    -   Web browser
-    -   Mobile app
--   Web server:
-    -   ASP.NET Core
-    -   Docker
-    -   Azure
--   Database:
-    -   MSSQL
-    -   Docker
-    -   Azure
 
 Clients -> Web server <-> Database
 
 ## User activities
+[![user_activity_unauthenticated](http://tinyurl.com/ylttngjo)](http://tinyurl.com/ylttngjo)<!--![user_activity_unauthenticated](./figures/user_activity_unauthenticated.puml)-->
+
+[![user_activity_authenticated](http://tinyurl.com/ysrr6qql)](http://tinyurl.com/ysrr6qql)<!--![user_activity_authenticated](./figures/user_activity_authenticated.puml)-->
+
+[![user_activity_login](http://tinyurl.com/ymzb2ybw)](http://tinyurl.com/ymzb2ybw)<!--![user_activity_login](./figures/user_activity_login.puml)-->
 
 ## Sequence of functionality/calls trough _Chirp!_
 
@@ -67,7 +65,9 @@ Whenever a push is made to GitHub, a workflow will start testing the application
 
 ## Team work
 
-When a new issue is created, it is automatically assigned to the "new" column in the project board. Members of the team can then assign themselves to the issue, with the amount of people working on it, being mainly dependent on the complexity of the issue. When a member assigns themselves to an issue, they move the issue to the "in progress" column. A new branch is created to work on the issue, and a pull request is linked to the issue, to track the progress on it. When the issue is considered completed, by the working members, the pull request is reviewed by the other members of the team. Members then review if they find the solution satisfactory. If the solution is not found satisfactory, they provide feedback, throught their review and await the working members to consider feedback and submit a corrected pull request for review. If the solution is found satisfactory, the pull request is merged into the main branch. The issue is then moved to the "done" column.
+[![team_work](http://tinyurl.com/yuk46hyj)](http://tinyurl.com/yuk46hyj)<!--![team_work](./figures/team_work_flow.puml)-->
+
+When a new issue is created, it is automatically assigned to the "new" column in the project board. Members of the team can then assign themselves to the issue, with the amount of people working on it, being mainly dependent on the complexity of the issue. When a member assigns themselves to an issue, they move the issue to the "in progress" column. A new branch is created to work on the issue, and a pull request is linked to the issue, to track the progress on it. When the issue is considered completed, by the working members, the pull request is reviewed by the other members of the team. Members then review if they find the solution satisfactory. If the solution is not found satisfactory, they provide feedback, throughout their review and await the working members to consider feedback and submit a corrected pull request for review. If the solution is found satisfactory, the pull request is merged into the main branch. The issue is then moved to the "done" column.
 
 ## How to make _Chirp!_ work locally
 
