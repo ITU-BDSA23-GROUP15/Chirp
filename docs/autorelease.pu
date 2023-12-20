@@ -15,19 +15,19 @@ endif
 
 :Checkout repository;
 :Setup .NET with version 7.0.401;
-fork
+split
 	:Build windows-release;
 	:Zip release;
-fork again
+split again
 	:Build linux-release;
 	:Zip release;
-	fork again
+	split again
 	:Build osx-release;
 	:Zip release;
-	fork again
+	split again
 	:Build arm64-release;
 	:Zip release;
-end fork
+end split
 :Publish with tag "vx.y.z";
 
 stop
