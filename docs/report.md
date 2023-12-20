@@ -61,6 +61,10 @@ Clients -> Web server <-> Database
 
 ## Build, test, release, and deployment
 
+### Building and testing the application
+
+Whenever a push is made to GitHub, a workflow will start testing the application. This is the case for every branch and makes sure that whenever we make something - even if it is a new feature - the tests will run and the program won't fail when merged to main. T
+
 ## Team work
 
 When a new issue is created, it is automatically assigned to the "new" column in the project board. Members of the team can then assign themselves to the issue, with the amount of people working on it, being mainly dependent on the complexity of the issue. When a member assigns themselves to an issue, they move the issue to the "in progress" column. A new branch is created to work on the issue, and a pull request is linked to the issue, to track the progress on it. When the issue is considered completed, by the working members, the pull request is reviewed by the other members of the team. Members then review if they find the solution satisfactory. If the solution is not found satisfactory, they provide feedback, throught their review and await the working members to consider feedback and submit a corrected pull request for review. If the solution is found satisfactory, the pull request is merged into the main branch. The issue is then moved to the "done" column.
@@ -79,7 +83,7 @@ From the root of the project run the following command to run the project locall
 -   Open a browser and go to http://localhost:5273/
 -   Do we need to do any migrations?
 
-You should now expect to see the public timeline, stating at the top of the site, that you need to login to cheep, a login button should be available at the top right. The rest of the features on the site, will only become avaibalbe after logging in, which is done using your github account.
+You should now expect to see the public timeline, stating at the top of the site, that you need to login to cheep, a login button should be available at the top right. The rest of the features on the site, will only become available after logging in, which is done using your github account.
 
 ## How to run test suite locally
 ### Unit and integration tests
@@ -133,11 +137,5 @@ The UI/E2E-test that this test suite contains, tests the overall functionality o
 We've chosen the MIT License, which is a permissive free software license, because of its limited restriction on reuse. In this project we wanted to encourage reuse of our code, and therefore we've chosen a license that allows for this. The MIT License is also a very common license, which makes it easy for others to understand the terms of the license.
 
 ## LLMs, ChatGPT, CoPilot, and others
-
-"State which LLM(s) were used during development of your project. In case you were not using any, just state so. In case you were using an LLM to support your development, briefly describe when and how it was applied. Reflect in writing to which degree the responses of the LLM were helpful. Discuss briefly if application of LLMs sped up your development or if the contrary was the case."
-
--   Co-pilot: Has been useful for auto completing code that has already been made previously, especially the repository database functions.
--   Co-pilot: Was not good at creating new code with new logic, almost always faulty and spent more time debugging autocompleted code than what it benefitted.
--   ChatGPT: Has been used a lot as a starting point in debugging, when everything seemed overwhelming.
--   ChatGPT: General questions about project topics, that helped narrow down the scope of the task and therefore researching became a lot easier.
--   ChatGPT & Co-pilot: Has been used with varying succes, to understand errors provides by the compiler. Sometimes it was helpful, other times it simply did not understand the error and provided wrong suggestions.
+During the development of our project, we have utilized ChatGPT and Copilot. ChatGPT has been used for general questions and research on project topics, to help narrow down the scopes of some of the more daunting tasks. We've also used both ChatGPT and Copilot as tools to understand error codes, when debugging our implementations, but with varying success. Somtimes suggested solutions were helpful, other times the LLM had not understood the error and provided wrong suggestions. 
+Copilots main function in our development project, has been to auto complete code that had already been made previously, especially the repository database functions. It has also been used to create new code, but if the logic was not already specified, the code was often faulty, which resulted in us spending a lot of time on debugging the autocompleted code. 
