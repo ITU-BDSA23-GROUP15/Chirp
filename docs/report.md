@@ -23,7 +23,7 @@ Here comes a description of our domain model.
 
 ## Architecture — In the small
 
-![DGUHIHUIBFDIDFNDF](figures/Onion_architecture.drawio.png){width=400px}
+![DGUHIHUIBFDIDFNDF](figures/Onion_architecture.drawio.png)
 \newpage
 
 ## Architecture of deployed application
@@ -44,9 +44,9 @@ Here comes a description of our domain model.
 
 ## Sequence of functionality/calls trough _Chirp!_
 
-# Process
-
 \newpage
+
+# Process
 
 ## Build, test, release, and deployment
 
@@ -79,11 +79,9 @@ A new task is then created that downloads the application and migrations bundle.
 When a new issue is created, it is automatically assigned to the "new" column in the project board. Members of the team can then assign themselves to the issue, with the amount of people working on it, being mainly dependent on the complexity of the issue. When a member assigns themselves to an issue, they move the issue to the "in progress" column. A new branch is created to work on the issue, and a pull request is linked to the issue, to track the progress on it. When the issue is considered completed, by the working members, the pull request is reviewed by the other members of the team. Members then review if they find the solution satisfactory. If the solution is not found satisfactory, they provide feedback, throughout their review and await the working members to consider feedback and submit a corrected pull request for review. If the solution is found satisfactory, the pull request is merged into the main branch. The issue is then moved to the "done" column.
 
 ## How to make _Chirp!_ work locally
-<<<<<<< HEAD
 
-=======
 ### Initial setup for computers that do not have an ARM CPU
->>>>>>> 258d816675e3d1606ab699156d53833d4f92a47f
+
 To run our Chirp application locally it is required that you clone the project, which can be done by running the following command in the terminal:
 
 ```
@@ -104,7 +102,9 @@ sudo docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=<YourStrong@Passw0rd>" 
 Replace `<YourStrong@Passw0rd>` with a password of your choice. This password will be used to access the database, so make sure to remember it.
 
 ### Initial setup for computers with an ARM CPU
+
 If you have a Mac with an M1 chip, you need to run the following command instead:
+
 ```
 docker run -d --name sql1 --cap-add SYS_PTRACE \
   -e 'ACCEPT_EULA=1' \
@@ -112,9 +112,11 @@ docker run -d --name sql1 --cap-add SYS_PTRACE \
   -p 1433:1433 \
    mcr.microsoft.com/azure-sql-edge
 ```
+
 Furthermore in Docker Desktop, navigate to settings -> General and check the box "Use Rosetta for x86/amd64 emulation on Apple Silicon". This is required to run the MSSQL database on an ARM CPU.
 
 ### Connecting to the database
+
 We now need to set a Connection string with the password to the docker, that you have just set in the previous command. This is aved in the user secrets, which can be done by running the following command from a terminal at the root of the project:
 
 ```
@@ -125,15 +127,18 @@ Password=<YourStrong@Passw0rd>;MultipleActiveResultSets=true;TrustServerCertific
 ```
 
 To verify that the connection string has been set correctly, run the following command:
+
 ```
 dotnet user-secrets list --project src/Chirp.Razor/
 ```
 
 From the root of the project run the following commands to run the project locally:
+
 ```
 dotnet build
 dotnet run --project src/Chirp.Razor/
 ```
+
 This will run a local instance of the program on your machine, at the address https://localhost:5273/. You can now access the program from your browser, by entering the address in the address bar.
 
 You should now expect to see the public timeline, stating at the top of the site, that you need to login to cheep, a login button should be available at the top right. You can browse different pages of the public timeline, aswell as click on users to acces their timelines to see only their cheeps. The rest of the features on the site, will only become available after logging in, which is done using your github account.
@@ -174,7 +179,9 @@ Followed by:
 dotnet user-secrets set "Password" "<Insert your Github password>"
 --project test/Chirp.UI.Testing/Chirp.UI.Testing.csproj
 ```
+
 To run the UI test suite, you need to have a local instance of the program running. This can be done from a terminal at the root of the project by entering the following commands:
+
 ```
 dotnet build
 dotnet run --project src/Chirp.Razor/
@@ -185,10 +192,16 @@ In another terminal at the root of the project, enter the following command to r
 ```
 dotnet test test/Chirp.UI.Testing/
 ```
+
 If you have two factor authentication enabled on your Github account, if you do not want to set your Github account login in your user secrets or if you want to visually follow the test run the following command instead of the one above:
+
 ```
-dotnet test test/Chirp.UI.Testing/ -- Playwright.BrowserName=chromium Playwright.LaunchOptions.Headless=false Playwright.LaunchOptions.SlowMo=1000
+dotnet test test/Chirp.UI.Testing/ --
+Playwright.BrowserName=chromium
+Playwright.LaunchOptions.Headless=false
+Playwright.LaunchOptions.SlowMo=1000
 ```
+
 The SlowMo value can be adjusted to your liking, to slow down or speed up the test suite, to make it easier to follow what is happening.
 
 If you have two factor authentication enabled on your Github account, the test suite needs to be run in headless mode, to allow for you to complete the authentication, when the test tries to log in. This can be done by running the following command instead of the one above:
@@ -211,5 +224,6 @@ The UI/E2E-test that this test suite contains, tests the overall functionality o
 We've chosen the MIT License, which is a permissive free software license, because of its limited restriction on reuse. In this project we wanted to encourage reuse of our code, and therefore we've chosen a license that allows for this. The MIT License is also a very common license, which makes it easy for others to understand the terms of the license.
 
 ## LLMs, ChatGPT, CoPilot, and others
-During the development of our project, we have utilized ChatGPT and Copilot. ChatGPT has been used for general questions and research on project topics, to help narrow down the scopes of some of the more daunting tasks. We've also used both ChatGPT and Copilot as tools to understand error codes, when debugging our implementations, but with varying success. Somtimes suggested solutions were helpful, other times the LLM had not understood the error and provided wrong suggestions. 
-Copilots main function in our development project, has been to auto complete code that had already been made previously, especially the repository database functions. It has also been used to create new code, but if the logic was not already specified, the code was often faulty, which resulted in us spending a lot of time on debugging the autocompleted code. 
+
+During the development of our project, we have utilized ChatGPT and Copilot. ChatGPT has been used for general questions and research on project topics, to help narrow down the scopes of some of the more daunting tasks. We've also used both ChatGPT and Copilot as tools to understand error codes, when debugging our implementations, but with varying success. Somtimes suggested solutions were helpful, other times the LLM had not understood the error and provided wrong suggestions.
+Copilots main function in our development project, has been to auto complete code that had already been made previously, especially the repository database functions. It has also been used to create new code, but if the logic was not already specified, the code was often faulty, which resulted in us spending a lot of time on debugging the autocompleted code.
