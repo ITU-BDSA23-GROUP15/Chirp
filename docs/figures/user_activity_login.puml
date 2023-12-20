@@ -1,10 +1,4 @@
 @startuml user_activity_login
-
-skin rose
-
-title Login - activity diagram
-
-
 start
 :Click login;
 :Redirect to Github B2C authentication;

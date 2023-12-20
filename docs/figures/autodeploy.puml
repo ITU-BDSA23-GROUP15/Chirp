@@ -1,6 +1,10 @@
 @startuml Autodeploy
-partition "Build Code" {
+
 start
+split
+:Step 1;
+partition "Build Code" {
+
 :Push to main-branch;
 :Checkout repository & setup .NET v7.0.x;
 :Build Chirp.Razor-project;
@@ -11,13 +15,22 @@ start
 end
 }
 
-partition "Deploy to Azure" {
-start
-:Download Chirp.Razor-project;
-:Download Migrations Bundle;
-:Login to Azure;
-:Apply EF Bundle;
-:Deploy to Azure Web App;
-end
-}
+split again
+if(Step 1 finished successfully?) then (yes)
+	partition "Deploy to Azure" {
+	
+	:Download Chirp.Razor-project;
+	:Download Migrations Bundle;
+	:Login to Azure;
+	:Apply EF Bundle;
+	:Deploy to Azure Web App;
+	end
+	}
+else (no)
+	end
+endif
+split end
+
+
+
 @enduml

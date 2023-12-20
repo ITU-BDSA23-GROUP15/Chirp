@@ -1,8 +1,4 @@
 @startuml user_activity_unauthenticated
-skin rose
-
-title Unauthorized - activity diagram
-
 start
 :Display Public Timeline;
 :Click on a Username;

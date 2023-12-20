@@ -18,31 +18,47 @@ numbersections: true
 
 Here comes a description of our domain model.
 
-![domain_model](figures/domain_model.png)
+![domain_model](figures/domain_model.png){width=300px}
+
 \newpage
 
 ## Architecture — In the small
 
-![DGUHIHUIBFDIDFNDF](figures/Onion_architecture.drawio.png)
+![DGUHIHUIBFDIDFNDF](figures/Onion_architecture.drawio.png){width=300px}
+
 \newpage
 
 ## Architecture of deployed application
 
 "Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other."
 
-![deployed_architecture](figures/Deployed%20Architecture.png)
+![deployed_architecture](figures/Deployed%20Architecture.png){width=300px}
+
 \newpage
 
 ## User activities
 
-![JGDJHBGDJBGD](figures/user_activity_unauthenticated.png)
+### Not logged in
 
-![user_activity_authenticated](figures/user_activity_authenticated.png)
+![Picture of user activity when the user is not logged in](figures/user_activity_unauthenticated.png)
 
-![user_activity_login](figures/user_activity_login.png)
+\newpage
+
+### Logged in
+
+![Picture of user activity when the user is logged in](figures/user_activity_authenticated.png){height=500px}
+
+\newpage
+
+### Logging in
+
+![Picture of user activity when logging in](figures/user_activity_login.png){height=500px}
+
 \newpage
 
 ## Sequence of functionality/calls trough _Chirp!_
+
+![Sequence diagram showing the calls through the application](figures/SequenceCalls.png){width=300px}
 
 \newpage
 
@@ -58,23 +74,27 @@ Whenever a push is made to GitHub, a workflow will start testing the application
 
 ### Automating GitHub releases
 
-![Image of autorelease](figures/Autorelease.png)
-
 When a tag is pushed to GitHub using the syntax "vx.y.z", a workflow is started that first tests the application (same as [building and testing the application](#building-and-testing-the-application)). If the tests passes a new release is made where the versio number (tag) is the title. The workflow then builds the application for windows, linux, macOS and macArm separately, zips them and uploads them to the release-page.
 
 We use [semantic versioning](https://github.com/itu-bdsa/lecture_notes/blob/main/sessions/session_03/Slides.md#semantic-versioning) as our "guide" on how to determine the versionnumber.
 
+![Image of autorelease](figures/Autorelease.png){height=300px}
+
+\newpage
+
 ### Automating Azure deployment
 
-![Image of autodeploy](figures/Autodeploy.png)
+![Image of autodeploy](figures/Autodeploy.png){height=300px}
 
 When a push is made to the main-branch a workflow deploying the application to our Azure server is started. The workflows first tasks builds the application, installs ef-tool and creates a migration bundle with the ef-tool. This is then uploaded.
 
 A new task is then created that downloads the application and migrations bundle. The workflow then logs in to Azure and applies the bundle to our application through a connectionstring. Lastly the application is deployed to Azure using an Azure-webapp-deploy-action.
 
+\newpage
+
 ## Team work
 
-![team_work](figures/team_work_flow.png)
+![Image showing how an issue is done](figures/team_work_flow.png){height=500px}
 
 When a new issue is created, it is automatically assigned to the "new" column in the project board. Members of the team can then assign themselves to the issue, with the amount of people working on it, being mainly dependent on the complexity of the issue. When a member assigns themselves to an issue, they move the issue to the "in progress" column. A new branch is created to work on the issue, and a pull request is linked to the issue, to track the progress on it. When the issue is considered completed, by the working members, the pull request is reviewed by the other members of the team. Members then review if they find the solution satisfactory. If the solution is not found satisfactory, they provide feedback, throughout their review and await the working members to consider feedback and submit a corrected pull request for review. If the solution is found satisfactory, the pull request is merged into the main branch. The issue is then moved to the "done" column.
 
@@ -117,7 +137,7 @@ Furthermore in Docker Desktop, navigate to settings -> General and check the box
 
 ### Connecting to the database
 
-We now need to set a Connection string with the password to the docker, that you have just set in the previous command. This is aved in the user secrets, which can be done by running the following command from a terminal at the root of the project:
+We now need to set a Connection string with the password to the docker, that you have just set in the previous command. This is saved in the user secrets, which can be done by running the following command from a terminal at the root of the project:
 
 ```
 dotnet user-secrets set "ConnectionStrings:ChirpDb"
@@ -141,13 +161,13 @@ dotnet run --project src/Chirp.Razor/
 
 This will run a local instance of the program on your machine, at the address https://localhost:5273/. You can now access the program from your browser, by entering the address in the address bar.
 
-You should now expect to see the public timeline, stating at the top of the site, that you need to login to cheep, a login button should be available at the top right. You can browse different pages of the public timeline, aswell as click on users to acces their timelines to see only their cheeps. The rest of the features on the site, will only become available after logging in, which is done using your github account.
+You should now expect to see the public timeline, stating at the top of the site, that you need to login to cheep, a login button should be available at the top right. You can browse different pages of the public timeline, as well as click on users to access their timelines to see only their cheeps. The rest of the features on the site, will only become available after logging in, which is done using your github account.
 
 ## How to run test suite locally
 
 ### Unit and integration tests
 
-This project contains two test suites, as we have seperated our UI test, into a seperate test suite. To run our unit/integration tests, make sure docker is running, open a terminal at the root of the project and run the command:
+This project contains two test suites, as we have separated our UI test, into a separate test suite. To run our unit/integration tests, make sure docker is running, open a terminal at the root of the project and run the command:
 
 ```
 dotnet test test/Chirp.Testing/
@@ -195,7 +215,7 @@ dotnet test test/Chirp.UI.Testing/
 
 If you have two factor authentication enabled on your Github account, if you do not want to set your Github account login in your user secrets or if you want to visually follow the test run the following command instead of the one above:
 
-```
+```console
 dotnet test test/Chirp.UI.Testing/ --
 Playwright.BrowserName=chromium
 Playwright.LaunchOptions.Headless=false
@@ -225,5 +245,5 @@ We've chosen the MIT License, which is a permissive free software license, becau
 
 ## LLMs, ChatGPT, CoPilot, and others
 
-During the development of our project, we have utilized ChatGPT and Copilot. ChatGPT has been used for general questions and research on project topics, to help narrow down the scopes of some of the more daunting tasks. We've also used both ChatGPT and Copilot as tools to understand error codes, when debugging our implementations, but with varying success. Somtimes suggested solutions were helpful, other times the LLM had not understood the error and provided wrong suggestions.
+During the development of our project, we have utilized ChatGPT and Copilot. ChatGPT has been used for general questions and research on project topics, to help narrow down the scopes of some of the more daunting tasks. We've also used both ChatGPT and Copilot as tools to understand error codes, when debugging our implementations, but with varying success. Sometimes suggested solutions were helpful, other times the LLM had not understood the error and provided wrong suggestions.
 Copilots main function in our development project, has been to auto complete code that had already been made previously, especially the repository database functions. It has also been used to create new code, but if the logic was not already specified, the code was often faulty, which resulted in us spending a lot of time on debugging the autocompleted code.

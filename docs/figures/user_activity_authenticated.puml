@@ -1,8 +1,4 @@
 @startuml user_activity_authenticated
-skin rose
-
-title authorized user
-
 start
 :Display Public Timeline;
 :Display Cheepbox;
@@ -35,5 +31,5 @@ if (Are you sure?) then (yes)
     :Logs out and redirects to public timeline;
 else (no)
 endif
-end
+stop
 @enduml

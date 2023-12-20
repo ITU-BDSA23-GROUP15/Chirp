@@ -1,5 +1,4 @@
 @startuml team_work_flow
-skin rose
 start
 :Create issue;
 
