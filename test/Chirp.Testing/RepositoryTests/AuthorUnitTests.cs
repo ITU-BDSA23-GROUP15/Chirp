@@ -1,7 +1,6 @@
 using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace Application.Testing;
 
 public class AuthorUnitTests : BaseIntegrationTest

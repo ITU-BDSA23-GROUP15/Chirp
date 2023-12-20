@@ -120,7 +120,6 @@ public class CheepUnitTests : BaseIntegrationTest
 		Assert.Empty(DbContext.Cheeps);
 	}
 
-
 	[Fact]
 	public async Task GetCheepsReturnsAny()
 	{
