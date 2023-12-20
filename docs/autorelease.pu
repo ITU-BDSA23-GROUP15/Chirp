@@ -15,6 +15,8 @@ endif
 
 :Checkout repository;
 :Setup .NET with version 7.0.401;
+:;
+floating note right: These run sequentially
 split
 	:Build windows-release;
 	:Zip release;
@@ -28,6 +30,8 @@ split again
 	:Build arm64-release;
 	:Zip release;
 end split
+
+
 :Publish with tag "vx.y.z";
 
 stop
